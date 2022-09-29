@@ -11,7 +11,15 @@
         SizeToContent="WidthAndHeight"
         d:DataContext="{d:DesignInstance local:MessageBoxViewModel}"
         Title="MessageBoxView">
-  <Grid Margin="0,0,0,0">
+    
+    <Window.Resources>
+        <Style Selector="Image">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="19,0,0,0 "></Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="6"/> <!-- Padding -->
             <ColumnDefinition Width="Auto"/>
@@ -25,23 +33,23 @@
         <Image Grid.Row="0" Grid.Column="1"
                Source="{Binding ImageIcon, Converter={x:Static s:IconToBitmapSourceConverter.Instance}}"
                IsVisible="{Binding ImageIcon, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-            <Image.Style>
-                <Style TargetType="Image">
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="Margin" Value="19,0,0,0"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding TextIsMultiline}" Value="True">
-                            <Setter Property="VerticalAlignment" Value="Top"/>
-                            <Setter Property="Margin" Value="19,25,0,0"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
+            <!-- <Image.Style> -->
+            <!--     <Style TargetType="Image"> -->
+            <!--         <Setter Property="VerticalAlignment" Value="Center"/> -->
+            <!--         <Setter Property="Margin" Value="19,0,0,0"/> -->
+            <!--         <Style.Triggers> -->
+            <!--             <DataTrigger Binding="{Binding TextIsMultiline}" Value="True"> -->
+            <!--                 <Setter Property="VerticalAlignment" Value="Top"/> -->
+            <!--                 <Setter Property="Margin" Value="19,25,0,0"/> -->
+            <!--             </DataTrigger> -->
+            <!--         </Style.Triggers> -->
+            <!--     </Style> -->
+            <!-- </Image.Style> -->
         </Image>
 
         <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Text}" Margin="8,25,15,30" TextWrapping="Wrap" TextAlignment="{Binding TextAlignment}"/>
 
-        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="{DynamicResource {x:Static  SystemColors.ControlBrushKey}}">
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="LightBlue">
             <ItemsControl Items="{Binding ButtonList}"
                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="43,0,0,0">
                 <ItemsControl.ItemsPanel>

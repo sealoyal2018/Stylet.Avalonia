@@ -1,12 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Media;
-using System.Windows;
+using Avalonia.Media;
 
 namespace Stylet
 {
+    public enum SystemSounds
+    {
+        Hand,
+        Question,
+        Exclamation,
+        Asterisk,
+    }
+    
+    public enum MessageBoxResult
+    {
+        None,
+        Ok,
+        Cancel,
+        Yes,
+        No,
+    }
+
+    public enum MessageBoxImage
+    {
+        None,
+        Error,
+        Question,
+        Exclamation,
+        Information
+    }
+
+    public enum MessageBoxButton
+    {
+        OK,
+        OKCancel,
+        YesNo,
+        YesNoCancel
+    }
+    
+    
     /// <summary>
     /// Interface for a MessageBoxViewModel. MessageBoxWindowManagerExtensions.ShowMessageBox will use the configured implementation of this
     /// </summary>
@@ -19,11 +52,11 @@ namespace Stylet
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
         /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
-        /// <param name="defaultResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
-        /// <param name="cancelResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+        /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
+        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
         /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
-        /// <param name="flowDirection">The <see cref="System.Windows.FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
-        /// <param name="textAlignment">The <see cref="System.Windows.TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
+        /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
+        /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         void Setup(
             string messageBoxText,
             string caption = null,
@@ -67,12 +100,12 @@ namespace Stylet
         public static IDictionary<MessageBoxImage, SystemSound> SoundMapping { get; set; }
 
         /// <summary>
-        /// Gets or sets the default <see cref="System.Windows.FlowDirection"/> to use
+        /// Gets or sets the default <see cref="Avalonia.Media.FlowDirection"/> to use
         /// </summary>
         public static FlowDirection DefaultFlowDirection { get; set; }
 
         /// <summary>
-        /// Gets or sets the default <see cref="System.Windows.TextAlignment"/> to use
+        /// Gets or sets the default <see cref="Avalonia.Media.TextAlignment"/> to use
         /// </summary>
         public static TextAlignment DefaultTextAlignment { get; set; }
 
@@ -124,11 +157,11 @@ namespace Stylet
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
         /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
-        /// <param name="defaultResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
-        /// <param name="cancelResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+        /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
+        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
         /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
-        /// <param name="flowDirection">The <see cref="System.Windows.FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
-        /// <param name="textAlignment">The <see cref="System.Windows.TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
+        /// <param name="flowDirection">The <see cref="Avalonia.Media.FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
+        /// <param name="textAlignment">The <see cref="Avalonia.Media.TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         public void Setup(
             string messageBoxText,
             string caption = null,

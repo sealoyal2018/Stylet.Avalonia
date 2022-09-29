@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Threading;
+using Avalonia;
+using Avalonia.Threading;
 
 namespace Stylet
 {
@@ -48,21 +48,21 @@ namespace Stylet
         /// Initialises a new instance of the <see cref="ApplicationDispatcher"/> class with the given <see cref="Application"/>
         /// </summary>
         /// <param name="application"><see cref="Application"/> to use, normally Application</param>
-        public ApplicationDispatcher(Application application)
-            : this(application?.Dispatcher ?? throw new ArgumentNullException(nameof(application)))
+        public ApplicationDispatcher()
+            : this(Dispatcher.UIThread)
         {
         }
 
         /// <inheritdoc/>
         public void Post(Action action)
         {
-            this.dispatcher.BeginInvoke(action);
+            this.dispatcher.Post(action);
         }
 
         /// <inheritdoc/>
         public void Send(Action action)
         {
-            this.dispatcher.Invoke(action);
+            this.dispatcher.InvokeAsync(action);
         }
 
         /// <inheritdoc/>

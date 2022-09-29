@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using Avalonia.Controls;
 
 namespace Stylet
 {
@@ -12,14 +13,14 @@ namespace Stylet
         /// <summary>
         /// Gets the view associated with this ViewModel
         /// </summary>
-        UIElement View { get; }
+        Control View { get; }
 
         /// <summary>
         /// Called when the view should be attached. Should set View property.
         /// </summary>
         /// <remarks>Separate from the View property so it can be explicitely implemented</remarks>
         /// <param name="view">View to attach</param>
-        void AttachView(UIElement view);
+        void AttachView(Control view);
     }
 
     /// <summary>

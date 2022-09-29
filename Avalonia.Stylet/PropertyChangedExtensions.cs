@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Avalonia.Stylet;
 
 namespace Stylet
 {
@@ -81,7 +82,8 @@ namespace Stylet
                 this.propertyName = selector.NameForProperty();
                 this.valueSelector = selector.Compile();
 
-                PropertyChangedEventManager.AddHandler(source, this.PropertyChangedHandler, this.propertyName);
+                PropertyChangedWeakEventManager.AddHandler(source, this.PropertyChangedHandler);
+                // PropertyChangedEventManager.AddHandler(source, this.PropertyChangedHandler, this.propertyName);
             }
 
             private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
@@ -95,7 +97,10 @@ namespace Stylet
             public void Unbind()
             {
                 if (this.source.TryGetTarget(out TSource source))
-                    PropertyChangedEventManager.RemoveHandler(source, this.PropertyChangedHandler, this.propertyName);
+                {
+                    PropertyChangedWeakEventManager.RemoveHandler(source, this.PropertyChangedHandler);
+                    // PropertyChangedEventManager.RemoveHandler(source, this.PropertyChangedHandler, this.propertyName);
+                }
             }
         }
 

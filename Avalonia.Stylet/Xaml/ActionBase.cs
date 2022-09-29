@@ -1,5 +1,6 @@
 ﻿using Stylet.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
@@ -8,20 +9,24 @@ using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Avalonia;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
+using Avalonia.Data.Core;
 
 namespace Stylet.Xaml
 {
     /// <summary>
     /// Common base class for CommandAction and EventAction
     /// </summary>
-    public abstract class ActionBase : DependencyObject
+    public abstract class ActionBase : AvaloniaObject
     {
         private readonly ILogger logger;
 
         /// <summary>
         /// Gets the View to grab the View.ActionTarget from
         /// </summary>
-        public DependencyObject Subject { get; private set; }
+        public AvaloniaObject Subject { get; private set; }
 
         /// <summary>
         /// Gets the method name. E.g. if someone's gone Buttom Command="{s:Action MyMethod}", this is MyMethod.
@@ -67,7 +72,7 @@ namespace Stylet.Xaml
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
         /// <param name="logger">Logger to use</param>
-        public ActionBase(DependencyObject subject, DependencyObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
+        public ActionBase(AvaloniaObject subject, AvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
             : this(methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         {
             this.Subject = subject;
@@ -262,9 +267,9 @@ namespace Stylet.Xaml
 
         private class MultiBindingToActionTargetConverter : IMultiValueConverter
         {
-            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+            public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
             {
-                Debug.Assert(values.Length == 2);
+                Debug.Assert(values.Count == 2);
 
                 if (values[0] != View.InitialActionTarget)
                     return values[0];
@@ -273,11 +278,6 @@ namespace Stylet.Xaml
                     return values[1];
 
                 return View.InitialActionTarget;
-            }
-
-            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-            {
-                throw new InvalidOperationException();
             }
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace Stylet
 {
@@ -153,8 +153,7 @@ namespace Stylet
             {
                 if (inDesignMode == null)
                 {
-                    var descriptor = DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement));
-                    inDesignMode = (bool)descriptor.Metadata.DefaultValue;
+                    inDesignMode = Design.IsDesignMode;
                 }
 
                 return inDesignMode.Value;

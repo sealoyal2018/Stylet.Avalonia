@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace Stylet
 {
@@ -50,7 +52,7 @@ namespace Stylet
             this.Application = application;
 
             // Use the current application's dispatcher for Execute
-            Execute.Dispatcher = new ApplicationDispatcher(this.Application.Dispatcher);
+            Execute.Dispatcher = new ApplicationDispatcher();
 
             this.Application.Startup += (o, e) => this.Start(e.Args);
             // Make life nice for the app - they can handle these by overriding Bootstrapper methods, rather than adding event handlers

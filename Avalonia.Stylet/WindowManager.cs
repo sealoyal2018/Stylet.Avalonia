@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
+using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Media;
 
 namespace Stylet
 {
@@ -47,11 +50,11 @@ namespace Stylet
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
         /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
-        /// <param name="defaultResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
-        /// <param name="cancelResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+        /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
+        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
         /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
-        /// <param name="flowDirection">The <see cref="System.Windows.FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
-        /// <param name="textAlignment">The <see cref="System.Windows.TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
+        /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
+        /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
         MessageBoxResult ShowMessageBox(string messageBoxText, string caption = "",
             MessageBoxButton buttons = MessageBoxButton.OK,
@@ -145,11 +148,11 @@ namespace Stylet
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
         /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
-        /// <param name="defaultResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
-        /// <param name="cancelResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+        /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
+        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
         /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
-        /// <param name="flowDirection">The <see cref="System.Windows.FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
-        /// <param name="textAlignment">The <see cref="System.Windows.TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
+        /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
+        /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
         public MessageBoxResult ShowMessageBox(string messageBoxText, string caption = "",
             MessageBoxButton buttons = MessageBoxButton.OK,

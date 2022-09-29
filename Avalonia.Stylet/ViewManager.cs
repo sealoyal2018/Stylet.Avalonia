@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace Stylet
 {
@@ -20,28 +22,28 @@ namespace Stylet
         /// <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
         /// <param name="oldValue">Previous value of View.Model</param>
         /// <param name="newValue">New value of View.Model</param>
-        void OnModelChanged(DependencyObject targetLocation, object oldValue, object newValue);
+        void OnModelChanged(AvaloniaObject targetLocation, object oldValue, object newValue);
 
         /// <summary>
         /// Given a ViewModel instance, locate its View type (using LocateViewForModel), and instantiates it
         /// </summary>
         /// <param name="model">ViewModel to locate and instantiate the View for</param>
         /// <returns>Instantiated and setup view</returns>
-        UIElement CreateViewForModel(object model);
+        Control CreateViewForModel(object model);
 
         /// <summary>
         /// Given an instance of a ViewModel and an instance of its View, bind the two together
         /// </summary>
         /// <param name="view">View to bind to the ViewModel</param>
         /// <param name="viewModel">ViewModel to bind the View to</param>
-        void BindViewToModel(UIElement view, object viewModel);
+        void BindViewToModel(Control view, object viewModel);
 
         /// <summary>
         /// Create a View for the given ViewModel, and bind the two together, if the model doesn't already have a view
         /// </summary>
         /// <param name="model">ViewModel to create a Veiw for</param>
         /// <returns>Newly created View, bound to the given ViewModel</returns>
-        UIElement CreateAndBindViewForModelIfNecessary(object model);
+        Control CreateAndBindViewForModelIfNecessary(object model);
     }
 
     /// <summary>
@@ -169,7 +171,7 @@ namespace Stylet
         /// <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
         /// <param name="oldValue">Previous value of View.Model</param>
         /// <param name="newValue">New value of View.Model</param>
-        public virtual void OnModelChanged(DependencyObject targetLocation, object oldValue, object newValue)
+        public virtual void OnModelChanged(AvaloniaObject targetLocation, object oldValue, object newValue)
         {
             if (oldValue == newValue)
                 return;
@@ -180,8 +182,7 @@ namespace Stylet
                 var view = this.CreateAndBindViewForModelIfNecessary(newValue);
                 if (view is Window)
                 {
-                    var e = new StyletInvalidViewTypeException(String.Format("s:View.Model=\"...\" tried to show a View of type '{0}', but that View derives from the Window class. " +
-                    "Make sure any Views you display using s:View.Model=\"...\" do not derive from Window (use UserControl or similar)", view.GetType().Name));
+                    var e = new StyletInvalidViewTypeException(@$"s:View.Model=""..."" tried to show a View of type '{view.GetType().Name}', but that View derives from the Window class. Make sure any Views you display using s:View.Model=""..."" do not derive from Window (use UserControl or similar)");
                     logger.Error(e);
                     throw e;
                 }
@@ -199,7 +200,7 @@ namespace Stylet
         /// </summary>
         /// <param name="model">ViewModel to create a Veiw for</param>
         /// <returns>Newly created View, bound to the given ViewModel</returns>
-        public virtual UIElement CreateAndBindViewForModelIfNecessary(object model)
+        public virtual Control CreateAndBindViewForModelIfNecessary(object model)
         {
             var modelAsViewAware = model as IViewAware;
             if (modelAsViewAware != null && modelAsViewAware.View != null)
@@ -216,7 +217,7 @@ namespace Stylet
         /// </summary>
         /// <param name="model">ViewModel to create a Veiw for</param>
         /// <returns>Newly created View, bound to the given ViewModel</returns>
-        protected virtual UIElement CreateAndBindViewForModel(object model)
+        protected virtual Control CreateAndBindViewForModel(object model)
         {
             // Need to bind before we initialize the view
             // Otherwise e.g. the Command bindings get evaluated (by InitializeComponent) but the ActionTarget hasn't been set yet
@@ -299,18 +300,18 @@ namespace Stylet
         /// </summary>
         /// <param name="model">ViewModel to locate and instantiate the View for</param>
         /// <returns>Instantiated and setup view</returns>
-        public virtual UIElement CreateViewForModel(object model)
+        public virtual Control CreateViewForModel(object model)
         {
             var viewType = this.LocateViewForModel(model.GetType());
 
-            if (viewType.IsAbstract || !typeof(UIElement).IsAssignableFrom(viewType))
+            if (viewType.IsAbstract || !typeof(Control).IsAssignableFrom(viewType))
             {
                 var e = new StyletViewLocationException(String.Format("Found type for view: {0}, but it wasn't a class derived from UIElement", viewType.Name), viewType.Name);
                 logger.Error(e);
                 throw e;
             }
 
-            var view = (UIElement)this.ViewFactory(viewType);
+            var view = (Control)this.ViewFactory(viewType);
 
             this.InitializeView(view, viewType);
 
@@ -322,7 +323,7 @@ namespace Stylet
         /// </summary>
         /// <param name="view">View to initialize</param>
         /// <param name="viewType">Type of view, passed for efficiency reasons</param>
-        public virtual void InitializeView(UIElement view, Type viewType)
+        public virtual void InitializeView(Control view, Type viewType)
         {
             // If it doesn't have a code-behind, this won't be called
             // We have to use this reflection here, since the InitializeComponent is a method on the View, not on any of its base classes
@@ -336,12 +337,12 @@ namespace Stylet
         /// </summary>
         /// <param name="view">View to bind to the ViewModel</param>
         /// <param name="viewModel">ViewModel to bind the View to</param>
-        public virtual void BindViewToModel(UIElement view, object viewModel)
+        public virtual void BindViewToModel(Control view, object viewModel)
         {
             logger.Info("Setting {0}'s ActionTarget to {1}", view, viewModel);
             View.SetActionTarget(view, viewModel);
 
-            var viewAsFrameworkElement = view as FrameworkElement;
+            var viewAsFrameworkElement = view as Control;
             if (viewAsFrameworkElement != null)
             {
                 logger.Info("Setting {0}'s DataContext to {1}", view, viewModel);

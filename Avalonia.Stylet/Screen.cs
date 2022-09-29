@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using System.Windows;
+using Avalonia.Controls;
 
 namespace Stylet
 {
@@ -224,10 +224,10 @@ namespace Stylet
         /// <summary>
         /// Gets the View attached to this ViewModel, if any. Using this should be a last resort
         /// </summary>
-        public UIElement View { get; private set; }
+        public Control View { get; private set; }
 
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "As this is a framework type, don't want to make it too easy for users to call this method")]
-        void IViewAware.AttachView(UIElement view)
+        void IViewAware.AttachView(Control view)
         {
             if (this.View != null)
                 throw new InvalidOperationException(String.Format("Tried to attach View {0} to ViewModel {1}, but it already has a view attached", view.GetType().Name, this.GetType().Name));
@@ -236,7 +236,7 @@ namespace Stylet
 
             this.logger.Info("Attaching view {0}", view);
 
-            var viewAsFrameworkElement = view as FrameworkElement;
+            var viewAsFrameworkElement = view as Control;
             if (viewAsFrameworkElement != null)
             {
                 if (viewAsFrameworkElement.IsLoaded)

@@ -3,6 +3,9 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data;
 
 namespace Stylet.Xaml
 {
@@ -27,7 +30,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="obj">Object to fetch the ActionTarget for</param>
         /// <returns>ActionTarget associated with the given object</returns>
-        public static object GetActionTarget(DependencyObject obj)
+        public static object GetActionTarget(AvaloniaObject obj)
         {
             return obj.GetValue(ActionTargetProperty);
         }
@@ -37,7 +40,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="obj">Object to set the ActionTarget for</param>
         /// <param name="value">Value to set the ActionTarget to</param>
-        public static void SetActionTarget(DependencyObject obj, object value)
+        public static void SetActionTarget(AvaloniaObject obj, object value)
         {
             obj.SetValue(ActionTargetProperty, value);
         }
@@ -53,7 +56,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="obj">Object to fetch the ViewModel for</param>
         /// <returns>ViewModel currently associated with the given object</returns>
-        public static object GetModel(DependencyObject obj)
+        public static object GetModel(AvaloniaObject obj)
         {
             return obj.GetValue(ModelProperty);
         }
@@ -76,7 +79,7 @@ namespace Stylet.Xaml
         public static readonly DependencyProperty ModelProperty =
             DependencyProperty.RegisterAttached("Model", typeof(object), typeof(View), new PropertyMetadata(defaultModelValue, (d, e) =>
             {
-                var viewManager = ((FrameworkElement)d).TryFindResource(ViewManagerResourceKey) as IViewManager;
+                var viewManager = ((Control)d).TryFindResource(ViewManagerResourceKey) as IViewManager;
 
                 if (viewManager == null)
                 {
@@ -87,7 +90,7 @@ namespace Stylet.Xaml
                         if (bindingExpression == null)
                             text = "View for [Broken Binding]";
                         else if (bindingExpression.ResolvedSourcePropertyName == null)
-                            text = String.Format("View for child ViewModel on {0}", bindingExpression.DataItem.GetType().Name);
+                            text = $"View for child ViewModel on {bindingExpression.DataItem.GetType().Name}";
                         else
                             text = String.Format("View for {0}.{1}", bindingExpression.DataItem.GetType().Name, bindingExpression.ResolvedSourcePropertyName);
                         SetContentProperty(d, new System.Windows.Controls.TextBlock() { Text = text });
@@ -110,7 +113,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="targetLocation">Object to set the Content property on</param>
         /// <param name="view">View to set as the object's Content</param>
-        public static void SetContentProperty(DependencyObject targetLocation, UIElement view)
+        public static void SetContentProperty(AvaloniaObject targetLocation, Control view)
         {
             var type = targetLocation.GetType();
             var attribute = type.GetCustomAttribute<ContentPropertyAttribute>();
