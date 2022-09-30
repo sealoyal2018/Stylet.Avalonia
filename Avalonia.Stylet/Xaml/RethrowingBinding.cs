@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
-using System.Windows.Data;
+using Avalonia.Data;
 
 namespace Stylet.Xaml
 {
@@ -12,14 +12,14 @@ namespace Stylet.Xaml
         /// <inheritdoc/>
         public RethrowingBinding()
         {
-            this.UpdateSourceExceptionFilter = this.ExceptionFilter;
+            //this.UpdateSourceExceptionFilter = this.ExceptionFilter;
         }
 
         /// <inheritdoc/>
         public RethrowingBinding(string path)
             : base(path)
         {
-            this.UpdateSourceExceptionFilter = this.ExceptionFilter;
+            //this.UpdateSourceExceptionFilter = this.ExceptionFilter;
         }
 
         private object ExceptionFilter(object bindExpression, Exception exception)

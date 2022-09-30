@@ -1,7 +1,7 @@
 ﻿using Stylet.Logging;
 using System;
 using System.Reflection;
-using System.Windows;
+using Avalonia;
 
 namespace Stylet.Xaml
 {
@@ -31,7 +31,7 @@ namespace Stylet.Xaml
         /// <param name="methodName">The MyMethod in {s:Action MyMethod}, this is what we call when the event's fired</param>
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
-        public EventAction(DependencyObject subject, DependencyObject backupSubject, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
+        public EventAction(IAvaloniaObject subject, IAvaloniaObject backupSubject, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
             : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         {
             AssertBehaviours(targetNullBehaviour, actionNonExistentBehaviour);
@@ -70,8 +70,8 @@ namespace Stylet.Xaml
         {
             var methodParameters = targetMethodInfo.GetParameters();
             if (!(methodParameters.Length == 0 ||
-                (methodParameters.Length == 1 && (typeof(EventArgs).IsAssignableFrom(methodParameters[0].ParameterType) || methodParameters[0].ParameterType == typeof(DependencyPropertyChangedEventArgs))) ||
-                (methodParameters.Length == 2 && (typeof(EventArgs).IsAssignableFrom(methodParameters[1].ParameterType) || methodParameters[1].ParameterType == typeof(DependencyPropertyChangedEventArgs)))))
+                (methodParameters.Length == 1 && (typeof(EventArgs).IsAssignableFrom(methodParameters[0].ParameterType) || methodParameters[0].ParameterType == typeof(AvaloniaPropertyChangedEventArgs))) ||
+                (methodParameters.Length == 2 && (typeof(EventArgs).IsAssignableFrom(methodParameters[1].ParameterType) || methodParameters[1].ParameterType == typeof(AvaloniaPropertyChangedEventArgs)))))
             {
                 var e = new ActionSignatureInvalidException(String.Format("Method {0} on {1} must have the signatures Method(), Method(EventArgsOrSubClass e), or Method(object sender, EventArgsOrSubClass e)", this.MethodName, newTargetType.Name));
                 logger.Error(e);
@@ -107,7 +107,7 @@ namespace Stylet.Xaml
             return del;
         }
 
-        private void InvokeDependencyCommand(object sender, DependencyPropertyChangedEventArgs e)
+        private void InvokeDependencyCommand(object sender, AvaloniaPropertyChangedEventArgs e)
         {
             this.InvokeCommand(sender, e);
         }

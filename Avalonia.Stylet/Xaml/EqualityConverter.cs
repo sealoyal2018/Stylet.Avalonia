@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
+using Avalonia;
+using Avalonia.Data.Converters;
 
 namespace Stylet.Xaml
 {
@@ -10,7 +12,7 @@ namespace Stylet.Xaml
     /// Converter to compare a number of values, and return true (or false if Invert is true) if they are all equal
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Don't agree with prefixing static method calls with the class name")]
-    public class EqualityConverter : DependencyObject, IMultiValueConverter
+    public class EqualityConverter : AvaloniaObject, IMultiValueConverter
     {
         /// <summary>
         /// Singleton instance of this converter. Usage: Converter="{x:Static s:EqualityConverter.Instance}"
@@ -29,8 +31,8 @@ namespace Stylet.Xaml
         /// <summary>
         /// Property specifying whether the output should be inverted
         /// </summary>
-        public static readonly DependencyProperty InvertProperty =
-            DependencyProperty.Register("Invert", typeof(bool), typeof(EqualityConverter), new PropertyMetadata(false));
+        public static readonly AvaloniaProperty InvertProperty =
+            AvaloniaProperty.Register<EqualityConverter, bool>("Invert", false);
 
         /// <summary>
         /// Perform the conversion
@@ -44,29 +46,13 @@ namespace Stylet.Xaml
         /// <param name="parameter">converter parameter</param>
         /// <param name="culture">culture information</param>
         /// <returns>Converted values</returns>
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values == null || values.Length == 0)
+            if (values == null || values.Count == 0)
                 return null;
             var first = values.FirstOrDefault();
             var result = values.Skip(1).All(x => x.Equals(first));
             return this.Invert ? !result : result;
-        }
-
-        /// <summary>
-        /// Perform the reverse convesion. Not implemented.
-        /// </summary>
-        /// <param name="value">value, as produced by target</param>
-        /// <param name="targetTypes">
-        ///     Array of target types; array length indicates the number and types
-        ///     of values suggested for Convert to return.
-        /// </param>
-        /// <param name="parameter">converter parameter</param>
-        /// <param name="culture">culture information</param>
-        /// <returns>Converted back values</returns>
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using Avalonia;
+using Avalonia.Stylet;
+using Avalonia.Utilities;
 using Expressions = System.Linq.Expressions;
 
 namespace Stylet.Xaml
@@ -33,7 +36,7 @@ namespace Stylet.Xaml
         /// <param name="methodName">Method name. the MyMethod in Buttom Command="{s:Action MyMethod}".</param>
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
-        public CommandAction(DependencyObject subject, DependencyObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
+        public CommandAction(IAvaloniaObject subject, IAvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
             : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         { }
 
@@ -77,7 +80,10 @@ namespace Stylet.Xaml
         private protected override void OnTargetChanged(object oldTarget, object newTarget)
         {
             if (oldTarget is INotifyPropertyChanged oldInpc)
-                PropertyChangedEventManager.RemoveHandler(oldInpc, this.PropertyChangedHandler, this.GuardName);
+            {
+                // PropertyChangedEventManager.RemoveHandler(oldInpc, this.PropertyChangedHandler, this.GuardName);
+                PropertyChangedWeakEventManager.RemoveHandler(oldInpc, this.PropertyChangedHandler);
+            }
 
             this.guardPropertyGetter = null;
             var guardPropertyInfo = newTarget?.GetType().GetProperty(this.GuardName);
@@ -98,7 +104,10 @@ namespace Stylet.Xaml
             if (this.guardPropertyGetter != null)
             {
                 if (newTarget is INotifyPropertyChanged inpc)
-                    PropertyChangedEventManager.AddHandler(inpc, this.PropertyChangedHandler, this.GuardName);
+                {
+                    // PropertyChangedEventManager.AddHandler(inpc, this.PropertyChangedHandler, this.GuardName);
+                    PropertyChangedWeakEventManager.AddHandler(inpc, this.PropertyChangedHandler);
+                }
                 else
                     logger.Warn("Found guard property {0} for action {1} on target {2}, but the target doesn't implement INotifyPropertyChanged, so changes won't be observed", this.GuardName, this.MethodName, newTarget);
             }

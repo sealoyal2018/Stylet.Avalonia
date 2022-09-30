@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
 
 namespace Stylet.Xaml
 {
@@ -48,8 +43,8 @@ namespace Stylet.Xaml
         /// <summary>
         /// The object's ActionTarget. This is used to determine what object to call Actions on by the ActionExtension markup extension.
         /// </summary>
-        public static readonly DependencyProperty ActionTargetProperty =
-            DependencyProperty.RegisterAttached("ActionTarget", typeof(object), typeof(View), new FrameworkPropertyMetadata(InitialActionTarget, FrameworkPropertyMetadataOptions.Inherits));
+        public static readonly AvaloniaProperty ActionTargetProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("ActionTarget", typeof(View), InitialActionTarget, inherits: true);
 
         /// <summary>
         /// Fetch the ViewModel currently associated with a given object
@@ -66,7 +61,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="obj">Object to set the ViewModel for</param>
         /// <param name="value">ViewModel to set</param>
-        public static void SetModel(DependencyObject obj, object value)
+        public static void SetModel(AvaloniaObject obj, object value)
         {
             obj.SetValue(ModelProperty, value);
         }
@@ -76,53 +71,56 @@ namespace Stylet.Xaml
         /// <summary>
         /// Property specifying the ViewModel currently associated with a given object
         /// </summary>
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.RegisterAttached("Model", typeof(object), typeof(View), new PropertyMetadata(defaultModelValue, (d, e) =>
-            {
-                var viewManager = ((Control)d).TryFindResource(ViewManagerResourceKey) as IViewManager;
-
-                if (viewManager == null)
-                {
-                    if (Execute.InDesignMode)
-                    {
-                        var bindingExpression = BindingOperations.GetBindingExpression(d, ModelProperty);
-                        string text;
-                        if (bindingExpression == null)
-                            text = "View for [Broken Binding]";
-                        else if (bindingExpression.ResolvedSourcePropertyName == null)
-                            text = $"View for child ViewModel on {bindingExpression.DataItem.GetType().Name}";
-                        else
-                            text = String.Format("View for {0}.{1}", bindingExpression.DataItem.GetType().Name, bindingExpression.ResolvedSourcePropertyName);
-                        SetContentProperty(d, new System.Windows.Controls.TextBlock() { Text = text });
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("The ViewManager resource is unassigned. This should have been set by the Bootstrapper");
-                    }
-                }
-                else
-                {
-                    // It appears we can be reset to the default value on destruction
-                    var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
-                    viewManager.OnModelChanged(d, e.OldValue, newValue);
-                }
-            }));
+        public static readonly AvaloniaProperty ModelProperty =
+            AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("Model", typeof(View), defaultModelValue);
 
         /// <summary>
         /// Helper to set the Content property of a given object to a particular View
         /// </summary>
         /// <param name="targetLocation">Object to set the Content property on</param>
         /// <param name="view">View to set as the object's Content</param>
-        public static void SetContentProperty(AvaloniaObject targetLocation, Control view)
+        public static void SetContentProperty(IAvaloniaObject targetLocation, Control view)
         {
             var type = targetLocation.GetType();
-            var attribute = type.GetCustomAttribute<ContentPropertyAttribute>();
-            // No attribute? Try a property called 'Content'...
-            string propertyName = attribute != null ? attribute.Name : "Content";
+            string propertyName = "Content";
             var property = type.GetProperty(propertyName);
             if (property == null)
-                throw new InvalidOperationException(String.Format("Unable to find a Content property on type {0}. Make sure you're using 's:View.Model' on a suitable container, e.g. a ContentControl", type.Name));
+                throw new InvalidOperationException(String.Format(
+                    "Unable to find a Content property on type {0}. Make sure you're using 's:View.Model' on a suitable container, e.g. a ContentControl",
+                    type.Name));
             property.SetValue(targetLocation, view);
+        }
+
+
+        static View()
+        {
+            ModelProperty.Changed.Subscribe(e =>
+            {
+                if (!((Control)e.Sender).TryFindResource(ViewManagerResourceKey, out var value) && value is IViewManager viewManager)
+                {
+                    // It appears we can be reset to the default value on destruction
+                    var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
+                    viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
+                    return;
+                }
+                if (Execute.InDesignMode)
+                {
+                    // var bindingExpression = BindingOperations.GetBindingExpression(d, ModelProperty);
+                    // string text;
+                    // if (bindingExpression == null)
+                    //     text = "View for [Broken Binding]";
+                    // else if (bindingExpression.ResolvedSourcePropertyName == null)
+                    //     text = $"View for child ViewModel on {bindingExpression.DataItem.GetType().Name}";
+                    // else
+                    //     text = String.Format("View for {0}.{1}", bindingExpression.DataItem.GetType().Name,
+                    //         bindingExpression.ResolvedSourcePropertyName);
+                    // SetContentProperty(e.Sender, new TextBlock() { Text = text });
+                }
+                else
+                {
+                    throw new InvalidOperationException("The ViewManager resource is unassigned. This should have been set by the Bootstrapper");
+                }
+            });
         }
     }
 }

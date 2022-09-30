@@ -4,11 +4,47 @@
     <projectFile>Avalonia.Stylet/Avalonia.Stylet.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d25db2f-5d12-411a-8516-d0451fc71dc9" name="Changes" comment="" />
+    <list default="true" id="2d25db2f-5d12-411a-8516-d0451fc71dc9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Avalonia.Stylet/RoutedCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Avalonia.Stylet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Avalonia.Stylet/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/ViewManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/ViewManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/WindowManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/WindowManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ActionBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ActionBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ActionExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ActionExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ApplicationLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/ApplicationLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/CommandAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/CommandAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/DebugConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/DebugConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/EqualityConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/EqualityConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/EventAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/EventAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/IconToBitmapSourceConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/IconToBitmapSourceConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/RethrowingBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/RethrowingBinding.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/StyletResourceDictionary.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/View.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/Xaml/View.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia.Stylet.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia.Stylet.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia/Resources.Inputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia/Resources.Inputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia/resources" beforeDir="false" afterPath="$PROJECT_DIR$/Avalonia.Stylet/obj/Debug/net6.0/Avalonia/resources" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/446c0d8c142a4270a27609ccebe5300312600/3c/8e677713/Binding.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/08/82f61b05/Control.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/17/6b978bc1/TopLevel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/5c/a5d19dd0/Window.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/9e/472d3c03/TemplatedControl.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/e2/f509372c/ContentControl.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/532bbbe119e84260a87dbc0699af63c4108800/e9/0a1081fa/WindowBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/1e/6a390e68/Layoutable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/30/87e602d9/Animatable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/43/42ee59cb/AvaloniaObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/4b/6be6dd3f/Interactive.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/65/a8a58357/Visual.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/68/83245f61/InputElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/e7/196bbe84/StyledElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d980506799f04be19ce744231bfe0ddb1afa00/e7/bf36c85c/ResourceDictionary.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -21,15 +57,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Avalonia.Stylet" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/Samples/Stylet.Samples.Hello/bin/Debug/net6.0/Stylet.Samples.Hello.exe" />
@@ -58,14 +94,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1664431394896</updated>
-      <workItem from="1664431405528" duration="5978000" />
+      <workItem from="1664431405528" duration="6641000" />
+      <workItem from="1664516194383" duration="3690000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

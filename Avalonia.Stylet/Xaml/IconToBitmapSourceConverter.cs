@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
+using Avalonia.Controls;
+using Avalonia.Data.Converters;
+using Avalonia.Media.Imaging;
 using Stylet.Logging;
 
 namespace Stylet.Xaml

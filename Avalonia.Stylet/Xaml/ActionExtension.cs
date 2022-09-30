@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Xaml;
+using Avalonia;
+using Avalonia.Markup.Xaml;
+using Avalonia.Stylet;
 
 namespace Stylet.Xaml
 {
@@ -109,9 +109,10 @@ namespace Stylet.Xaml
 
             switch (valueService.TargetObject)
             {
-                case DependencyObject targetObject:
+                case AvaloniaObject targetObject:
                     return this.HandleDependencyObject(serviceProvider, valueService, targetObject);
-                case CommandBinding commandBinding:
+                // TODO: case CommandBinding commandBinding:
+                case RoutedCommandBinding commandBinding:
                     return this.CreateEventAction(serviceProvider, null, ((EventInfo)valueService.TargetProperty).EventHandlerType, isCommandBinding: true);
                 default:
                     // Seems this is the case when we're in a template. We'll get called again properly in a second.
@@ -120,11 +121,11 @@ namespace Stylet.Xaml
             }
         }
 
-        private object HandleDependencyObject(IServiceProvider serviceProvider, IProvideValueTarget valueService, DependencyObject targetObject)
+        private object HandleDependencyObject(IServiceProvider serviceProvider, IProvideValueTarget valueService, IAvaloniaObject targetObject)
         {
             switch (valueService.TargetProperty)
             {
-                case DependencyProperty dependencyProperty when dependencyProperty.PropertyType == typeof(ICommand):
+                case AvaloniaProperty dependencyProperty when dependencyProperty.PropertyType == typeof(ICommand):
                     // If they're in design mode and haven't set View.ActionTarget, default to looking sensible
                     return this.CreateCommandAction(serviceProvider, targetObject);
                 case EventInfo eventInfo:
@@ -143,12 +144,12 @@ namespace Stylet.Xaml
             }
         }
 
-        private ICommand CreateCommandAction(IServiceProvider serviceProvider, DependencyObject targetObject)
+        private ICommand CreateCommandAction(IServiceProvider serviceProvider, IAvaloniaObject targetObject)
         {
             if (this.Target == null)
             {
                 var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                var rootObject = rootObjectProvider?.RootObject as DependencyObject;
+                var rootObject = rootObjectProvider?.RootObject as AvaloniaObject;
                 return new CommandAction(targetObject, rootObject, this.Method, this.CommandNullTargetBehaviour, this.CommandActionNotFoundBehaviour);
             }
             else
@@ -157,13 +158,13 @@ namespace Stylet.Xaml
             }
         }
 
-        private Delegate CreateEventAction(IServiceProvider serviceProvider, DependencyObject targetObject, Type eventType, bool isCommandBinding = false)
+        private Delegate CreateEventAction(IServiceProvider serviceProvider, IAvaloniaObject targetObject, Type eventType, bool isCommandBinding = false)
         {
             EventAction ec;
             if (this.Target == null)
             {
                 var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                var rootObject = rootObjectProvider?.RootObject as DependencyObject;
+                var rootObject = rootObjectProvider?.RootObject as IAvaloniaObject;
                 if (isCommandBinding)
                 {
                     if (rootObject == null)

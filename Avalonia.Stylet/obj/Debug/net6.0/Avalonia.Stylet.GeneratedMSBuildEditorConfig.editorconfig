@@ -15,3 +15,6 @@ build_property.ProjectDir = C:\Users\Admin\RiderProjects\Avalonia.Stylet\Avaloni
 
 [C:/Users/Admin/RiderProjects/Avalonia.Stylet/Avalonia.Stylet/MessageBoxView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/Admin/RiderProjects/Avalonia.Stylet/Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

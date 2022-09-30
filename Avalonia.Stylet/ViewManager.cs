@@ -22,7 +22,7 @@ namespace Stylet
         /// <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
         /// <param name="oldValue">Previous value of View.Model</param>
         /// <param name="newValue">New value of View.Model</param>
-        void OnModelChanged(AvaloniaObject targetLocation, object oldValue, object newValue);
+        void OnModelChanged(IAvaloniaObject targetLocation, object oldValue, object newValue);
 
         /// <summary>
         /// Given a ViewModel instance, locate its View type (using LocateViewForModel), and instantiates it
@@ -171,7 +171,7 @@ namespace Stylet
         /// <param name="targetLocation">Thing which View.Model was changed on. Will have its Content set</param>
         /// <param name="oldValue">Previous value of View.Model</param>
         /// <param name="newValue">New value of View.Model</param>
-        public virtual void OnModelChanged(AvaloniaObject targetLocation, object oldValue, object newValue)
+        public virtual void OnModelChanged(IAvaloniaObject targetLocation, object oldValue, object newValue)
         {
             if (oldValue == newValue)
                 return;

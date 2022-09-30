@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Data;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Media;
@@ -194,12 +193,14 @@ namespace Stylet
             if (haveDisplayName != null && (String.IsNullOrEmpty(window.Title) || window.Title == view.GetType().Name) && BindingOperations.GetBindingBase(window, Window.TitleProperty) == null)
             {
                 var binding = new Binding("DisplayName") { Mode = BindingMode.TwoWay };
-                window.SetBinding(Window.TitleProperty, binding);
+                // window.SetBinding(Window.TitleProperty, binding); 
+                window.Bind(Window.TitleProperty, binding);
             }
 
             if (ownerViewModel?.View is Window explicitOwner)
             {
-                window.Owner = explicitOwner;
+                window.SetValue(Window.OwnerProperty, explicitOwner);
+                // window.Owner = explicitOwner;
             }
             else if (isDialog)
             {
@@ -211,7 +212,8 @@ namespace Stylet
                     // hasn't yet been shown, so we get an exception ("cannot set owner property to a Window which has not been previously shown").
                     try
                     {
-                        window.Owner = owner;
+                        // window.Owner = owner;
+                        window.SetValue(Window.OwnerProperty, owner);
                     }
                     catch (InvalidOperationException e)
                     {

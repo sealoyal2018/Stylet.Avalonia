@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Windows;
-using System.Windows.Data;
+using Avalonia;
+using Avalonia.Data.Converters;
 
 namespace Stylet.Xaml
 {
@@ -10,7 +10,7 @@ namespace Stylet.Xaml
     /// Converter which passes through values, but uses Debug.WriteLine to log them. Useful for debugging
     /// </summary>
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Don't agree with prefixing static method calls with the class name")]
-    public class DebugConverter : DependencyObject, IValueConverter
+    public class DebugConverter : AvaloniaObject, IValueConverter
     {
         /// <summary>
         /// Singleton instance of this DebugConverter. Usage e.g. Converter={x:Static s:DebugConverter.Instance}"
@@ -29,8 +29,8 @@ namespace Stylet.Xaml
         /// <summary>
         /// Property specifying the category to use with Debug.WriteLine
         /// </summary>
-        public static readonly DependencyProperty NameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(DebugConverter), new PropertyMetadata("DebugConverter"));
+        public static readonly AvaloniaProperty NameProperty =
+            AvaloniaProperty.Register<DebugConverter, string>("Name", "DebugConverter");
 
         /// <summary>
         /// Gets or sets the Logger to use. Defaults to Debug.WriteLine. Arguments are: Message, Name
@@ -44,8 +44,8 @@ namespace Stylet.Xaml
         /// <summary>
         /// Property specifying an action, which when called will log an entry.
         /// </summary>
-        public static readonly DependencyProperty LoggerProperty =
-            DependencyProperty.Register("Logger", typeof(Action<string, string>), typeof(DebugConverter), new PropertyMetadata(null));
+        public static readonly AvaloniaProperty LoggerProperty =
+            AvaloniaProperty.Register<DebugConverter, Action<string,string>>("Logger", null);
 
         static DebugConverter()
         {

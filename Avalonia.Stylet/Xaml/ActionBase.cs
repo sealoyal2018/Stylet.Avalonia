@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
@@ -26,7 +23,7 @@ namespace Stylet.Xaml
         /// <summary>
         /// Gets the View to grab the View.ActionTarget from
         /// </summary>
-        public AvaloniaObject Subject { get; private set; }
+        public IAvaloniaObject Subject { get; private set; }
 
         /// <summary>
         /// Gets the method name. E.g. if someone's gone Buttom Command="{s:Action MyMethod}", this is MyMethod.
@@ -57,11 +54,21 @@ namespace Stylet.Xaml
             private set { this.SetValue(targetProperty, value); }
         }
 
-        private static readonly DependencyProperty targetProperty =
-            DependencyProperty.Register("target", typeof(object), typeof(ActionBase), new PropertyMetadata(null, (d, e) =>
-            {
-                ((ActionBase)d).UpdateActionTarget(e.OldValue, e.NewValue);
-            }));
+        // private static readonly DependencyProperty targetProperty =
+        //     DependencyProperty.Register("target", typeof(object), typeof(ActionBase), new PropertyMetadata(null, (d, e) =>
+        //     {
+        //         ((ActionBase)d).UpdateActionTarget(e.OldValue, e.NewValue);
+        //     }));
+
+        private static readonly AvaloniaProperty<object> targetProperty;
+
+
+        static ActionBase()
+        {
+            targetProperty = AvaloniaProperty.Register<ActionBase, object>("target", null);
+            targetProperty.Changed.Subscribe(e => ((ActionBase)(e.Sender)).UpdateActionTarget(e.OldValue, e.NewValue));
+        }
+        
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ActionBase"/> class to use <see cref="View.ActionTargetProperty"/> to get the target
@@ -72,7 +79,7 @@ namespace Stylet.Xaml
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
         /// <param name="logger">Logger to use</param>
-        public ActionBase(AvaloniaObject subject, AvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
+        public ActionBase(IAvaloniaObject subject, IAvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
             : this(methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         {
             this.Subject = subject;
@@ -82,14 +89,15 @@ namespace Stylet.Xaml
 
             var actionTargetBinding = new Binding()
             {
-                Path = new PropertyPath(View.ActionTargetProperty),
+                Path = nameof(View.ActionTargetProperty),
                 Mode = BindingMode.OneWay,
                 Source = this.Subject,
             };
 
             if (backupSubject == null)
             {
-                BindingOperations.SetBinding(this, targetProperty, actionTargetBinding);
+                // BindingOperations.SetBinding(this, targetProperty, actionTargetBinding);
+                this.Bind(ActionBase.targetProperty, actionTargetBinding);
             }
             else
             {
@@ -98,11 +106,12 @@ namespace Stylet.Xaml
                 multiBinding.Bindings.Add(actionTargetBinding);
                 multiBinding.Bindings.Add(new Binding()
                 {
-                    Path = new PropertyPath(View.ActionTargetProperty),
+                    Path = nameof(View.ActionTargetProperty),
                     Mode = BindingMode.OneWay,
                     Source = backupSubject,
                 });
-                BindingOperations.SetBinding(this, targetProperty, multiBinding);
+                // BindingOperations.SetBinding(this, targetProperty, multiBinding);
+                this.Bind(ActionBase.targetProperty, multiBinding);
             }
         }
 
