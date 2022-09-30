@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Stylet;
 using Avalonia.Utilities;
 using Expressions = System.Linq.Expressions;
+using System.Linq;
 
 namespace Stylet.Xaml
 {
@@ -86,6 +87,7 @@ namespace Stylet.Xaml
             }
 
             this.guardPropertyGetter = null;
+            newTarget = Target;
             var guardPropertyInfo = newTarget?.GetType().GetProperty(this.GuardName);
             if (guardPropertyInfo != null)
             {
