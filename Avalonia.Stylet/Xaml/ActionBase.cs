@@ -10,6 +10,7 @@ using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Data.Core;
+using System.ComponentModel;
 
 namespace Stylet.Xaml
 {
@@ -65,8 +66,16 @@ namespace Stylet.Xaml
 
         static ActionBase()
         {
-            targetProperty = AvaloniaProperty.Register<ActionBase, object>("target", null);
-            targetProperty.Changed.Subscribe(e => ((ActionBase)(e.Sender)).UpdateActionTarget(e.OldValue, e.NewValue));
+            targetProperty = AvaloniaProperty.Register<ActionBase, object>("target", null, notifying: (e, b) =>
+            {
+
+            });
+            targetProperty.Changed.Subscribe(e =>
+            {
+                var type = e.NewValue.GetType();
+
+                ((ActionBase)e.Sender).UpdateActionTarget(e.OldValue, e.NewValue);
+            });
         }
         
 
@@ -89,7 +98,7 @@ namespace Stylet.Xaml
 
             var actionTargetBinding = new Binding()
             {
-                Path = nameof(View.ActionTargetProperty),
+                Path = "ActionTarget",
                 Mode = BindingMode.OneWay,
                 Source = this.Subject,
             };
@@ -102,17 +111,27 @@ namespace Stylet.Xaml
             }
             else
             {
-                var multiBinding = new MultiBinding();
-                multiBinding.Converter = new MultiBindingToActionTargetConverter();
-                multiBinding.Bindings.Add(actionTargetBinding);
-                multiBinding.Bindings.Add(new Binding()
-                {
-                    Path = nameof(View.ActionTargetProperty),
-                    Mode = BindingMode.OneWay,
-                    Source = backupSubject,
-                });
-                // BindingOperations.SetBinding(this, targetProperty, multiBinding);
-                this.Bind(ActionBase.targetProperty, multiBinding);
+
+                //var multiBinding = new MultiBinding();
+                //multiBinding.Converter = new MultiBindingToActionTargetConverter();
+                //multiBinding.Bindings.Add(actionTargetBinding);
+                //multiBinding.Bindings.Add(new Binding()
+                //{
+                //    Path = "ActionTarget",
+                //    Mode = BindingMode.OneWay,
+                //    Source = backupSubject,
+                //});
+                //// BindingOperations.SetBinding(this, targetProperty, multiBinding);
+                //this.Bind(ActionBase.targetProperty, multiBinding);
+
+                    
+                this.Subject.GetPropertyChangedObservable(View.ActionTargetProperty).Subscribe(e => Target = e.NewValue);
+                backupSubject.GetPropertyChangedObservable(View.ActionTargetProperty).Subscribe(e => Target = e.NewValue);
+
+                //this.Bind(ActionBase.targetProperty, this.Subject.GetBindingObservable(View.ActionTargetProperty).ToBinding());
+                //this.Bind(ActionBase.targetProperty, backupSubject.GetBindingObservable(View.ActionTargetProperty));
+                //BindingOperations.Apply(this, ActionBase.targetProperty, new InstancedBinding(this.Subject.GetSubject(View.ActionTargetProperty), BindingMode.OneWay, BindingPriority.Unset), null);
+                //BindingOperations.Apply(this, ActionBase.targetProperty, new InstancedBinding(backupSubject.GetSubject(View.ActionTargetProperty), BindingMode.OneWay, BindingPriority.Unset), null);
             }
         }
 
@@ -176,6 +195,10 @@ namespace Stylet.Xaml
                 else
                 {
                     newTargetType = newTarget.GetType();
+
+                    var info = ((Object)newTarget).GetType().GetTypeInfo();
+
+
                     bindingFlags = BindingFlags.Public | BindingFlags.Instance;
                 }
                 try
@@ -183,7 +206,12 @@ namespace Stylet.Xaml
                     targetMethodInfo = newTargetType.GetMethod(this.MethodName, bindingFlags);
 
                     if (targetMethodInfo == null)
-                        this.logger.Warn("Unable to find{0} method {1} on {2}", newTarget is Type ? " static" : "", this.MethodName, newTargetType.Name);
+                    {
+                        var t= Target.GetType();
+                        targetMethodInfo = t.GetMethod(this.MethodName, bindingFlags);
+                        if(targetMethodInfo == null)
+                            this.logger.Warn("Unable to find{0} method {1} on {2}", newTarget is Type ? " static" : "", this.MethodName, newTargetType.Name);
+                    }
                     else
                         this.AssertTargetMethodInfo(targetMethodInfo, newTargetType);
                 }
