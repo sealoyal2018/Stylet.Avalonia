@@ -1,0 +1,14 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Stylet.Samples.NavigationController.Pages.ShellView"
+        Height="450" Width="800"
+        xmlns:s="using:Stylet.Xaml"
+        Title="Navigation Controller sample">
+    <DockPanel>
+        <ContentControl DockPanel.Dock="Top" s:View.Model="{Binding HeaderViewModel}"/>
+        <ContentControl s:View.Model="{Binding ActiveItem}"/>
+    </DockPanel>
+</Window>
