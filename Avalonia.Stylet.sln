@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.MasterDetail
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.NavigationController", "Samples\Stylet.Samples.NavigationController\Stylet.Samples.NavigationController.csproj", "{C1DF59E9-C47F-4801-AF38-D308BDD411E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.OverridingViewManager", "Samples\Stylet.Samples.OverridingViewManager\Stylet.Samples.OverridingViewManager.csproj", "{06B4CA61-8823-42B8-8D47-5FCE3004BB37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{C1DF59E9-C47F-4801-AF38-D308BDD411E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1DF59E9-C47F-4801-AF38-D308BDD411E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1DF59E9-C47F-4801-AF38-D308BDD411E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B4CA61-8823-42B8-8D47-5FCE3004BB37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B4CA61-8823-42B8-8D47-5FCE3004BB37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B4CA61-8823-42B8-8D47-5FCE3004BB37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B4CA61-8823-42B8-8D47-5FCE3004BB37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{1BA0B259-2EE7-4B2E-BCAA-E63C73D2F1B2} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{10E0C7E4-52D7-4B63-BACB-807AAF5987E3} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{C1DF59E9-C47F-4801-AF38-D308BDD411E3} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
+		{06B4CA61-8823-42B8-8D47-5FCE3004BB37} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5CD8D44-4D13-417F-B87B-58187A3A2897}
