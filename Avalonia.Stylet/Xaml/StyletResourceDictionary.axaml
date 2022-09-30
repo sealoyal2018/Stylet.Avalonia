@@ -1,8 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:Stylet.Xaml">
-        
-        
         <Style Selector="TabControl#StyletConductorTabControl" >
                 <Setter Property="Items" Value="{Binding Items}"></Setter>
                 <Setter Property="SelectedItem" Value="{Binding ActiveItem}"></Setter>

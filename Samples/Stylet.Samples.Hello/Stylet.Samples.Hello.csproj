@@ -26,6 +26,5 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Avalonia.Stylet\Avalonia.Stylet.csproj" />
-      <ProjectReference Include="..\..\Avalonia.Stylet\Avalonia.Stylet\Avalonia.Stylet.csproj" />
     </ItemGroup>
 </Project>

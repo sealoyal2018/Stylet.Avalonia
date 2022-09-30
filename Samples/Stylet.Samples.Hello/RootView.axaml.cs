@@ -8,13 +8,13 @@ public partial class RootView : Window
 {
     public RootView()
     {
-        InitializeComponent();
+        //InitializeComponent();
 #if DEBUG
         this.AttachDevTools();
 #endif
     }
 
-    private void InitializeComponent()
+    public void InitializeComponent1()
     {
         AvaloniaXamlLoader.Load(this);
     }

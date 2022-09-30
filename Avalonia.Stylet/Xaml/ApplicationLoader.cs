@@ -3,6 +3,8 @@ using System.Windows;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Styling;
 
 namespace Stylet.Xaml
 {
@@ -11,18 +13,21 @@ namespace Stylet.Xaml
     /// </summary>
     public class ApplicationLoader : ResourceDictionary
     {
-        private readonly ResourceDictionary styletResourceDictionary;
+        private readonly Style styletResourceDictionary;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ApplicationLoader"/> class
         /// </summary>
         public ApplicationLoader()
         {
-            this.styletResourceDictionary = new ResourceDictionary(); // {  Source = new Uri("pack://application:,,,/Stylet;component/Xaml/StyletResourceDictionary.xaml", UriKind.Absolute) };
-            this.styletResourceDictionary.MergedDictionaries.Add(new ResourceInclude()
-            {
-                Source = new Uri("avares://Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml", UriKind.Absolute)
-            });
+            this.styletResourceDictionary = new Style(); // {  Source = new Uri("pack://application:,,,/Stylet;component/Xaml/StyletResourceDictionary.xaml", UriKind.Absolute) };
+            
+            this.styletResourceDictionary.Add(new StyleInclude(new Uri("avares://Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml", UriKind.Absolute)));
+            
+            // this.styletResourceDictionary.MergedDictionaries.Add(new ResourceInclude()
+            // {
+            //     Source = new Uri("avares://Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml", UriKind.Absolute)
+            // });
             
             this.LoadStyletResources = true;
         }
