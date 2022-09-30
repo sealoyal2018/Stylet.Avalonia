@@ -328,10 +328,10 @@ namespace Stylet
         {
             // If it doesn't have a code-behind, this won't be called
             // We have to use this reflection here, since the InitializeComponent is a method on the View, not on any of its base classes
-            var initializer = viewType.GetMethod("InitializeComponent1", BindingFlags.Public | BindingFlags.Instance);
+            // var initializer = viewType.GetMethod("InitializeComponent", BindingFlags.Public | BindingFlags.Instance);
             // var initializer = viewType.GetMethod("OnAttachedToVisualTree", BindingFlags.Public | BindingFlags.Instance);
-            if (initializer != null)
-                initializer.Invoke(view, null);
+            //if (initializer != null)
+            //    initializer.Invoke(view, null);
         }
 
         /// <summary>

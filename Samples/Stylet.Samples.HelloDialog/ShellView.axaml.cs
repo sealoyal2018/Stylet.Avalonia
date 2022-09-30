@@ -1,17 +1,12 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Stylet.Samples.Hello;
-
-public partial class RootView : Window
+namespace Stylet.Samples.HelloDialog;
+public partial class ShellView : Window
 {
-    public RootView()
+    public ShellView()
     {
         InitializeComponent();
-#if DEBUG
-        this.AttachDevTools();
-#endif
     }
 
     private void InitializeComponent()

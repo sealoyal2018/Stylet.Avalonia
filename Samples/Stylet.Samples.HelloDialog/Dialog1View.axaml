@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Stylet.Samples.HelloDialog.Dialog1View"
+		xmlns:s="using:Stylet.Xaml"
+        Title="Dialog1View" Height="145" Width="300">
+	<DockPanel LastChildFill="False" Margin="10">
+		<DockPanel DockPanel.Dock="Top">
+			<Label DockPanel.Dock="Left">What is your name?</Label>
+			<TextBox Text="{Binding Name}" HorizontalAlignment="Stretch"/>
+		</DockPanel>
+		<Grid DockPanel.Dock="Bottom">
+			<Button HorizontalAlignment="Left" Width="100" IsDefault="True" Command="{s:Action Save}">Save</Button>
+			<Button HorizontalAlignment="Right" Width="100" IsCancel="True" Command="{s:Action Close}">Cancel</Button>
+		</Grid>
+	</DockPanel>
+</Window>

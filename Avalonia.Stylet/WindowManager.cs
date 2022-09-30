@@ -387,7 +387,7 @@ namespace Stylet
                 
                 ScreenExtensions.TryClose(this.viewModel);
 
-                this.window.Close();
+                this.window.Close(dialogResult);
             }
         }
     }
