@@ -123,6 +123,14 @@ namespace Stylet.Xaml
 
         private object HandleDependencyObject(IServiceProvider serviceProvider, IProvideValueTarget valueService, IAvaloniaObject targetObject)
         {
+            if (valueService.TargetProperty is string str)
+            {
+                var type = valueService.TargetObject.GetType();
+                var eventInfo = type.GetEvent(str);
+                return this.CreateEventAction(serviceProvider, targetObject, eventInfo.EventHandlerType);
+            }
+
+
             switch (valueService.TargetProperty)
             {
                 case AvaloniaProperty dependencyProperty when dependencyProperty.PropertyType == typeof(ICommand):

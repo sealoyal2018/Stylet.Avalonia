@@ -9,6 +9,6 @@
         x:Class="Stylet.Samples.Hello.RootView"
         Title="RootView">
 	<Grid>
-		<Button Height="30" Width="120" Content="Hello,World" Command="{s:Action DoSomething}" CommandParameter="helllw" />
+		<Button Height="30" Width="120" Content="Hello,World" Click="{s:Action DoSomething('ksjdfsdf')}" />
 	</Grid>
 </Window>
