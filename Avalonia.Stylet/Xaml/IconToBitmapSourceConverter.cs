@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Reflection;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Stylet.Logging;
 
 namespace Stylet.Xaml
@@ -10,7 +14,8 @@ namespace Stylet.Xaml
     /// <summary>
     /// Converter to take an Icon, and convert it to a BitmapSource
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Don't agree with prefixing static method calls with the class name")]
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly",
+        Justification = "Don't agree with prefixing static method calls with the class name")]
     public class IconToBitmapSourceConverter : IValueConverter
     {
         private static readonly ILogger logger = LogManager.GetLogger(typeof(IconToBitmapSourceConverter));
@@ -30,21 +35,29 @@ namespace Stylet.Xaml
         /// <returns>Converted value</returns>
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var icon = value as Icon;
-            if (icon == null)
+            if (value == null)
                 return null;
 
-            try
+            if (value is string rawUri && targetType.IsAssignableFrom(typeof(Bitmap)))
             {
-                var bs = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                bs.Freeze();
-                return bs;
+                Uri uri;
+                // Allow for assembly overrides
+
+                if (rawUri.StartsWith("avares://"))
+                {
+                    uri = new Uri(rawUri);
+                }
+                else
+                {
+                    string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
+                    uri = new Uri($"avares://{assemblyName}{rawUri}");
+                }
+
+                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                var asset = assets.Open(uri);
+                return new Bitmap(asset);
             }
-            catch (Exception e)
-            {
-                logger.Error(e, String.Format("Error trying to call CreateBitmapSourceFromHIcon: {0}", e.Message));
-                return null;
-            }
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -55,7 +68,8 @@ namespace Stylet.Xaml
         /// <param name="parameter">converter parameter</param>
         /// <param name="culture">culture information</param>
         /// <returns>Converted back value</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
             throw new NotSupportedException();
         }

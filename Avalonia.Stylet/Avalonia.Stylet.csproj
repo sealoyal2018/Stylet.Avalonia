@@ -22,4 +22,11 @@
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview1" />
         <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
     </ItemGroup>
+    <ItemGroup>
+      <AvaloniaXaml Remove="MessageBoxView.axaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="MessageBoxView.axaml.cs" />
+      <Compile Remove="MessageBoxViewModel.cs" />
+    </ItemGroup>
 </Project>

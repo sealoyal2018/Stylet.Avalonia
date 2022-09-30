@@ -98,6 +98,7 @@ namespace Stylet.Xaml
             {
                 // BindingOperations.SetBinding(this, targetProperty, actionTargetBinding);
                 this.Bind(ActionBase.targetProperty, actionTargetBinding);
+                // BindingOperations.Apply(this, ActionBase.targetProperty, actionBinding, null);
             }
             else
             {

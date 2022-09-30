@@ -2,6 +2,7 @@
 using System.Windows;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace Stylet.Xaml
 {
@@ -17,7 +18,12 @@ namespace Stylet.Xaml
         /// </summary>
         public ApplicationLoader()
         {
-            this.styletResourceDictionary = new ResourceDictionary() {  Source = new Uri("pack://application:,,,/Stylet;component/Xaml/StyletResourceDictionary.axaml", UriKind.Absolute) };
+            this.styletResourceDictionary = new ResourceDictionary(); // {  Source = new Uri("pack://application:,,,/Stylet;component/Xaml/StyletResourceDictionary.xaml", UriKind.Absolute) };
+            this.styletResourceDictionary.MergedDictionaries.Add(new ResourceInclude()
+            {
+                Source = new Uri("avares://Avalonia.Stylet/Xaml/StyletResourceDictionary.axaml", UriKind.Absolute)
+            });
+            
             this.LoadStyletResources = true;
         }
 

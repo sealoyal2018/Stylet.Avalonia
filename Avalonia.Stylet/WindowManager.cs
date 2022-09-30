@@ -1,7 +1,7 @@
 ﻿using Stylet.Logging;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
@@ -32,7 +32,7 @@ namespace Stylet
         /// </summary>
         /// <param name="viewModel">ViewModel to show the View for</param>
         /// <returns>DialogResult of the View</returns>
-        bool? ShowDialog(object viewModel);
+        Task<T> ShowDialog<T>(object viewModel);
 
         /// <summary>
         /// Given a ViewModel, show its corresponding View as a Dialog, and set its owner
@@ -40,8 +40,8 @@ namespace Stylet
         /// <param name="viewModel">ViewModel to show the View for</param>
         /// <param name="ownerViewModel">The ViewModel for the View which should own this dialog</param>
         /// <returns>DialogResult of the View</returns>
-        bool? ShowDialog(object viewModel, IViewAware ownerViewModel);
-
+        Task<T> ShowDialog<T>(object viewModel, IViewAware ownerViewModel);
+// TODO: MessageBox
         /// <summary>
         /// Display a MessageBox
         /// </summary>
@@ -55,14 +55,14 @@ namespace Stylet
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        MessageBoxResult ShowMessageBox(string messageBoxText, string caption = "",
-            MessageBoxButton buttons = MessageBoxButton.OK,
-            MessageBoxImage icon = MessageBoxImage.None,
-            MessageBoxResult defaultResult = MessageBoxResult.None,
-            MessageBoxResult cancelResult = MessageBoxResult.None,
-            IDictionary<MessageBoxResult, string> buttonLabels = null,
-            FlowDirection? flowDirection = null,
-            TextAlignment? textAlignment = null);
+        // Task<T> ShowMessageBox<T>(string messageBoxText, string caption = "",
+        //     MessageBoxButton buttons = MessageBoxButton.OK,
+        //     MessageBoxImage icon = MessageBoxImage.None,
+        //     MessageBoxResult defaultResult = MessageBoxResult.None,
+        //     MessageBoxResult cancelResult = MessageBoxResult.None,
+        //     IDictionary<MessageBoxResult, string> buttonLabels = null,
+        //     FlowDirection? flowDirection = null,
+        //     TextAlignment? textAlignment = null);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ namespace Stylet
     {
         private static readonly ILogger logger = LogManager.GetLogger(typeof(WindowManager));
         private readonly IViewManager viewManager;
-        private readonly Func<IMessageBoxViewModel> messageBoxViewModelFactory;
+        // private readonly Func<IMessageBoxViewModel> messageBoxViewModelFactory;
         private readonly Func<Window> getActiveWindow;
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace Stylet
         /// <param name="viewManager">IViewManager to use when creating views</param>
         /// <param name="messageBoxViewModelFactory">Delegate which returns a new IMessageBoxViewModel instance when invoked</param>
         /// <param name="config">Configuration object</param>
-        public WindowManager(IViewManager viewManager, Func<IMessageBoxViewModel> messageBoxViewModelFactory, IWindowManagerConfig config)
+        public WindowManager(IViewManager viewManager, /*Func<IMessageBoxViewModel> messageBoxViewModelFactory,*/ IWindowManagerConfig config)
         {
             this.viewManager = viewManager;
-            this.messageBoxViewModelFactory = messageBoxViewModelFactory;
+            // this.messageBoxViewModelFactory = messageBoxViewModelFactory;
             this.getActiveWindow = config.GetActiveWindow;
         }
 
@@ -124,9 +124,9 @@ namespace Stylet
         /// </summary>
         /// <param name="viewModel">ViewModel to show the View for</param>
         /// <returns>DialogResult of the View</returns>
-        public bool? ShowDialog(object viewModel)
+        public Task<T> ShowDialog<T>(object viewModel)
         {
-            return this.ShowDialog(viewModel, null);
+            return this.ShowDialog<T>(viewModel, null);
         }
 
         /// <summary>
@@ -135,11 +135,13 @@ namespace Stylet
         /// <param name="viewModel">ViewModel to show the View for</param>
         /// <param name="ownerViewModel">The ViewModel for the View which should own this dialog</param>
         /// <returns>DialogResult of the View</returns>
-        public bool? ShowDialog(object viewModel, IViewAware ownerViewModel)
+        public Task<T> ShowDialog<T>(object viewModel, IViewAware ownerViewModel)
         {
-            return this.CreateWindow(viewModel, true, ownerViewModel).ShowDialog();
+            var window = this.CreateWindow(viewModel, true, ownerViewModel);
+            
+            return window.ShowDialog<T>(window.Owner as Window);
         }
-
+// TODO: MessageBox
         /// <summary>
         /// Display a MessageBox
         /// </summary>
@@ -153,20 +155,19 @@ namespace Stylet
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        public MessageBoxResult ShowMessageBox(string messageBoxText, string caption = "",
-            MessageBoxButton buttons = MessageBoxButton.OK,
-            MessageBoxImage icon = MessageBoxImage.None,
-            MessageBoxResult defaultResult = MessageBoxResult.None,
-            MessageBoxResult cancelResult = MessageBoxResult.None,
-            IDictionary<MessageBoxResult, string> buttonLabels = null,
-            FlowDirection? flowDirection = null,
-            TextAlignment? textAlignment = null)
-        {
-            var vm = this.messageBoxViewModelFactory();
-            vm.Setup(messageBoxText, caption, buttons, icon, defaultResult, cancelResult, buttonLabels, flowDirection, textAlignment);
-            this.ShowDialog(vm);
-            return vm.ClickedButton;
-        }
+        // public Task<T> ShowMessageBox<T>(string messageBoxText, string caption = "",
+        //     MessageBoxButton buttons = MessageBoxButton.OK,
+        //     MessageBoxImage icon = MessageBoxImage.None,
+        //     MessageBoxResult defaultResult = MessageBoxResult.None,
+        //     MessageBoxResult cancelResult = MessageBoxResult.None,
+        //     IDictionary<MessageBoxResult, string> buttonLabels = null,
+        //     FlowDirection? flowDirection = null,
+        //     TextAlignment? textAlignment = null)
+        // {
+        //     var vm = this.messageBoxViewModelFactory();
+        //     vm.Setup(messageBoxText, caption, buttons, icon, defaultResult, cancelResult, buttonLabels, flowDirection, textAlignment);
+        //     return this.ShowDialog<T>(vm);
+        // }
 
         /// <summary>
         /// Given a ViewModel, create its View, ensure that it's a Window, and set it up
@@ -190,8 +191,11 @@ namespace Stylet
 
             // Only set this it hasn't been set / bound to anything
             var haveDisplayName = viewModel as IHaveDisplayName;
-            if (haveDisplayName != null && (String.IsNullOrEmpty(window.Title) || window.Title == view.GetType().Name) && BindingOperations.GetBindingBase(window, Window.TitleProperty) == null)
+            if (haveDisplayName != null && (String.IsNullOrEmpty(window.Title) || window.Title == view.GetType().Name) /*&& BindingOperations.GetBindingBase(window, Window.TitleProperty) == null*/)
             {
+                // TODO:
+                // && BindingOperations.GetBindingBase(window, Window.TitleProperty) == null
+                
                 var binding = new Binding("DisplayName") { Mode = BindingMode.TwoWay };
                 // window.SetBinding(Window.TitleProperty, binding); 
                 window.Bind(Window.TitleProperty, binding);
@@ -233,9 +237,12 @@ namespace Stylet
 
             // If and only if they haven't tried to position the window themselves...
             // Has to be done after we're attempted to set the owner
-            if (window.WindowStartupLocation == WindowStartupLocation.Manual && Double.IsNaN(window.Top) && Double.IsNaN(window.Left) &&
-                BindingOperations.GetBinding(window, Window.TopProperty) == null && BindingOperations.GetBinding(window, Window.LeftProperty) == null)
+            if (window.WindowStartupLocation == WindowStartupLocation.Manual && Double.IsNaN(window.Position.Y) && Double.IsNaN(window.Position.X) 
+                /*&& BindingOperations.GetBinding(window, Window.TopProperty) == null && BindingOperations.GetBinding(window, Window.LeftProperty) == null*/)
             {
+                // var topObservable = window.GetBindingSubject(Control.TagProperty);
+                // var leftObservable = window.GetBindingSubject(Control.LeftProperty);
+
                 window.WindowStartupLocation = window.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
             }
 
@@ -256,7 +263,7 @@ namespace Stylet
         {
             private readonly Window window;
             private readonly object viewModel;
-
+            private readonly IDisposable _windowStateChangedObservable;
             public WindowConductor(Window window, object viewModel)
             {
                 this.window = window;
@@ -270,9 +277,12 @@ namespace Stylet
                 ScreenExtensions.TryActivate(this.viewModel);
 
                 var viewModelAsScreenState = this.viewModel as IScreenState;
+                _windowStateChangedObservable = null;
                 if (viewModelAsScreenState != null)
                 {
-                    window.StateChanged += this.WindowStateChanged;
+                    // window.StateChanged += this.WindowStateChanged;
+                    _windowStateChangedObservable = window.GetPropertyChangedObservable(Window.WindowStateProperty)
+                        .Subscribe(this.WindowStateChanged);
                     window.Closed += this.WindowClosed;
                 }
 
@@ -280,7 +290,7 @@ namespace Stylet
                     window.Closing += this.WindowClosing;
             }
 
-            private void WindowStateChanged(object sender, EventArgs e)
+            private void WindowStateChanged(AvaloniaPropertyChangedEventArgs e)
             {
                 switch (this.window.WindowState)
                 {
@@ -301,7 +311,8 @@ namespace Stylet
             {
                 // Logging was done in the Closing handler
 
-                this.window.StateChanged -= this.WindowStateChanged;
+                // this.window.StateChanged -= this.WindowStateChanged;
+                _windowStateChangedObservable?.Dispose();
                 this.window.Closed -= this.WindowClosed;
                 this.window.Closing -= this.WindowClosing; // Not sure this is required
 
@@ -363,15 +374,17 @@ namespace Stylet
 
                 logger.Info("ViewModel {0} close requested with DialogResult {1} because it called RequestClose", this.viewModel, dialogResult);
 
-                this.window.StateChanged -= this.WindowStateChanged;
+                // this.window.StateChanged -= this.WindowStateChanged;
+                this._windowStateChangedObservable?.Dispose();
                 this.window.Closed -= this.WindowClosed;
                 this.window.Closing -= this.WindowClosing;
 
                 // Need to call this after unregistering the event handlers, as it causes the window
                 // to be closed
-                if (dialogResult != null)
-                    this.window.DialogResult = dialogResult;
-
+                // TODO:
+                // if (dialogResult != null)
+                //     this.window.DialogResult = dialogResult;
+                
                 ScreenExtensions.TryClose(this.viewModel);
 
                 this.window.Close();

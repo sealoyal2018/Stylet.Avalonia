@@ -1,13 +1,9 @@
-﻿using Stylet.Logging;
-using Stylet.Xaml;
+﻿using Stylet.Xaml;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Threading;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Stylet
 {
@@ -53,21 +49,30 @@ namespace Stylet
 
             // Use the current application's dispatcher for Execute
             Execute.Dispatcher = new ApplicationDispatcher();
-
-            this.Application.Startup += (o, e) => this.Start(e.Args);
-            // Make life nice for the app - they can handle these by overriding Bootstrapper methods, rather than adding event handlers
-            this.Application.Exit += (o, e) =>
+            if (Application.Current.ApplicationLifetime is ClassicDesktopStyleApplicationLifetime desk)
             {
-                this.OnExit(e);
-                this.Dispose();
-            };
+                desk.Startup += (sender, args) => this.Start(args.Args);
+                desk.Exit += (sender, e) =>
+                {
+                    this.OnExit(e);
+                    this.Dispose();
+                };
+                
+            }
+            // this.Application.Startup += (o, e) => this.Start(e.Args);
+            // // Make life nice for the app - they can handle these by overriding Bootstrapper methods, rather than adding event handlers
+            // this.Application.Exit += (o, e) =>
+            // {
+            //     this.OnExit(e);
+            //     this.Dispose();
+            // };
 
             // Fetch this logger when needed. If we fetch it now, then no-one will have been given the change to enable the LogManager, and we'll get a NullLogger
-            this.Application.DispatcherUnhandledException += (o, e) =>
-            {
-                LogManager.GetLogger(typeof(BootstrapperBase)).Error(e.Exception, "Unhandled exception");
-                this.OnUnhandledException(e);
-            };
+            // this.Application.DispatcherUnhandledException += (o, e) =>
+            // {
+            //     LogManager.GetLogger(typeof(BootstrapperBase)).Error(e.Exception, "Unhandled exception");
+            //     this.OnUnhandledException(e);
+            // };
         }
 
         /// <summary>
@@ -119,7 +124,13 @@ namespace Stylet
         /// <returns>The currently-displayed window, or null</returns>
         public virtual Window GetActiveWindow()
         {
-            return this.Application?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive) ?? this.Application?.MainWindow;
+            if (Application.Current.ApplicationLifetime is ClassicDesktopStyleApplicationLifetime desk)
+            {
+                return desk.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive) ?? desk.MainWindow;
+            }
+
+            return null;
+            // return this.Application?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive) ?? this.Application?.MainWindow;
         }
 
         /// <summary>
@@ -148,13 +159,14 @@ namespace Stylet
         /// Hook called on application exit
         /// </summary>
         /// <param name="e">The exit event data</param>
-        protected virtual void OnExit(ExitEventArgs e) { }
+        protected virtual void OnExit(ControlledApplicationLifetimeExitEventArgs e) { }
 
         /// <summary>
         /// Hook called on an unhandled exception
         /// </summary>
         /// <param name="e">The event data</param>
-        protected virtual void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) { }
+      // TODO:
+      // protected virtual void OnUnhandledException(DispatcherUnhandledExceptionEventArgs e) { }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
