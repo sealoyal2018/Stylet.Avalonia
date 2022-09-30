@@ -1,54 +1,59 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:Stylet.Xaml">
-        <Style Selector="TabControl#StyletConductorTabControl" >
-                <Setter Property="Items" Value="{Binding Items}"></Setter>
-                <Setter Property="SelectedItem" Value="{Binding ActiveItem}"></Setter>
-                <Setter Property="ContentTemplate">
-                        <Setter.Value>
-                                <DataTemplate>
-                                        <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" />
-                                </DataTemplate>
-                        </Setter.Value>
-                </Setter>
-        </Style>
-   
-        <Style Selector="ItemsControl#StyletConductorItemsControl" >
-                <Setter Property="Items" Value="{Binding Items}"></Setter>
-                <Setter Property="ItemTemplate">
-                        <Setter.Value>
-                                <DataTemplate>
-                                        <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" />
-                                </DataTemplate>
-                        </Setter.Value>
-                </Setter>
-        </Style>
-        
-        
-        
-        
-        <!-- <Style x:Key="StyletConductorTabControl" TargetType="TabControl"> -->
-        <!--         <Setter Property="ItemsSource" Value="{Binding Items}"/> -->
-        <!--         <Setter Property="SelectedItem" Value="{s:RethrowingBinding ActiveItem}"/> -->
-        <!--         <Setter Property="DisplayMemberPath" Value="DisplayName"/> -->
-        <!--         <Setter Property="ContentTemplate"> -->
-        <!--                 <Setter.Value> -->
-        <!--                         <DataTemplate> -->
-        <!--                                 <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" /> -->
-        <!--                         </DataTemplate> -->
-        <!--                 </Setter.Value> -->
-        <!--         </Setter> -->
-        <!-- </Style> -->
-    
-        <!-- <Style x:Key="StyletConductorItemsControl" TargetType="ItemsControl"> -->
-        <!--         <Setter Property="ItemsSource" Value="{Binding Items}"/> -->
-        <!--         <Setter Property="ItemTemplate"> -->
-        <!--                 <Setter.Value> -->
-        <!--                         <DataTemplate> -->
-        <!--                                 <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False"/> -->
-        <!--                         </DataTemplate> -->
-        <!--                 </Setter.Value> -->
-        <!--         </Setter> -->
-        <!-- </Style> -->
-    
+    <Style Selector="TabControl.StyletConductorTabControl">
+        <Setter Property="Items" Value="{Binding Items}"></Setter>
+        <Setter Property="SelectedItem" Value="{Binding ActiveItem}"></Setter>
+        <Setter Property="ItemTemplate">
+            <DataTemplate>
+                <TextBlock Text="{Binding DisplayName}"></TextBlock>
+            </DataTemplate>
+        </Setter>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentControl s:View.Model="{Binding}" VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" IsTabStop="False" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="ItemsControl.StyletConductorItemsControl">
+        <Setter Property="Items" Value="{Binding Items}"></Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentControl s:View.Model="{Binding}" VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" IsTabStop="False" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- <Style x:Key="StyletConductorTabControl" TargetType="TabControl"> -->
+    <!--         <Setter Property="ItemsSource" Value="{Binding Items}"/> -->
+    <!--         <Setter Property="SelectedItem" Value="{s:RethrowingBinding ActiveItem}"/> -->
+    <!--         <Setter Property="DisplayMemberPath" Value="DisplayName"/> -->
+    <!--         <Setter Property="ContentTemplate"> -->
+    <!--                 <Setter.Value> -->
+    <!--                         <DataTemplate> -->
+    <!--                                 <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" /> -->
+    <!--                         </DataTemplate> -->
+    <!--                 </Setter.Value> -->
+    <!--         </Setter> -->
+    <!-- </Style> -->
+
+    <!-- <Style x:Key="StyletConductorItemsControl" TargetType="ItemsControl"> -->
+    <!--         <Setter Property="ItemsSource" Value="{Binding Items}"/> -->
+    <!--         <Setter Property="ItemTemplate"> -->
+    <!--                 <Setter.Value> -->
+    <!--                         <DataTemplate> -->
+    <!--                                 <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False"/> -->
+    <!--                         </DataTemplate> -->
+    <!--                 </Setter.Value> -->
+    <!--         </Setter> -->
+    <!-- </Style> -->
+
 </Styles>

@@ -100,6 +100,8 @@ namespace Stylet.Xaml
                 {
                     // It appears we can be reset to the default value on destruction
                     var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
+                    if (newValue is null)
+                        return;
                     viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
                     return;
                 }

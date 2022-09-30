@@ -185,6 +185,7 @@ namespace Stylet
                 {
                     var e = new StyletInvalidViewTypeException(@$"s:View.Model=""..."" tried to show a View of type '{view.GetType().Name}', but that View derives from the Window class. Make sure any Views you display using s:View.Model=""..."" do not derive from Window (use UserControl or similar)");
                     logger.Error(e);
+                    return;
                     throw e;
                 }
                 View.SetContentProperty(targetLocation, view);

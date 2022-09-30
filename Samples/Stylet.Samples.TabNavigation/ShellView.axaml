@@ -1,0 +1,35 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Stylet.Samples.TabNavigation.ShellView"
+        xmlns:s="using:Stylet.Xaml"
+        Height="300" Width="300"
+        Title="ShellView">
+    <Window.Styles>
+        <Style Selector="TabControl.StyletConductorTabControl">
+            <Setter Property="Items" Value="{Binding Items}"></Setter>
+            <Setter Property="SelectedItem" Value="{Binding ActiveItem, Mode=TwoWay}"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayName}"></TextBlock>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <ContentControl s:View.Model="{Binding}" VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch" IsTabStop="False" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Styles>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding ActiveItem.DisplayName, StringFormat='Active page is {0}'}"/>
+        <TabControl Classes="StyletConductorTabControl" Margin="0,10,0,0"/>
+    </DockPanel>
+</Window>

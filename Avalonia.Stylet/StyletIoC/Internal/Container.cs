@@ -448,7 +448,10 @@ namespace StyletIoC.Internal
             this.disposed = true;
             var handler = this.Disposing;
             if (handler != null)
+            {
                 handler(this, EventArgs.Empty);
+                this.disposed = false;
+            }
         }
 
         private void CheckDisposed()
