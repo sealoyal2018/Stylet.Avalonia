@@ -17,6 +17,7 @@
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageId>Stylet.Avalonia</PackageId>
     </PropertyGroup>
     <ItemGroup>
         <None Remove=".gitignore" />
