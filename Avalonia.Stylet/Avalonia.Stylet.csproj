@@ -5,6 +5,18 @@
         <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
         <TrimMode>copyused</TrimMode>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <Title>Avalonia.Stylet</Title>
+        <Authors>sealoyal</Authors>
+        <Description>A very lightweight but powerful ViewModel-First MVVM framework for AvaloniaUI, inspired by Caliburn.Micro. </Description>
+        <PackageIcon>StyletIcon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/rsdte/Avalonia.Stylet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/rsdte/Avalonia.Stylet</RepositoryUrl>
+        <Version>0.1.0</Version>
+        <Copyright>Copyright © 2014 Sealoyal</Copyright>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     </PropertyGroup>
     <ItemGroup>
         <None Remove=".gitignore" />
@@ -28,5 +40,19 @@
     <ItemGroup>
       <Compile Remove="MessageBoxView.axaml.cs" />
       <Compile Remove="MessageBoxViewModel.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\LICENSE.txt">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Include="..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Include="..\StyletIcon.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 </Project>
