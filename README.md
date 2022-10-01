@@ -1,78 +1,136 @@
-![Project Icon](StyletIcon.png) Stylet
+![Project Icon](StyletIcon.png) Stylet.Avalonia
 ======================================
 
-[![NuGet](https://img.shields.io/nuget/v/Stylet.svg)](https://www.nuget.org/packages/Stylet/)
-[![Build status](https://ci.appveyor.com/api/projects/status/nqucthach0x6gkil?svg=true)](https://ci.appveyor.com/project/canton7/stylet)
+[英文文档](./README-EN.md)
 
-Introduction
-------------
+>  请注意本项目需要 AvaloniaUI 版本 >= 0.11.0-preview
 
-Stylet is a small but powerful ViewModel-first MVVM framework for WPF (.NET 4.5+ and .NET Core 3.0+), which allows you to write maintainable and extensible code in a way which is easy to test.
-Stylet's aims are to:
+## 项目介绍
 
- - Solve the blockers, niggles, and annoyances which hamper MVVM development without a framework, using simple but powerful concepts.
- - Be obvious to people picking up your project for the first time: there's very little magic
- - Be easy to verify/validate. The LOC count is low, and it comes with a very comprehensive test suite. The code is well-written and well-documented.
- - Be flexible while providing sensible defaults. Almost any part of the framework can be overridden if you wish, but you probably won't want to.
+`Stylet.Avalonia`是原来[Stylet](https://github.com/canton7/Stylet)项目对[AvaloniaUI](https://github.com/AvaloniaUI/Avalonia) 框架的适配。具体介绍请查看[Stylet项目介绍](https://github.com/canton7/Stylet)
 
-It is inspired by [Caliburn.Micro](http://caliburnmicro.com/), and shares many of its concepts, but removes most of the magic (replacing it with more powerful alternatives), and simplifies parts considerably by targeting only MVVM, WPF and .NET 4.5.
+## 快速开始
 
+第一步：创建一个AvaloniaUI框架
 
-Getting Started
----------------
+第二步：nuget 管理器安装 `Stylet.Avalonia`包
 
-### .NET 5.0+ / .NET Core
+第三步：创建`AppBootstrapper`类，其内容如下
 
-For .NET Core and .NET 5.0+ projects, the quickest way to get started is by using `dotnet new` with Stylet's template.
-
-Open a command window where you want to create your new project, and install the Stylet templates using:
-
-```
-dotnet new -i Stylet.Templates
+```c#
+public class AppBootstrapper:Bootstrapper<RootViewModel>
+{
+    
+}
 ```
 
-Then create a new .NET 5.0 project with:
+第四步：创建`ShellViewModel`类，以及`Avalonia Window`类型名为`ShellView`的窗口组件，其内容如下【其实啥也没动】
 
-```
-dotnet new stylet -n MyStyletProject
-```
+- ShellViewModel.cs
 
-(changing `MyStyletProject` as appropriate).
-
-If you want to create a .NET Core 3.1 project, then:
-
-```
-dotnet new stylet -F netcoreapp3.1 -n MyStyletProject
+```c#
+public class ShellViewModel
+{
+    
+}
 ```
 
-If you want to set up your project manually, install the [Stylet](https://www.nuget.org/packages/Stylet) package, then follow the instructions in the [Quick Start](https://github.com/canton7/Stylet/wiki/Quick-Start).
+- ShellView.axaml
 
-Stylet requires .NET 5.0+ or .NET Core 3.0+.
+```xaml
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Avalonia.NETCoreApp1.ShellView"
+        Title="ShellView">
+    Welcome to Avalonia!
+</Window>
+```
+
+- ShellView.axaml.cs
+
+```csharp
+public partial class ShellView : Window
+{
+    public ShellView()
+    {
+        InitializeComponent();
+#if DEBUG
+        this.AttachDevTools();
+#endif
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+    }
+}
+```
 
 
-### .NET Framework (<= .NET 4)
 
-For .NET Framework projects, the quickest way to get started is to create a new "WPF Application" project, then install the NuGet package [Stylet.Start](https://www.nuget.org/packages/Stylet.Start).
-This will install Stylet, and set up a simple skeleton project.
+第五步：修改`App.axaml`文件，其内容如下：
 
-See [Quick Start](https://github.com/canton7/Stylet/wiki/Quick-Start) for more details.
+```xaml
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:s="using:Stylet.Xaml"
+             xmlns:local="using:Avalonia.NETCoreApp1"
+             x:Class="Avalonia.NETCoreApp1.App">
+    <Application.Resources>
+        <s:ApplicationLoader>
+            <s:ApplicationLoader.Bootstrapper>
+                <local:AppBootstrapper></local:AppBootstrapper>
+            </s:ApplicationLoader.Bootstrapper>
+        </s:ApplicationLoader>
+    </Application.Resources>
+    <Application.Styles>
+        <FluentTheme Mode="Light"/>
+    </Application.Styles>
+</Application>
+```
 
-If you want to set up your project manually, install the [Stylet](https://www.nuget.org/packages/Stylet) package, then follow the instructions in the [Quick Start](https://github.com/canton7/Stylet/wiki/Quick-Start).
-
-Stylet requires .NET 4.5 (Visual Studio 2012 or higher).
 
 
-Documentation
--------------
+第六步：修改`App.axaml.cs`文件，其内容如下：
 
-[The Wiki is the documentation source](https://github.com/canton7/Stylet/wiki).
-There's loads of information there - go and have a look, or start with the [Quick Start](https://github.com/canton7/Stylet/wiki/Quick-Start).
+```c#
+using Avalonia.Markup.Xaml;
+
+namespace Avalonia.NETCoreApp1
+{
+    public partial class App : Application
+    {
+        public override void Initialize()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+        
+    }
+}
+```
 
 
-Contributing
-------------
 
-Contributions are always welcome.
-If you've got a problem or a question, [raise an issue](https://github.com/canton7/Stylet/issues).
-If you've got code you want to contribute, please read [the Contributing guidelines](https://github.com/canton7/Stylet/wiki/Contributing) first of all.
-Create a feature branch off the `develop` branch, add your changes there, and submit it as a pull request.
+第七步：运行。快乐的写代码吧！
+
+
+
+
+
+## 其他
+
+更多资料点击[这里](https://github.com/canton7/Stylet/wiki)跳转查看。同时，可以查看本仓库中存放的示例项目。
+
+
+
+
+
+
+
+
+
+
+
