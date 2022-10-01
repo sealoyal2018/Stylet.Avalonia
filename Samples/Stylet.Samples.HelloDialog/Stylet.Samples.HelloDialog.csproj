@@ -24,6 +24,6 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Avalonia.Stylet\Avalonia.Stylet.csproj" />
+	  <ProjectReference Include="..\..\Stylet.Avalonia\Stylet.Avalonia.csproj" />
   </ItemGroup>
 </Project>

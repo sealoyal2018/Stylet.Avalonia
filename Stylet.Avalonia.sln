@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Stylet", "Avalonia.Stylet\Avalonia.Stylet.csproj", "{1ED55290-AC04-4001-90CA-3C2CCABEB80C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Avalonia", "Stylet.Avalonia\Stylet.Avalonia.csproj", "{1ED55290-AC04-4001-90CA-3C2CCABEB80C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{637794D0-B4D2-4E95-970F-E4887B1FEDA0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.Hello", "Samples\Stylet.Samples.Hello\Stylet.Samples.Hello.csproj", "{7FF85312-9044-4449-B03F-B479EE19257B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.HelloDialog", "Samples\Stylet.Samples.HelloDialog\Stylet.Samples.HelloDialog.csproj", "{1BA0B259-2EE7-4B2E-BCAA-E63C73D2F1B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.HelloDialog", "Samples\Stylet.Samples.HelloDialog\Stylet.Samples.HelloDialog.csproj", "{1BA0B259-2EE7-4B2E-BCAA-E63C73D2F1B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.MasterDetail", "Samples\Stylet.Samples.MasterDetail\Stylet.Samples.MasterDetail.csproj", "{10E0C7E4-52D7-4B63-BACB-807AAF5987E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.MasterDetail", "Samples\Stylet.Samples.MasterDetail\Stylet.Samples.MasterDetail.csproj", "{10E0C7E4-52D7-4B63-BACB-807AAF5987E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.NavigationController", "Samples\Stylet.Samples.NavigationController\Stylet.Samples.NavigationController.csproj", "{C1DF59E9-C47F-4801-AF38-D308BDD411E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.NavigationController", "Samples\Stylet.Samples.NavigationController\Stylet.Samples.NavigationController.csproj", "{C1DF59E9-C47F-4801-AF38-D308BDD411E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.OverridingViewManager", "Samples\Stylet.Samples.OverridingViewManager\Stylet.Samples.OverridingViewManager.csproj", "{06B4CA61-8823-42B8-8D47-5FCE3004BB37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.OverridingViewManager", "Samples\Stylet.Samples.OverridingViewManager\Stylet.Samples.OverridingViewManager.csproj", "{06B4CA61-8823-42B8-8D47-5FCE3004BB37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.TabNavigation", "Samples\Stylet.Samples.TabNavigation\Stylet.Samples.TabNavigation.csproj", "{52CFF303-0FE6-4682-B244-AD3F630D836E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.TabNavigation", "Samples\Stylet.Samples.TabNavigation\Stylet.Samples.TabNavigation.csproj", "{52CFF303-0FE6-4682-B244-AD3F630D836E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

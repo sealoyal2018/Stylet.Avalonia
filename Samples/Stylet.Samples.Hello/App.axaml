@@ -1,6 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:s="clr-namespace:Stylet.Xaml;assembly=Avalonia.Stylet"
+             xmlns:s="using:Stylet.Xaml"
              xmlns:hello="clr-namespace:Stylet.Samples.Hello"
              x:Class="Stylet.Samples.Hello.App">
     <Application.Resources>
