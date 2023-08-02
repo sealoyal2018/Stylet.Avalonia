@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -20,18 +22,19 @@ public class RoutedCommand : ICommand
 
     static RoutedCommand()
     {
-        CanExecuteEvent.AddClassHandler<IRoutedCommandBindable>(CanExecuteEventHandler);
-        ExecutedEvent.AddClassHandler<IRoutedCommandBindable>(ExecutedEventHandler);
+
+        CanExecuteEvent.AddClassHandler<RoutedCommandBindableBase>(CanExecuteEventHandler);
+        ExecutedEvent.AddClassHandler<RoutedCommandBindableBase>(ExecutedEventHandler);
     }
 
-    private static void CanExecuteEventHandler(IRoutedCommandBindable control, CanExecuteRoutedEventArgs args)
+    private static void CanExecuteEventHandler(RoutedCommandBindableBase control, CanExecuteRoutedEventArgs args)
     {
         var binding = control.CommandBindings.Where(c => c != null)
             .FirstOrDefault(c => c.Command == args.Command && c.DoCanExecute(control, args));
         args.CanExecute = binding != null;
     }
 
-    private static void ExecutedEventHandler(IRoutedCommandBindable control, ExecutedRoutedEventArgs args)
+    private static void ExecutedEventHandler(RoutedCommandBindableBase control, ExecutedRoutedEventArgs args)
     {
         // ReSharper disable once UnusedVariable
         var binding = control.CommandBindings.Where(c => c != null)
@@ -54,7 +57,13 @@ public class RoutedCommand : ICommand
 
     bool ICommand.CanExecute(object parameter)
     {
-        return CanExecute(parameter, Application.Current.FocusManager.Current);
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            var focusManager = TopLevel.GetTopLevel(desktopLifetime.MainWindow)?.FocusManager;
+            return CanExecute(parameter, focusManager.GetFocusedElement());
+        }
+
+        return false;
     }
 
     public static RoutedEvent<ExecutedRoutedEventArgs> ExecutedEvent { get; } =
@@ -71,7 +80,11 @@ public class RoutedCommand : ICommand
 
     void ICommand.Execute(object parameter)
     {
-        Execute(parameter, Application.Current.FocusManager.Current);
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+        {
+            var focusManager = TopLevel.GetTopLevel(desktopLifetime.MainWindow)?.FocusManager;
+            Execute(parameter, focusManager.GetFocusedElement());
+        }
     }
 
     // TODO
@@ -82,9 +95,8 @@ public class RoutedCommand : ICommand
     }
 }
 
-public interface IRoutedCommandBindable : IInteractive
-{
-    IList<RoutedCommandBinding> CommandBindings { get; }
+public abstract class RoutedCommandBindableBase: Interactive {
+    public abstract IList<RoutedCommandBinding> CommandBindings { get; }
 }
 
 public class RoutedCommandBinding

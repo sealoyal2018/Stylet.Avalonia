@@ -24,8 +24,8 @@ namespace Stylet.Xaml
         /// <summary>
         /// Gets the View to grab the View.ActionTarget from
         /// </summary>
-        public IAvaloniaObject Subject { get; private set; }
-
+        public AvaloniaObject Subject { get; private set; }
+        
         /// <summary>
         /// Gets the method name. E.g. if someone's gone Buttom Command="{s:Action MyMethod}", this is MyMethod.
         /// </summary>
