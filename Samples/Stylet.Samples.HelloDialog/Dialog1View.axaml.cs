@@ -8,9 +8,4 @@ public partial class Dialog1View : Window
     {
         InitializeComponent();
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
 }

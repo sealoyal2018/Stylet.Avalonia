@@ -7,10 +7,7 @@ namespace Stylet.Samples.Hello {
     public partial class App : StyletApplication<MainViewModel> {
         public override void Initialize()
         {
-            Console.WriteLine("Initialize()");
             AvaloniaXamlLoader.Load(this);
-
-            // Initializes Prism.Avalonia - DO NOT REMOVE
             base.Initialize();
         }
 
