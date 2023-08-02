@@ -1,14 +1,15 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Stylet.Samples.Hello;
-
-public class RootViewModel:Screen
-{
+public class MainViewModel : Screen {
     private IWindowManager windowManager;
 
     private string _name;
-    public string Name
-    {
+    public string Name {
         get { return this._name; }
         set
         {
@@ -17,14 +18,13 @@ public class RootViewModel:Screen
         }
     }
 
-    public RootViewModel(IWindowManager windowManager)
+    public MainViewModel(IWindowManager windowManager)
     {
         this.DisplayName = "Hello, Stylet";
         this.windowManager = windowManager;
     }
 
-    public bool CanSayHello
-    {
+    public bool CanSayHello {
         get { return !String.IsNullOrEmpty(this.Name); }
     }
     public void SayHello()

@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using System;
+using Avalonia;
 
 namespace Stylet.Samples.Hello
 {

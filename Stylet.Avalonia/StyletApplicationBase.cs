@@ -8,26 +8,28 @@ using Avalonia.Controls.ApplicationLifetimes;
 namespace Stylet
 {
     /// <summary>
-    /// Bootstrapper to be extended by applications which don't want to use StyletIoC as the IoC container.
+    /// StyletApplication to be extended by applications which don't want to use StyletIoC as the IoC container.
     /// </summary>
-    public abstract class BootstrapperBase : IBootstrapper, IWindowManagerConfig, IDisposable
+    public abstract class StyletApplicationBase : Application, IBootstrapper, IWindowManagerConfig, IDisposable
     {
-        /// <summary>
-        /// Gets the current application
-        /// </summary>
-        public Application Application { get; private set; }
-
         /// <summary>
         /// Gets the command line arguments that were passed to the application from either the command prompt or the desktop.
         /// </summary>
         public string[] Args { get; private set; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="BootstrapperBase"/> class
+        /// Initialises a new instance of the <see cref="StyletApplicationBase"/> class
         /// </summary>
-        protected BootstrapperBase()
+        protected StyletApplicationBase()
         {
         }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            Setup(this);
+        }
+
 
         /// <summary>
         /// Called by the ApplicationLoader when this bootstrapper is loaded
@@ -45,11 +47,9 @@ namespace Stylet
             if (application == null)
                 throw new ArgumentNullException("application");
 
-            this.Application = application;
-
             // Use the current application's dispatcher for Execute
             Execute.Dispatcher = new ApplicationDispatcher();
-            if (Application.Current.ApplicationLifetime is ClassicDesktopStyleApplicationLifetime desk)
+            if (this.ApplicationLifetime is ClassicDesktopStyleApplicationLifetime desk)
             {
                 desk.Startup += (sender, args) => this.Start(args.Args);
                 desk.Exit += (sender, e) =>
@@ -60,7 +60,7 @@ namespace Stylet
                 
             }
             // this.Application.Startup += (o, e) => this.Start(e.Args);
-            // // Make life nice for the app - they can handle these by overriding Bootstrapper methods, rather than adding event handlers
+            // // Make life nice for the app - they can handle these by overriding StyletApplication methods, rather than adding event handlers
             // this.Application.Exit += (o, e) =>
             // {
             //     this.OnExit(e);
@@ -70,7 +70,7 @@ namespace Stylet
             // Fetch this logger when needed. If we fetch it now, then no-one will have been given the change to enable the LogManager, and we'll get a NullLogger
             // this.Application.DispatcherUnhandledException += (o, e) =>
             // {
-            //     LogManager.GetLogger(typeof(BootstrapperBase)).Error(e.Exception, "Unhandled exception");
+            //     LogManager.GetLogger(typeof(StyletApplicationBase)).Error(e.Exception, "Unhandled exception");
             //     this.OnUnhandledException(e);
             // };
         }
@@ -92,8 +92,8 @@ namespace Stylet
             this.ConfigureBootstrapper();
 
             // We allow starting without an application
-            this.Application?.Resources.Add(View.ViewManagerResourceKey, this.GetInstance(typeof(IViewManager)));
-
+            this.Resources.Add(View.ViewManagerResourceKey, this.GetInstance(typeof(IViewManager)));
+            
             this.Configure();
             this.Launch();
             this.OnLaunch();

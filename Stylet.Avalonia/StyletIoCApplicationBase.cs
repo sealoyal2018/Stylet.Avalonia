@@ -7,22 +7,22 @@ using Avalonia.Stylet;
 namespace Stylet
 {
     /// <summary>
-    /// Bootstrapper to be extended by any application which wants to use StyletIoC, but doesn't have a root ViewModel
+    /// StyletApplication to be extended by any application which wants to use StyletIoC, but doesn't have a root ViewModel
     /// </summary>
     /// <remarks>
-    /// You would normally use <see cref="Bootstrapper{TRootViewModel}"/>, which lets you specify the root ViewModel
-    /// to display. If you don't want to show a window on startup, override <see cref="BootstrapperBase.Launch"/>
-    /// but don't call <see cref="BootstrapperBase.DisplayRootView(object)"/>. 
+    /// You would normally use <see cref="StyletApplication{TRootViewModel}"/>, which lets you specify the root ViewModel
+    /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase.Launch"/>
+    /// but don't call <see cref="StyletApplicationBase.DisplayRootView(object)"/>. 
     /// </remarks>
-    public abstract class StyletIoCBootstrapperBase : BootstrapperBase
+    public abstract class StyletIoCApplicationBase : StyletApplicationBase
     {
         /// <summary>
-        /// Gets or sets the Bootstrapper's IoC container. This is created after ConfigureIoC has been run.
+        /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
         /// </summary>
         protected IContainer Container { get; set; }
         
         /// <summary>
-        /// Overridden from BootstrapperBase, this sets up the IoC container
+        /// Overridden from StyletApplicationBase, this sets up the IoC container
         /// </summary>
         protected override sealed void ConfigureBootstrapper()
         {

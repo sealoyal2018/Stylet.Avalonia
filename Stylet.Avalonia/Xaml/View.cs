@@ -79,7 +79,7 @@ namespace Stylet.Xaml
         /// </summary>
         /// <param name="targetLocation">Object to set the Content property on</param>
         /// <param name="view">View to set as the object's Content</param>
-        public static void SetContentProperty(IAvaloniaObject targetLocation, Control view)
+        public static void SetContentProperty(AvaloniaObject targetLocation, Control view)
         {
             var type = targetLocation.GetType();
             string propertyName = "Content";
@@ -120,7 +120,7 @@ namespace Stylet.Xaml
                 }
                 else
                 {
-                    throw new InvalidOperationException("The ViewManager resource is unassigned. This should have been set by the Bootstrapper");
+                    throw new InvalidOperationException("The ViewManager resource is unassigned. This should have been set by the StyletApplication");
                 }
             });
         }

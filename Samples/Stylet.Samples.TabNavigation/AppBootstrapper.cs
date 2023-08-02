@@ -1,5 +1,5 @@
 ﻿namespace Stylet.Samples.TabNavigation;
 
-class AppBootstrapper: Bootstrapper<ShellViewModel>
+class AppBootstrapper: StyletApplication<ShellViewModel>
 {
 }

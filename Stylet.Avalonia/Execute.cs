@@ -17,7 +17,7 @@ namespace Stylet
         /// </summary>
         /// <remarks>
         /// Should be set a <see cref="ApplicationDispatcher"/> wrapping the current application's dispatcher, which is
-        /// normally done by the Bootstrapper. Can also be set to <see cref="SynchronousDispatcher.Instance"/>, or a
+        /// normally done by the StyletApplication. Can also be set to <see cref="SynchronousDispatcher.Instance"/>, or a
         /// custom <see cref="IDispatcher"/> implementation.
         /// </remarks>
         public static IDispatcher Dispatcher

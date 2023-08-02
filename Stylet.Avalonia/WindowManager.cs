@@ -66,7 +66,7 @@ namespace Stylet
     }
 
     /// <summary>
-    /// Configuration passed to WindowManager (normally implemented by BootstrapperBase)
+    /// Configuration passed to WindowManager (normally implemented by StyletApplicationBase)
     /// </summary>
     public interface IWindowManagerConfig
     {

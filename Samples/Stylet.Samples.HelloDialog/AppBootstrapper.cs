@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Stylet.Samples.HelloDialog;
-internal class AppBootstrapper : Bootstrapper<ShellViewModel>
+internal class AppBootstrapper : StyletApplication<ShellViewModel>
 {
     protected override void ConfigureIoC(StyletIoC.IStyletIoCBuilder builder)
     {

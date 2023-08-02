@@ -121,7 +121,7 @@ namespace Stylet.Xaml
             }
         }
 
-        private object HandleDependencyObject(IServiceProvider serviceProvider, IProvideValueTarget valueService, IAvaloniaObject targetObject)
+        private object HandleDependencyObject(IServiceProvider serviceProvider, IProvideValueTarget valueService, AvaloniaObject targetObject)
         {
             if (valueService.TargetProperty is string str)
             {
@@ -152,7 +152,7 @@ namespace Stylet.Xaml
             }
         }
 
-        private ICommand CreateCommandAction(IServiceProvider serviceProvider, IAvaloniaObject targetObject)
+        private ICommand CreateCommandAction(IServiceProvider serviceProvider, AvaloniaObject targetObject)
         {
             if (this.Target == null)
             {
@@ -166,13 +166,13 @@ namespace Stylet.Xaml
             }
         }
 
-        private Delegate CreateEventAction(IServiceProvider serviceProvider, IAvaloniaObject targetObject, Type eventType, bool isCommandBinding = false)
+        private Delegate CreateEventAction(IServiceProvider serviceProvider, AvaloniaObject targetObject, Type eventType, bool isCommandBinding = false)
         {
             EventAction ec;
             if (this.Target == null)
             {
                 var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                var rootObject = rootObjectProvider?.RootObject as IAvaloniaObject;
+                var rootObject = rootObjectProvider?.RootObject as AvaloniaObject;
                 if (isCommandBinding)
                 {
                     if (rootObject == null)

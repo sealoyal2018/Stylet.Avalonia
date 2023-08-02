@@ -1,10 +1,8 @@
 using Avalonia.Controls;
 
 namespace Stylet.Samples.Hello;
-
-partial class RootView
-{
-    public RootView()
+public partial class MainView : Window {
+    public MainView()
     {
         InitializeComponent();
     }

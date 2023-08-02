@@ -31,7 +31,7 @@ namespace Stylet.Xaml
         /// <param name="methodName">The MyMethod in {s:Action MyMethod}, this is what we call when the event's fired</param>
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
-        public EventAction(IAvaloniaObject subject, IAvaloniaObject backupSubject, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
+        public EventAction(AvaloniaObject subject, AvaloniaObject backupSubject, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
             : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         {
             AssertBehaviours(targetNullBehaviour, actionNonExistentBehaviour);

@@ -1,20 +1,9 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:s="using:Stylet.Xaml"
-             xmlns:hello="clr-namespace:Stylet.Samples.Hello"
-             x:Class="Stylet.Samples.Hello.App">
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <s:ApplicationLoader>
-                    <s:ApplicationLoader.Bootstrapper>
-                        <hello:AppBootstrapper  />
-                    </s:ApplicationLoader.Bootstrapper>
-                </s:ApplicationLoader>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+<Application
+    x:Class="Stylet.Samples.Hello.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    RequestedThemeVariant="Light">
     <Application.Styles>
-        <FluentTheme Mode="Light"/>
+        <FluentTheme />
     </Application.Styles>
 </Application>

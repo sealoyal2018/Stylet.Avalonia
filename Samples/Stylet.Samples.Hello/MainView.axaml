@@ -1,20 +1,16 @@
 <Window
-    x:Class="Stylet.Samples.Hello.RootView"
+    x:Class="Stylet.Samples.Hello.MainView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="using:Stylet.Xaml"
-    xmlns:views="clr-namespace:Stylet.Samples.Hello.Views"
-    xmlns:vm="using:Stylet.Samples.Hello.ViewModels"
-    Title="RootView"
-    Width="800"
-    Height="450"
+    Title="MainView"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <!--<StackPanel>
-		<TextBox Text="{Binding Name}"/>
-		<Button Command="{s:Action SayHello}">Say Hello</Button>
-	</StackPanel>-->
+    <StackPanel>
+        <TextBox Text="{Binding Name}" />
+        <Button Command="{s:Action SayHello}">Say Hello</Button>
+    </StackPanel>
 </Window>

@@ -11,6 +11,8 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Data.Core;
 using System.ComponentModel;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Avalonia.Reactive;
 
 namespace Stylet.Xaml
 {
@@ -66,10 +68,8 @@ namespace Stylet.Xaml
 
         static ActionBase()
         {
-            targetProperty = AvaloniaProperty.Register<ActionBase, object>("target", null, notifying: (e, b) =>
-            {
 
-            });
+            targetProperty = AvaloniaProperty.Register<ActionBase, object>("target");
             targetProperty.Changed.Subscribe(e =>
             {
                 var type = e.NewValue.GetType();
@@ -88,7 +88,7 @@ namespace Stylet.Xaml
         /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
         /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
         /// <param name="logger">Logger to use</param>
-        public ActionBase(IAvaloniaObject subject, IAvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
+        public ActionBase(AvaloniaObject subject, AvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
             : this(methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
         {
             this.Subject = subject;
@@ -124,7 +124,6 @@ namespace Stylet.Xaml
                 //// BindingOperations.SetBinding(this, targetProperty, multiBinding);
                 //this.Bind(ActionBase.targetProperty, multiBinding);
 
-                    
                 this.Subject.GetPropertyChangedObservable(View.ActionTargetProperty).Subscribe(e => Target = e.NewValue);
                 backupSubject.GetPropertyChangedObservable(View.ActionTargetProperty).Subscribe(e => Target = e.NewValue);
 

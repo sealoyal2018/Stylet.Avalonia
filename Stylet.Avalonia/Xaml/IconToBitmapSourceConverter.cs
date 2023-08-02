@@ -52,9 +52,9 @@ namespace Stylet.Xaml
                     string assemblyName = Assembly.GetEntryAssembly().GetName().Name;
                     uri = new Uri($"avares://{assemblyName}{rawUri}");
                 }
-
-                var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
-                var asset = assets.Open(uri);
+                
+                //var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+                var asset = AssetLoader.Open(uri);
                 return new Bitmap(asset);
             }
             throw new NotSupportedException();

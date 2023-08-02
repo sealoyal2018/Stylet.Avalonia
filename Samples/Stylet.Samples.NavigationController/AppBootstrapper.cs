@@ -4,7 +4,7 @@ using System;
 
 namespace Stylet.Samples.NavigationController;
 
-public class AppBootstrapper : Bootstrapper<ShellViewModel>
+public class AppBootstrapper : StyletApplication<ShellViewModel>
 {
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
     {

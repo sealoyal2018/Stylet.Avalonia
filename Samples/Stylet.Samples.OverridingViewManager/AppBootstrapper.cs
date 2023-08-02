@@ -2,7 +2,7 @@
 
 namespace Stylet.Samples.OverridingViewManager;
 
-public class AppBootstrapper:Bootstrapper<ShellViewModel>
+public class AppBootstrapper:StyletApplication<ShellViewModel>
 {
     protected override void ConfigureIoC(IStyletIoCBuilder builder)
     {

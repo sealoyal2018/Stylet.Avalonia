@@ -6,13 +6,13 @@ using System.Reflection;
 namespace Stylet
 {
     /// <summary>
-    /// Bootstrapper to be extended by any application which wants to use StyletIoC (the default)
+    /// StyletApplication to be extended by any application which wants to use StyletIoC (the default)
     /// </summary>
     /// <remarks>
-    /// If you don't have a root ViewModel, you might prefer to override <see cref="StyletIoCBootstrapperBase"/>
+    /// If you don't have a root ViewModel, you might prefer to override <see cref="StyletIoCApplicationBase"/>
     /// </remarks>
     /// <typeparam name="TRootViewModel">Type of the root ViewModel. This will be instantiated and displayed</typeparam>
-    public abstract class Bootstrapper<TRootViewModel> : StyletIoCBootstrapperBase where TRootViewModel : class
+    public abstract class StyletApplication<TRootViewModel> : StyletIoCApplicationBase where TRootViewModel : class
     {
         private TRootViewModel _rootViewModel;
 
