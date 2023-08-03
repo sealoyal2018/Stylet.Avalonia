@@ -1,6 +1,7 @@
 ﻿using Stylet.Logging;
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -217,7 +218,12 @@ namespace Stylet
                     try
                     {
                         // window.Owner = owner;
-                        window.SetValue(Window.OwnerProperty, owner);
+                        // window.SetValue(Window.OwnerProperty, owner);
+                        var propertyInfo = typeof(WindowBase).GetProperty(nameof(Window.Owner), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                        if (propertyInfo.CanWrite)
+                        {
+                            propertyInfo.SetValue(window, owner); // 设置新值
+                        }
                     }
                     catch (InvalidOperationException e)
                     {
