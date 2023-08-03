@@ -2,7 +2,7 @@
 
 namespace Stylet.Samples.TabNavigation;
 
-class Page2ViewModel : Screen, IDisposable
+public class Page2ViewModel : Screen, IDisposable
 {
     public Page2ViewModel()
     {

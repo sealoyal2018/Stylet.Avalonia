@@ -15,16 +15,7 @@
 
 第二步：nuget 管理器安装 `Stylet.Avalonia`包
 
-第三步：创建`AppBootstrapper`类，其内容如下
-
-```c#
-public class AppBootstrapper:Bootstrapper<RootViewModel>
-{
-    
-}
-```
-
-第四步：创建`ShellViewModel`类，以及`Avalonia Window`类型名为`ShellView`的窗口组件，其内容如下【其实啥也没动】
+第三步：创建`ShellViewModel`类，以及`Avalonia Window`类型名为`ShellView`的窗口组件，其内容如下【其实啥也没动】
 
 - ShellViewModel.cs
 
@@ -57,68 +48,41 @@ public partial class ShellView : Window
     public ShellView()
     {
         InitializeComponent();
-#if DEBUG
-        this.AttachDevTools();
-#endif
-    }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
     }
 }
 ```
 
 
 
-第五步：修改`App.axaml`文件，其内容如下：
+第四步：修改`App.axaml`文件，其内容如下：
 
 ```xaml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:s="using:Stylet.Xaml"
              xmlns:local="using:Avalonia.NETCoreApp1"
-             x:Class="Avalonia.NETCoreApp1.App">
-    <Application.Resources>
-        <s:ApplicationLoader>
-            <s:ApplicationLoader.Bootstrapper>
-                <local:AppBootstrapper></local:AppBootstrapper>
-            </s:ApplicationLoader.Bootstrapper>
-        </s:ApplicationLoader>
-    </Application.Resources>
+             x:Class="Avalonia.NETCoreApp1.App"
+    RequestedThemeVariant="Light">
     <Application.Styles>
-        <FluentTheme Mode="Light"/>
+        <FluentTheme/>
     </Application.Styles>
 </Application>
 ```
 
-
-
-第六步：修改`App.axaml.cs`文件，其内容如下：
+第五步：找到并打开`App.axaml.cs`文件，使其继承于`StyletApplication<T>`其中`T`为任一`ViewModel`，当前内容如下
 
 ```c#
-using Avalonia.Markup.Xaml;
-
-namespace Avalonia.NETCoreApp1
+public partial class App : StyletApplication<ShellViewModel>
 {
-    public partial class App : Application
+    public override void Initialize()
     {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-        
+        AvaloniaXamlLoader.Load(this);
+        base.Initialize(); // 初始化stylet，不能去掉
     }
 }
 ```
 
-
-
 第七步：运行。快乐的写代码吧！
-
-
-
-
 
 ## 其他
 
@@ -126,11 +90,29 @@ namespace Avalonia.NETCoreApp1
 
 
 
+## 从 0.0.1升级？
 
+> 请将avalonia 升级到11.x，[升级指南](https://docs.avaloniaui.net/docs/next/stay-up-to-date/upgrade-from-0.10)
 
+0.将`nuget`包`XamlNameReferenceGenerator`移除(新版本已内置)
 
+1.找到并打开`App.axaml`文件，移除`AppBootstrapper`资源，即：
 
+```xaml
+<Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <s:ApplicationLoader>
+                <s:ApplicationLoader.Bootstrapper>
+                    <local:AppBootstrapper  />
+                </s:ApplicationLoader.Bootstrapper>
+            </s:ApplicationLoader>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
+```
 
+2.找到并打开`App.axaml.cs`文件，使其继承于`StyletApplication<T>`, 此时`App.axaml.cs`成为了原来`AppBootstrapper<ShellViewModel>`, 将原来的`AppBootstrapper.cs`的内容移到`App.axaml.cs`文件中即可。
 
-
+***其注意***：`App.axaml.cs`文件内`Initialize()`方法必须调用`base.Initialize();`
 

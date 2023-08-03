@@ -1,40 +1,61 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:s="using:Stylet.Xaml"
-        x:Class="Stylet.Samples.MasterDetail.ShellView"
-        Height="200" Width="400"
-        Title="ShellView">
-	<DockPanel>
-		<DockPanel VerticalAlignment="Stretch" DockPanel.Dock="Left">
-			<Button VerticalAlignment="Stretch" DockPanel.Dock="Bottom" Command="{s:Action AddEmployee}">Hire Employee</Button>
-			<ListBox DockPanel.Dock="Top" Width="200" Items="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<DockPanel VerticalAlignment="Stretch" LastChildFill="False">
-							<TextBlock DockPanel.Dock="Left" Text="Name:"></TextBlock>
-							<TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
-							<Button DockPanel.Dock="Right" Command="{s:Action RemoveEmployee}" CommandParameter="{Binding}">Fire</Button>
-						</DockPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</DockPanel>
+<Window
+    x:Class="Stylet.Samples.MasterDetail.ShellView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="using:Stylet.Xaml"
+    Title="ShellView"
+    Width="400"
+    Height="200"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <DockPanel>
+        <DockPanel VerticalAlignment="Stretch" DockPanel.Dock="Left">
+            <Button
+                VerticalAlignment="Stretch"
+                Command="{s:Action AddEmployee}"
+                DockPanel.Dock="Bottom">
+                Hire Employee
+            </Button>
+            <ListBox
+                Width="200"
+                DockPanel.Dock="Top"
+                ItemsSource="{Binding Employees}"
+                SelectedItem="{Binding SelectedEmployee}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel VerticalAlignment="Stretch" LastChildFill="False">
+                            <TextBlock DockPanel.Dock="Left" Text="Name:" />
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Name}" />
+                            <Button
+                                Command="{s:Action RemoveEmployee}"
+                                CommandParameter="{Binding}"
+                                DockPanel.Dock="Right">
+                                Fire
+                            </Button>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
 
-		<Grid DockPanel.Dock="Right" DataContext="{Binding SelectedEmployee}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
+        <Grid DataContext="{Binding SelectedEmployee}" DockPanel.Dock="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-			<Label Grid.Row="0" Grid.Column="0">Name:</Label>
-			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
-		</Grid>
-	</DockPanel>
+            <Label Grid.Row="0" Grid.Column="0">Name:</Label>
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding Name}" />
+        </Grid>
+    </DockPanel>
 </Window>

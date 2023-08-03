@@ -8,9 +8,4 @@ public partial class ShellView : Window
     {
         InitializeComponent();
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
 }

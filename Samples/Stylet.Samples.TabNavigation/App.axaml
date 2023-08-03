@@ -1,20 +1,11 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:s="using:Stylet.Xaml"
-             xmlns:local="using:Stylet.Samples.TabNavigation"
-             x:Class="Stylet.Samples.TabNavigation.App">
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <s:ApplicationLoader>
-                    <s:ApplicationLoader.Bootstrapper>
-                        <local:AppBootstrapper  />
-                    </s:ApplicationLoader.Bootstrapper>
-                </s:ApplicationLoader>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+<Application
+    x:Class="Stylet.Samples.TabNavigation.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Stylet.Samples.TabNavigation"
+    xmlns:s="using:Stylet.Xaml"
+    RequestedThemeVariant="Light">
     <Application.Styles>
-        <FluentTheme Mode="Light"/>
+        <FluentTheme />
     </Application.Styles>
 </Application>

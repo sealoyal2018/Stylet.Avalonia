@@ -4,11 +4,12 @@ using Avalonia.Markup.Xaml;
 
 namespace Stylet.Samples.TabNavigation
 {
-    public partial class App : Application
+    public partial class App : StyletApplication<ShellViewModel>
     {
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+            base.Initialize();
         }
     }
 }
