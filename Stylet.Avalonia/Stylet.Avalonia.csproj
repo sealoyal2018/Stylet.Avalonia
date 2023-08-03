@@ -10,9 +10,9 @@
         <Description>A very lightweight but powerful ViewModel-First MVVM framework for AvaloniaUI, inspired by Caliburn.Micro. </Description>
         <PackageIcon>StyletIcon.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/rsdte/Stylet.Avalonia</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/rsdte/Stylet.Avalonia</RepositoryUrl>
-        <Version>0.1.2</Version>
+        <PackageProjectUrl>https://github.com/sealoyal2018/Stylet.Avalonia</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/sealoyal2018/Stylet.Avalonia</RepositoryUrl>
+        <Version>0.2.0</Version>
         <Copyright>Copyright © 2014 Sealoyal</Copyright>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
