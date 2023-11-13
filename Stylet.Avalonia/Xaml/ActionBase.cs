@@ -9,10 +9,6 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
-using Avalonia.Data.Core;
-using System.ComponentModel;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Avalonia.Reactive;
 
 namespace Stylet.Xaml
 {

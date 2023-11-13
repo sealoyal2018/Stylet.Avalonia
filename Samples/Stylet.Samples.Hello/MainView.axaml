@@ -6,8 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="using:Stylet.Xaml"
     Title="{Binding DisplayName}"
+    Width="650"
+    Height="450"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <StackPanel>
         <TextBox Text="{Binding Name}" />

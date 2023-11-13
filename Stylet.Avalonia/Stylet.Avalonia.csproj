@@ -23,24 +23,15 @@
         <None Remove=".gitignore" />
     </ItemGroup>
     <ItemGroup>
-        <!--This helps with theme dll-s trimming.
-        If you will publish your application in self-contained mode with p:PublishTrimmed=true and it will use Fluent theme Default theme will be trimmed from the output and vice versa.
-        https://github.com/AvaloniaUI/Avalonia/issues/5593 -->
         <TrimmableAssembly Include="Avalonia.Themes.Fluent" />
         <TrimmableAssembly Include="Avalonia.Themes.Default" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.2" />
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
-        <PackageReference Include="System.Reactive" Version="6.0.0" />
+        <PackageReference Include="System.Reactive" Version="6.0.1-preview.1" />
     </ItemGroup>
     <ItemGroup>
-      <AvaloniaXaml Remove="MessageBoxView.axaml" />
-    </ItemGroup>
-    <ItemGroup>
-      <Compile Remove="MessageBoxView.axaml.cs" />
-      <Compile Remove="MessageBoxViewModel.cs" />
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
     <ItemGroup>
       <None Include="..\LICENSE.txt">
@@ -56,4 +47,5 @@
         <PackagePath>\</PackagePath>
       </None>
     </ItemGroup>
+    
 </Project>

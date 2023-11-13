@@ -4,18 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Stylet.Avalonia;
+using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Samples.Hello;
-public class MainViewModel : Screen {
-    private IWindowManager windowManager;
 
+public class MainViewModel : Screen {
     private string _name;
+    private readonly IWindowManager windowManager;
+    
     public string Name {
-        get { return this._name; }
+        
+        get
+        {
+            return this._name;
+        }
+        
         set
         {
             SetAndNotify(ref this._name, value);
-            this.NotifyOfPropertyChange(nameof(CanSayHello));
+            NotifyOfPropertyChange(nameof(CanSayHello));
         }
     }
 
@@ -26,12 +33,19 @@ public class MainViewModel : Screen {
     }
 
     public bool CanSayHello {
-        get { return !String.IsNullOrEmpty(this.Name); }
+        get { return !String.IsNullOrEmpty(Name); }
     }
-    public void SayHello()
+    
+    public async Task SayHello()
     {
-        //this.windowManager.ShowMessageBox(String.Format("Hello, {0}", this.Name));
-        var vm = IoC.Get<MainViewModel>();
-        vm.DisplayName = "Hello, Stylet3333333333";
+        await this.windowManager.ShowMessageBox<bool>(
+            $"Hello, {this.Name}", 
+            "提示框",
+            MessageBoxButton.OK,
+            MessageBoxImage.Information,
+            MessageBoxResult.OK,
+            MessageBoxResult.None
+            );
+        // DisplayName = String.Format("Hello, {0}", this.Name);
     }
 }

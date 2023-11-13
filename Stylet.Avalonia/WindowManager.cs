@@ -7,6 +7,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Media;
+using Stylet.Avalonia;
+using Stylet.Avalonia.Primitive;
 
 namespace Stylet
 {
@@ -42,28 +44,26 @@ namespace Stylet
         /// <param name="ownerViewModel">The ViewModel for the View which should own this dialog</param>
         /// <returns>DialogResult of the View</returns>
         Task<T> ShowDialog<T>(object viewModel, IViewAware ownerViewModel);
-// TODO: MessageBox
+        
         /// <summary>
         /// Display a MessageBox
         /// </summary>
         /// <param name="messageBoxText">A <see cref="System.String"/> that specifies the text to display.</param>
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
-        /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
-        /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+        /// <param name="buttons">A <see cref="MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+        /// <param name="icon">A <see cref="MessageBoxImage"/> value that specifies the icon to display.</param>
         /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
         /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
-        /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        // Task<T> ShowMessageBox<T>(string messageBoxText, string caption = "",
-        //     MessageBoxButton buttons = MessageBoxButton.OK,
-        //     MessageBoxImage icon = MessageBoxImage.None,
-        //     MessageBoxResult defaultResult = MessageBoxResult.None,
-        //     MessageBoxResult cancelResult = MessageBoxResult.None,
-        //     IDictionary<MessageBoxResult, string> buttonLabels = null,
-        //     FlowDirection? flowDirection = null,
-        //     TextAlignment? textAlignment = null);
+        Task<T> ShowMessageBox<T>(string messageBoxText, string caption,
+            MessageBoxButton buttons,
+            MessageBoxImage icon,
+            MessageBoxResult defaultResult,
+            MessageBoxResult cancelResult,
+            FlowDirection? flowDirection = null,
+            TextAlignment? textAlignment = null);
     }
 
     /// <summary>
@@ -85,7 +85,6 @@ namespace Stylet
     {
         private static readonly ILogger logger = LogManager.GetLogger(typeof(WindowManager));
         private readonly IViewManager viewManager;
-        // private readonly Func<IMessageBoxViewModel> messageBoxViewModelFactory;
         private readonly Func<AvaloniaObject?> getActiveWindow;
 
         /// <summary>
@@ -94,10 +93,9 @@ namespace Stylet
         /// <param name="viewManager">IViewManager to use when creating views</param>
         /// <param name="messageBoxViewModelFactory">Delegate which returns a new IMessageBoxViewModel instance when invoked</param>
         /// <param name="config">Configuration object</param>
-        public WindowManager(IViewManager viewManager, /*Func<IMessageBoxViewModel> messageBoxViewModelFactory,*/ IWindowManagerConfig config)
+        public WindowManager(IViewManager viewManager, IWindowManagerConfig config)
         {
             this.viewManager = viewManager;
-            // this.messageBoxViewModelFactory = messageBoxViewModelFactory;
             this.getActiveWindow = config.GetActiveWindow;
         }
 
@@ -142,7 +140,7 @@ namespace Stylet
             
             return window.ShowDialog<T>(window.Owner as Window);
         }
-// TODO: MessageBox
+        
         /// <summary>
         /// Display a MessageBox
         /// </summary>
@@ -152,23 +150,21 @@ namespace Stylet
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
         /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
         /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
-        /// <param name="buttonLabels">A dictionary specifying the button labels, if desirable</param>
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        // public Task<T> ShowMessageBox<T>(string messageBoxText, string caption = "",
-        //     MessageBoxButton buttons = MessageBoxButton.OK,
-        //     MessageBoxImage icon = MessageBoxImage.None,
-        //     MessageBoxResult defaultResult = MessageBoxResult.None,
-        //     MessageBoxResult cancelResult = MessageBoxResult.None,
-        //     IDictionary<MessageBoxResult, string> buttonLabels = null,
-        //     FlowDirection? flowDirection = null,
-        //     TextAlignment? textAlignment = null)
-        // {
-        //     var vm = this.messageBoxViewModelFactory();
-        //     vm.Setup(messageBoxText, caption, buttons, icon, defaultResult, cancelResult, buttonLabels, flowDirection, textAlignment);
-        //     return this.ShowDialog<T>(vm);
-        // }
+        public Task<T> ShowMessageBox<T>(string messageBoxText, string caption,
+            MessageBoxButton buttons,
+            MessageBoxImage icon ,
+            MessageBoxResult defaultResult ,
+            MessageBoxResult cancelResult,
+            FlowDirection? flowDirection = null,
+            TextAlignment? textAlignment = null)
+        {
+            var vm = IoC.Get<IMessageBoxViewModel>();
+            vm.Setup(messageBoxText, caption, buttons, icon, defaultResult, cancelResult, flowDirection, textAlignment);
+            return this.ShowDialog<T>(vm);
+        }
 
         /// <summary>
         /// Given a ViewModel, create its View, ensure that it's a Window, and set it up
