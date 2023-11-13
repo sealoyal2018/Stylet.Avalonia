@@ -7,19 +7,13 @@ using System;
 
 namespace Stylet.Samples.NavigationController
 {
-    public partial class App : StyletApplication<ShellViewModel>
+    public partial class App : StyletIoCApplicationBase<ShellViewModel>
     {
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
             base.Initialize();
         }
-
-        public override void OnFrameworkInitializationCompleted()
-        {
-            base.OnFrameworkInitializationCompleted();
-        }
-
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<NavigationController>().And<INavigationController>().To<NavigationController>().InSingletonScope();
@@ -28,13 +22,13 @@ namespace Stylet.Samples.NavigationController
             builder.Bind<Func<Page2ViewModel>>().ToFactory<Func<Page2ViewModel>>(c => () => c.Get<Page2ViewModel>());
         }
 
-        protected override void OnLaunch()
-        {
-            // There's a circular dependency, where ShellViewModel -> HeaderViewModel -> NavigationController -> ShellViewModel
-            // We break this by assigning the ShellViewModel to the NavigationController after constructing it
-            var navigationController = this.Container.Get<NavigationController>();
-            navigationController.Delegate = this.RootViewModel;
-            navigationController.NavigateToPage1();
-        }
+        // protected override void OnLaunch()
+        // {
+        //     // There's a circular dependency, where ShellViewModel -> HeaderViewModel -> NavigationController -> ShellViewModel
+        //     // We break this by assigning the ShellViewModel to the NavigationController after constructing it
+        //     var navigationController = this.Container.Get<NavigationController>();
+        //     navigationController.Delegate = this.RootViewModel;
+        //     navigationController.NavigateToPage1();
+        // }
     }
 }

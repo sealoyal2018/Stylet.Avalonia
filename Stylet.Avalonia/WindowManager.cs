@@ -75,7 +75,7 @@ namespace Stylet
         /// Returns the currently-displayed window, or null if there is none (or it can't be determined)
         /// </summary>
         /// <returns>The currently-displayed window, or null</returns>
-        Window GetActiveWindow();
+        AvaloniaObject? GetActiveWindow();
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ namespace Stylet
         private static readonly ILogger logger = LogManager.GetLogger(typeof(WindowManager));
         private readonly IViewManager viewManager;
         // private readonly Func<IMessageBoxViewModel> messageBoxViewModelFactory;
-        private readonly Func<Window> getActiveWindow;
+        private readonly Func<AvaloniaObject?> getActiveWindow;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="WindowManager"/> class, using the given <see cref="IViewManager"/>
@@ -191,26 +191,24 @@ namespace Stylet
             }
 
             // Only set this it hasn't been set / bound to anything
-            var haveDisplayName = viewModel as IHaveDisplayName;
-            if (haveDisplayName != null && (String.IsNullOrEmpty(window.Title) || window.Title == view.GetType().Name) /*&& BindingOperations.GetBindingBase(window, Window.TitleProperty) == null*/)
+            if (viewModel is IHaveDisplayName haveDisplayName && (String.IsNullOrEmpty(window.Title) || window.Title == view.GetType().Name) /*&& BindingOperations.GetBindingBase(window, Window.TitleProperty) == null*/)
             {
-                // TODO:
-                // && BindingOperations.GetBindingBase(window, Window.TitleProperty) == null
-                
-                var binding = new Binding("DisplayName") { Mode = BindingMode.TwoWay };
-                // window.SetBinding(Window.TitleProperty, binding); 
+                var binding = new Binding(nameof(IHaveDisplayName.DisplayName))
+                {
+                    Source = haveDisplayName.DisplayName,
+                    Mode = BindingMode.TwoWay
+                };
                 window.Bind(Window.TitleProperty, binding);
             }
 
             if (ownerViewModel?.View is Window explicitOwner)
             {
                 window.SetValue(Window.OwnerProperty, explicitOwner);
-                // window.Owner = explicitOwner;
             }
             else if (isDialog)
             {
                 var owner = this.InferOwnerOf(window);
-                if (owner != null)
+                if (owner is not null)
                 {
                     // We can end up in a really weird situation if they try and display more than one dialog as the application's closing
                     // Basically the MainWindow's no long active, so the second dialog chooses the first dialog as its owner... But the first dialog
@@ -220,7 +218,7 @@ namespace Stylet
                         // window.Owner = owner;
                         // window.SetValue(Window.OwnerProperty, owner);
                         var propertyInfo = typeof(WindowBase).GetProperty(nameof(Window.Owner), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                        if (propertyInfo.CanWrite)
+                        if (propertyInfo is not null && propertyInfo.CanWrite)
                         {
                             propertyInfo.SetValue(window, owner); // 设置新值
                         }
@@ -259,9 +257,9 @@ namespace Stylet
             return window;
         }
 
-        private Window InferOwnerOf(Window window)
+        private Window? InferOwnerOf(Window window)
         {
-            var active = this.getActiveWindow();
+            var active = this.getActiveWindow() as Window;
             return ReferenceEquals(active, window) ? null : active;
         }
 

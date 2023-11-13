@@ -65,12 +65,12 @@ namespace Stylet
         {
             if (this.PropertyChanged != null)
             {
-                this.PropertyChangedDispatcher(() => 
+                Execute.OnUIThread(()=>this.PropertyChangedDispatcher(() => 
                 {
                     var handler = this.PropertyChanged;
                     if (handler != null)
                         handler(this, new PropertyChangedEventArgs(propertyName));
-                });
+                }));
             }
         }
 

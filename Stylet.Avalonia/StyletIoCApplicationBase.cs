@@ -14,7 +14,8 @@ namespace Stylet
     /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase.Launch"/>
     /// but don't call <see cref="StyletApplicationBase.DisplayRootView(object)"/>. 
     /// </remarks>
-    public abstract class StyletIoCApplicationBase : StyletApplicationBase
+    public abstract class StyletIoCApplicationBase<TRootViewModel> : StyletApplicationBase<TRootViewModel>
+        where TRootViewModel: class
     {
         /// <summary>
         /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
@@ -60,8 +61,17 @@ namespace Stylet
             // builder.Bind<IMessageBoxViewModel>().To<MessageBoxViewModel>().AsWeakBinding();
             // Stylet's assembly isn't added to the container, so add this explicitly
             // builder.Bind<MessageBoxView>().ToSelf();
+            builder.Autobind(typeof(TRootViewModel).Assembly);
+        }
 
-            builder.Autobind();
+        protected override object GetInstance(Type service, string? key)
+        {
+            return this.Container.Get(service);
+        }
+
+        protected override IEnumerable<object> GetInstances(Type service)
+        {
+            return this.Container.GetAll(service);
         }
 
         /// <summary>
@@ -75,7 +85,7 @@ namespace Stylet
         /// </summary>
         /// <param name="type">Type to fetch</param>
         /// <returns>Fetched instance</returns>
-        public override object GetInstance(Type type)
+        protected override object GetInstance(Type type)
         {
             return this.Container.Get(type);
         }

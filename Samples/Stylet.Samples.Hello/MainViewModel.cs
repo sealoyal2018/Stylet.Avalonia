@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stylet.Avalonia;
 
 namespace Stylet.Samples.Hello;
 public class MainViewModel : Screen {
@@ -30,5 +31,7 @@ public class MainViewModel : Screen {
     public void SayHello()
     {
         //this.windowManager.ShowMessageBox(String.Format("Hello, {0}", this.Name));
+        var vm = IoC.Get<MainViewModel>();
+        vm.DisplayName = "Hello, Stylet3333333333";
     }
 }

@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace Stylet.Samples.TabNavigation
 {
-    public partial class App : StyletApplication<ShellViewModel>
+    public partial class App : StyletIoCApplicationBase<ShellViewModel>
     {
         public override void Initialize()
         {

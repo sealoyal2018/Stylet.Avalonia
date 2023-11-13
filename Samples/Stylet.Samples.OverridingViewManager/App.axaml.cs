@@ -5,7 +5,7 @@ using StyletIoC;
 
 namespace Stylet.Samples.OverridingViewManager
 {
-    public partial class App : StyletApplication<ShellViewModel>
+    public partial class App : StyletIoCApplicationBase<ShellViewModel>
     {
         public override void Initialize()
         {
