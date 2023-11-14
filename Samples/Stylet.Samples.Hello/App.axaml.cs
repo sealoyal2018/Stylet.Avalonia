@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 using System;
 
 namespace Stylet.Samples.Hello {
-    public partial class App : StyletIoCApplicationBase<MainViewModel> {
+    public partial class App : StyletApplication<MainViewModel> {
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);

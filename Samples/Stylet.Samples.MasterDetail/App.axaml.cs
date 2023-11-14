@@ -3,7 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
 namespace Stylet.Samples.MasterDetail;
-public partial class App : StyletIoCApplicationBase<ShellViewModel>
+public partial class App : StyletApplication<ShellViewModel>
 {
     public override void Initialize()
     {

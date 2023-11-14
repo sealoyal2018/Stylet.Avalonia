@@ -15,7 +15,7 @@ namespace Stylet
     /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase.Launch"/>
     /// but don't call <see cref="StyletApplicationBase.DisplayRootView(object)"/>. 
     /// </remarks>
-    public abstract class StyletIoCApplicationBase<TRootViewModel> : StyletApplicationBase<TRootViewModel>
+    public class StyletApplication<TRootViewModel> : StyletApplicationBase<TRootViewModel>
         where TRootViewModel: class
     {
         /// <summary>

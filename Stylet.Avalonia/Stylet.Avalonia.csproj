@@ -12,8 +12,8 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/sealoyal2018/Stylet.Avalonia</PackageProjectUrl>
         <RepositoryUrl>https://github.com/sealoyal2018/Stylet.Avalonia</RepositoryUrl>
-        <Version>0.2.0</Version>
-        <Copyright>Copyright © 2014 Sealoyal</Copyright>
+        <Version>0.3.0</Version>
+        <Copyright>Copyright © 2023 Sealoyal</Copyright>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -28,7 +28,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.2" />
-        <PackageReference Include="System.Reactive" Version="6.0.1-preview.1" />
+        <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />

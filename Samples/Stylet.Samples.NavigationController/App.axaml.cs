@@ -7,7 +7,7 @@ using System;
 
 namespace Stylet.Samples.NavigationController
 {
-    public partial class App : StyletIoCApplicationBase<ShellViewModel>
+    public partial class App : StyletApplication<ShellViewModel>
     {
         public override void Initialize()
         {
