@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Avalonia.Media;
+
 using Stylet.Avalonia;
 using Stylet.Avalonia.Primitive;
 
@@ -41,11 +44,9 @@ public class MainViewModel : Screen {
         await this.windowManager.ShowMessageBox<bool>(
             $"Hello, {this.Name}", 
             "提示框",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information,
-            MessageBoxResult.OK,
-            MessageBoxResult.None
+            MessageBoxButton.OKCancel,
+            icon: MessageBoxImage.Information,
+            textAlignment: TextAlignment.Center
             );
-        // DisplayName = String.Format("Hello, {0}", this.Name);
     }
 }

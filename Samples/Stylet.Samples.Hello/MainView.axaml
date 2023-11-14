@@ -13,6 +13,7 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <StackPanel>
+        <TextBlock Text="这是从右到左显示的文本" />
         <TextBox Text="{Binding Name}" />
         <Button Command="{s:Action SayHello}">Say Hello</Button>
     </StackPanel>

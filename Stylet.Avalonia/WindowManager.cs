@@ -57,13 +57,15 @@ namespace Stylet
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        Task<T> ShowMessageBox<T>(string messageBoxText, string caption,
-            MessageBoxButton buttons,
-            MessageBoxImage icon,
-            MessageBoxResult defaultResult,
-            MessageBoxResult cancelResult,
-            FlowDirection? flowDirection = null,
-            TextAlignment? textAlignment = null);
+        Task<T> ShowMessageBox<T>(
+            string text,
+            string? caption = null,
+            MessageBoxButton buttons = MessageBoxButton.OK,
+            MessageBoxImage icon = MessageBoxImage.None,
+            MessageBoxResult defaultResult = MessageBoxResult.OK,
+            MessageBoxResult cancelResult = MessageBoxResult.None,
+            FlowDirection flowDirection = FlowDirection.LeftToRight,
+            TextAlignment textAlignment = TextAlignment.Left);
     }
 
     /// <summary>
@@ -144,25 +146,27 @@ namespace Stylet
         /// <summary>
         /// Display a MessageBox
         /// </summary>
-        /// <param name="messageBoxText">A <see cref="System.String"/> that specifies the text to display.</param>
+        /// <param name="text">A <see cref="System.String"/> that specifies the text to display.</param>
         /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
-        /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
-        /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+        /// <param name="buttons">A <see cref="MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+        /// <param name="icon">A <see cref="MessageBoxImage"/> value that specifies the icon to display.</param>
         /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
         /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
         /// <param name="flowDirection">The <see cref="FlowDirection"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="MessageBoxViewModel.DefaultTextAlignment"/></param>
         /// <returns>The result chosen by the user</returns>
-        public Task<T> ShowMessageBox<T>(string messageBoxText, string caption,
-            MessageBoxButton buttons,
-            MessageBoxImage icon ,
-            MessageBoxResult defaultResult ,
-            MessageBoxResult cancelResult,
-            FlowDirection? flowDirection = null,
-            TextAlignment? textAlignment = null)
+        public Task<T> ShowMessageBox<T>(
+            string text,
+            string? caption = null,
+            MessageBoxButton buttons = MessageBoxButton.OK,
+            MessageBoxImage icon = MessageBoxImage.None,
+            MessageBoxResult defaultResult = MessageBoxResult.OK,
+            MessageBoxResult cancelResult = MessageBoxResult.None,
+            FlowDirection flowDirection = FlowDirection.LeftToRight,
+            TextAlignment textAlignment = TextAlignment.Left)
         {
             var vm = IoC.Get<IMessageBoxViewModel>();
-            vm.Setup(messageBoxText, caption, buttons, icon, defaultResult, cancelResult, flowDirection, textAlignment);
+            vm.Setup(text, caption, buttons, icon, defaultResult, cancelResult, flowDirection, textAlignment);
             return this.ShowDialog<T>(vm);
         }
 

@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+
+using Stylet.Avalonia.Extensions;
 
 namespace Stylet.Avalonia.Primitive
 {
@@ -24,12 +29,14 @@ namespace Stylet.Avalonia.Primitive
         private MessageBoxImage icon;
         private FlowDirection flowDirection;
         private TextAlignment textAlignment;
-        
-        
+
+        #region Property
+
         /// <summary>
         /// Gets or sets the list of buttons which are shown in the View.
         /// </summary>
-        public IObservableCollection<LabelledValue<MessageBoxResult>> ButtonList { get; protected set; }
+        public BindableCollection<LabelledValue<MessageBoxResult>> ButtonList { get; protected set; } =
+            new BindableCollection<LabelledValue<MessageBoxResult>>();
 
         /// <summary>
         /// Gets or sets the item in ButtonList which is the Default button
@@ -102,10 +109,20 @@ namespace Stylet.Avalonia.Primitive
                 icon = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(ShowIcon));
+                NotifyOfPropertyChange(nameof(IconUrl));
             }
         }
 
-        public bool ShowIcon => Icon == MessageBoxImage.None;
+        public bool ShowIcon => Icon != MessageBoxImage.None;
+
+        public Bitmap? IconUrl {
+            get
+            {
+                if (Icon == MessageBoxImage.None)
+                    return null;
+                return new Bitmap(AssetLoader.Open(new Uri(Icon.GetDescription())));
+            }
+        }
 
         /// <summary>
         /// Gets or sets which way the document should flow
@@ -143,54 +160,42 @@ namespace Stylet.Avalonia.Primitive
         /// Gets or sets which button the user clicked, once they've clicked a button
         /// </summary>
         public virtual MessageBoxResult ClickedButton { get; protected set; }
-
-        public void Setup(string text, string caption)
-        {
-            this.Setup(text,caption, MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK,MessageBoxResult.None, FlowDirection.LeftToRight, TextAlignment.Center);
-        }
-
-        public void Setup(string text)
-        {
-            this.Setup(text, string.Empty);
-        }
-        
+        #endregion
         
         /// <summary>
         /// Setup the MessageBoxViewModel with the information it needs
         /// </summary>
-        /// <param name="messageBoxText">A <see cref="string"/> that specifies the text to display.</param>
+        /// <param name="text">A <see cref="string"/> that specifies the text to display.</param>
         /// <param name="caption">A <see cref="string"/> that specifies the title bar caption to display.</param>
-        /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
-        /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
+        /// <param name="buttons">A <see cref="MessageBoxButton"/> value that specifies which button or buttons to display.</param>
+        /// <param name="icon">A <see cref="MessageBoxImage"/> value that specifies the icon to display.</param>
         /// <param name="defaultResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
-        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the cancel result of the message box</param>
+        /// <param name="cancelResult">A <see cref="MessageBoxResult"/> value that specifies the default result of the message box.</param>
         /// <param name="flowDirection">The <see cref="Avalonia.Media.FlowDirection"/> to use, overrides the <see cref="DefaultFlowDirection"/></param>
         /// <param name="textAlignment">The <see cref="Avalonia.Media.TextAlignment"/> to use, overrides the <see cref="DefaultTextAlignment"/></param>
         public void Setup(
-            string messageBoxText,
+            string text,
             string? caption ,
-            MessageBoxButton buttons,
-            MessageBoxImage icon,
-            MessageBoxResult defaultResult,
-            MessageBoxResult cancelResult,
-            FlowDirection? flowDirection = null,
-            TextAlignment? textAlignment = null)
+            MessageBoxButton buttons = MessageBoxButton.OK,
+            MessageBoxImage icon = MessageBoxImage.None,
+            MessageBoxResult defaultResult = MessageBoxResult.OK,
+            MessageBoxResult cancelResult = MessageBoxResult.None,
+            FlowDirection flowDirection = FlowDirection.LeftToRight,
+            TextAlignment textAlignment = TextAlignment.Left)
         {
-            Text = messageBoxText;
+            Text = text;
             DisplayName = caption??"提示";
             Icon = icon;
 
             var buttonList = new BindableCollection<LabelledValue<MessageBoxResult>>();
-            ButtonList = buttonList;
             foreach (var val in ButtonToResults[buttons])
             {
-                var lbv = new LabelledValue<MessageBoxResult>(val.Text, val);
+                var lbv = new LabelledValue<MessageBoxResult>(val.GetDescription(), val);
                 buttonList.Add(lbv);
                 if (val == defaultResult)
                     DefaultButton = val;
-                else if (val == cancelResult)
-                    CancelButton = val;
             }
+            ButtonList = buttonList;
             // If they didn't specify a button which we showed, then pick a default, if we can
             if (defaultResult == MessageBoxResult.None && ButtonList.Any())
                 DefaultButton = buttonList[0].Value;
@@ -198,9 +203,8 @@ namespace Stylet.Avalonia.Primitive
             if (cancelResult == MessageBoxResult.None && ButtonList.Any())
                 CancelButton = buttonList.Last().Value;
             
-            FlowDirection = flowDirection ?? FlowDirection.LeftToRight;
-            TextAlignment = textAlignment ?? TextAlignment.Left;
-            this.Refresh();
+            FlowDirection = flowDirection;
+            TextAlignment = textAlignment;
         }
 
         /// <summary>
@@ -210,49 +214,52 @@ namespace Stylet.Avalonia.Primitive
         public void ButtonClicked(MessageBoxResult button)
         {
             ClickedButton = button;
-            RequestClose(true);
+            RequestClose(button is MessageBoxResult.OK or MessageBoxResult.Yes);
         }
     }
-
-    public record MessageBoxImage
+    
+    public enum MessageBoxImage
     {
-        public string Url { get; init; }
-        private MessageBoxImage(string url)
-        {
-            Url = url;
-        }
+        [Description("")]
+        None = 0,
+        [Description("avares://Stylet.Avalonia/Assets/error.png")]
+        Error = 1,
+        [Description("avares://Stylet.Avalonia/Assets/question.png")]
+        Question = 2,
+        [Description("avares://Stylet.Avalonia/Assets/warning.png")]
+        Warning = 3,
+        [Description("avares://Stylet.Avalonia/Assets/information.png")]
+        Information = 4,
+    }
+    
+    
+    public enum MessageBoxResult
+    {
+        [Description("None")]
+        None = 0,
         
-        public static readonly MessageBoxImage None = new MessageBoxImage(string.Empty);
-        public static readonly MessageBoxImage Error = new MessageBoxImage("avares://Stylet.Avalonia/assets/error.png");
-        public static readonly MessageBoxImage Question = new MessageBoxImage("avares://Stylet.Avalonia/assets/question.png");
-        public static readonly MessageBoxImage Warning = new MessageBoxImage("avares://Stylet.Avalonia/assets/warning.png");
-        public static readonly MessageBoxImage Information = new MessageBoxImage("avares://Stylet.Avalonia/assets/information.png");
+        [Description("OK")]
+        OK = 1,
+        
+        [Description("Cancel")]
+        Cancel = 2,
+        
+        [Description("Yes")]
+        Yes = 3,
+        
+        [Description("No")]
+        No = 4,
     }
 
-    public record MessageBoxResult
+    public enum MessageBoxButton
     {
-        public string Text { get; init; }
-        private MessageBoxResult(string text)
-        {
-            Text = text;
-        }
-
-        public static readonly MessageBoxResult None = new MessageBoxResult("None");
-        public static readonly MessageBoxResult OK = new MessageBoxResult("OK");
-        public static readonly MessageBoxResult Cancel = new MessageBoxResult("Cancel");
-        public static readonly MessageBoxResult Yes = new MessageBoxResult("Yes");
-        public static readonly MessageBoxResult No = new MessageBoxResult("No");
-    }
-
-    public record MessageBoxButton
-    {
-        public string Text { get; init; }
-
-        private MessageBoxButton(string text) => Text = text;
-
-        public static readonly MessageBoxButton OK = new MessageBoxButton("OK");
-        public static readonly MessageBoxButton OKCancel = new MessageBoxButton("OKCancel");
-        public static readonly MessageBoxButton YesNo = new MessageBoxButton("YesNo");
-        public static readonly MessageBoxButton YesNoCancel = new MessageBoxButton("YesNoCancel");
+        [Description("OK")]
+        OK,
+        [Description("OKCancel")]
+        OKCancel,
+        [Description("YesNo")]
+        YesNo,
+        [Description("YesNoCancel")]
+        YesNoCancel,
     }
 }
