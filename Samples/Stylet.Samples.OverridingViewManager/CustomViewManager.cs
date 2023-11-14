@@ -41,7 +41,7 @@ public class CustomViewManager : ViewManager
 
     protected override Type LocateViewForModel(Type modelType)
     {
-        Type viewType;
+        Type? viewType = null;
         if (!this.viewModelToViewMapping.TryGetValue(modelType, out viewType))
             throw new Exception(String.Format("Could not find View for ViewModel {0}", modelType.Name));
         return viewType;

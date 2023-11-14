@@ -17,6 +17,7 @@ namespace Stylet.Samples.NavigationController
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<NavigationController>().And<INavigationController>().To<NavigationController>().InSingletonScope();
+            builder.Bind<ShellViewModel>().And<INavigationControllerDelegate>().To<ShellViewModel>().InSingletonScope();
             // https://github.com/canton7/Stylet/issues/24
             builder.Bind<Func<Page1ViewModel>>().ToFactory<Func<Page1ViewModel>>(c => () => c.Get<Page1ViewModel>());
             builder.Bind<Func<Page2ViewModel>>().ToFactory<Func<Page2ViewModel>>(c => () => c.Get<Page2ViewModel>());

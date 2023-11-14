@@ -265,7 +265,7 @@ namespace Stylet.Xaml
         /// Invoke the target method with the given parameters
         /// </summary>
         /// <param name="parameters">Parameters to pass to the target method</param>
-        private protected void InvokeTargetMethod(object[] parameters)
+        private protected void InvokeTargetMethod(object?[]? parameters)
         {
             this.logger.Info("Invoking method {0} on {1} with parameters ({2})", this.MethodName, this.TargetName(), parameters == null ? "none" : String.Join(", ", parameters));
 

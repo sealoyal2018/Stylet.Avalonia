@@ -35,18 +35,10 @@
     </Window.Styles>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Text="{Binding ActiveItem.DisplayName, StringFormat='Active page is {0}'}" />
-        <TabControl ItemsSource="{Binding Items}" SelectedItem="{Binding ActiveItem}"
-                    Margin="0,10,0,0" Classes="StyletConductorTabControl">
-        </TabControl>
-        <!-- <TabControl -->
-        <!--     Margin="0,10,0,0" -->
-        <!--     ItemsSource="{Binding Items}" -->
-        <!--     SelectedItem="{Binding ActiveItem}"> -->
-        <!--     <TabControl.ItemTemplate> -->
-        <!--         <DataTemplate> -->
-        <!--             <TextBlock Text="{Binding DisplayName}" /> -->
-        <!--         </DataTemplate> -->
-        <!--     </TabControl.ItemTemplate> -->
-        <!-- </TabControl> -->
+        <TabControl
+            Margin="0,10,0,0"
+            Classes="StyletConductorTabControl"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding ActiveItem}" />
     </DockPanel>
 </Window>

@@ -96,17 +96,21 @@ namespace Stylet.Xaml
         {
             ModelProperty.Changed.Subscribe(e =>
             {
-                if (((Control)e.Sender).TryFindResource(ViewManagerResourceKey, out var value) && value is IViewManager viewManager)
+                if(e.Sender is Control control)
                 {
-                    // It appears we can be reset to the default value on destruction
-                    var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
-                    if (newValue is null)
+                    if (control.TryFindResource(View.ViewManagerResourceKey, out var value) && value is IViewManager viewManager)
+                    {
+                        // It appears we can be reset to the default value on destruction
+                        var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
+                        if (newValue is null)
+                            return;
+                        viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
                         return;
-                    viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
-                    return;
+                    }
                 }
-                if (Execute.InDesignMode)
+                else if (Execute.InDesignMode)
                 {
+
                     // var bindingExpression = BindingOperations.GetBindingExpression(d, ModelProperty);
                     // string text;
                     // if (bindingExpression == null)

@@ -1,4 +1,5 @@
-﻿using Stylet.Samples.NavigationController.Pages;
+﻿using Stylet.Avalonia;
+using Stylet.Samples.NavigationController.Pages;
 using System;
 
 namespace Stylet.Samples.NavigationController;
@@ -16,8 +17,16 @@ public class NavigationController : INavigationController
 {
     private readonly Func<Page1ViewModel> page1ViewModelFactory;
     private readonly Func<Page2ViewModel> page2ViewModelFactory;
-
-    public INavigationControllerDelegate Delegate { get; set; }
+    private INavigationControllerDelegate? @delegate;
+    public INavigationControllerDelegate Delegate
+    {
+        get
+        {
+            if(@delegate is null)
+                @delegate = IoC.Get<INavigationControllerDelegate>();
+            return @delegate;
+        }
+    }
 
     public NavigationController(Func<Page1ViewModel> page1ViewModelFactory, Func<Page2ViewModel> page2ViewModelFactory)
     {
