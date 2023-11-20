@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.OverridingVi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.TabNavigation", "Samples\Stylet.Samples.TabNavigation\Stylet.Samples.TabNavigation.csproj", "{52CFF303-0FE6-4682-B244-AD3F630D836E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Avalonia.StyletIoC", "Stylet.Avalonia.StyletIoC\Stylet.Avalonia.StyletIoC.csproj", "{0BAAAF8A-D4D7-4924-8708-3936992F0A6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BAAAF8A-D4D7-4924-8708-3936992F0A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BAAAF8A-D4D7-4924-8708-3936992F0A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BAAAF8A-D4D7-4924-8708-3936992F0A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BAAAF8A-D4D7-4924-8708-3936992F0A6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

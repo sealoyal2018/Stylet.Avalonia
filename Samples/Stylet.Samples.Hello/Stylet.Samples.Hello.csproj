@@ -22,7 +22,8 @@
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.2" />
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
     </ItemGroup>
+
     <ItemGroup>
-		<ProjectReference Include="..\..\Stylet.Avalonia\Stylet.Avalonia.csproj" />
+      <ProjectReference Include="..\..\Stylet.Avalonia.StyletIoC\Stylet.Avalonia.StyletIoC.csproj" />
     </ItemGroup>
 </Project>
