@@ -25,7 +25,7 @@ namespace Stylet
             get
             {
                 if (_rootViewModel is null)
-                    _rootViewModel = GetInstance(typeof(TRootViewModel)) as TRootViewModel;
+                    _rootViewModel = IoC.Get<TRootViewModel>();
                 if (_rootViewModel is null)
                     throw new Exception($"No registration for the type {typeof(TRootViewModel)}.");
                 return _rootViewModel;
@@ -50,8 +50,6 @@ namespace Stylet
             this.OnStart();
             this.ConfigureBootstrapper();
 
-            // We allow starting without an application
-            this.Resources.Add(View.ViewManagerResourceKey, this.GetInstance(typeof(IViewManager)));
             this.Configure();
             IoC.GetInstance = this.GetInstance;
             IoC.GetInstances = this.GetInstances;
@@ -70,7 +68,7 @@ namespace Stylet
         /// </summary>
         protected virtual Control? DisplayRootView()
         {
-            var viewManager = (IViewManager)this.GetInstance(typeof(IViewManager));
+            var viewManager = IoC.Get<IViewManager>();
             return viewManager.CreateAndBindViewForModelIfNecessary(RootViewModel);
         }
 

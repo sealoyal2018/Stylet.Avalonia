@@ -2,6 +2,8 @@
 using Avalonia;
 using Avalonia.Controls;
 
+using Stylet.Avalonia;
+
 namespace Stylet.Xaml
 {
     /// <summary>
@@ -12,7 +14,7 @@ namespace Stylet.Xaml
         /// <summary>
         /// Key which will be used to retrieve the ViewManager associated with the current application, from application's resources
         /// </summary>
-        public const string ViewManagerResourceKey = "b9a38199-8cb3-4103-8526-c6cfcd089df7";
+        //public const string ViewManagerResourceKey = "b9a38199-8cb3-4103-8526-c6cfcd089df7";
 
         /// <summary>
         /// Initial value of the ActionTarget property.
@@ -98,15 +100,12 @@ namespace Stylet.Xaml
             {
                 if(e.Sender is Control control)
                 {
-                    if (control.TryFindResource(View.ViewManagerResourceKey, out var value) && value is IViewManager viewManager)
-                    {
-                        // It appears we can be reset to the default value on destruction
-                        var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
-                        if (newValue is null)
-                            return;
-                        viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
+                    var viewManager = IoC.Get<IViewManager>();
+                    var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
+                    if (newValue is null)
                         return;
-                    }
+                    viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
+                    return;
                 }
                 else if (Execute.InDesignMode)
                 {
