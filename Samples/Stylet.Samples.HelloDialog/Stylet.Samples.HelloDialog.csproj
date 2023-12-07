@@ -23,6 +23,6 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
   </ItemGroup>
   <ItemGroup>
-	  <ProjectReference Include="..\..\Stylet.Avalonia.StyletIoC\Stylet.Avalonia.StyletIoC.csproj" />
+    <ProjectReference Include="..\..\Stylet.Avalonia\Stylet.Avalonia.csproj" />
   </ItemGroup>
 </Project>
