@@ -59,7 +59,7 @@ public partial class ShellView : Window
 ```xaml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:s="using:Stylet.Xaml"
+    		 xmlns:s="https://github.com/sealoyal2018/stylet.avalonia"
              xmlns:local="using:Avalonia.NETCoreApp1"
              x:Class="Avalonia.NETCoreApp1.App"
     RequestedThemeVariant="Light">
