@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Stylet.Samples.HelloDialog.Dialog1View"
-		xmlns:s="using:Stylet.Xaml"
+        xmlns:s="https://github.com/sealoyal2018/stylet.avalonia"
         Title="Dialog1View" Height="145" Width="300">
 	<DockPanel LastChildFill="False" Margin="10">
 		<DockPanel DockPanel.Dock="Top">
