@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Avalonia.Stylet;
 using Stylet.Avalonia.Primitive;
 
 namespace Stylet
@@ -11,12 +10,11 @@ namespace Stylet
     /// StyletApplication to be extended by any application which wants to use StyletIoC, but doesn't have a root ViewModel
     /// </summary>
     /// <remarks>
-    /// You would normally use <see cref="StyletApplication{TRootViewModel}"/>, which lets you specify the root ViewModel
-    /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase.Launch"/>
-    /// but don't call <see cref="StyletApplicationBase.DisplayRootView(object)"/>. 
+    /// You would normally use <see cref="StyletApplication"/>, which lets you specify the root ViewModel
+    /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase"/>
+    /// but don't call <see cref="StyletApplicationBase.DisplayRootView()"/>. 
     /// </remarks>
-    public class StyletApplication<TRootViewModel> : StyletApplicationBase<TRootViewModel>
-        where TRootViewModel: class
+    public abstract class StyletApplication : StyletApplicationBase
     {
         /// <summary>
         /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
@@ -26,7 +24,7 @@ namespace Stylet
         /// <summary>
         /// Overridden from StyletApplicationBase, this sets up the IoC container
         /// </summary>
-        protected override sealed void ConfigureBootstrapper()
+        protected sealed override void Configure()
         {
             var builder = new StyletIoCBuilder();
             builder.Assemblies = new List<Assembly>(new List<Assembly>() { this.GetType().Assembly });
@@ -61,7 +59,7 @@ namespace Stylet
             builder.Bind<IMessageBoxViewModel>().To<MessageBoxViewModel>().AsWeakBinding();
             // Stylet's assembly isn't added to the container, so add this explicitly
             builder.Bind<MessageBoxView>().ToSelf();
-            builder.Autobind(typeof(TRootViewModel).Assembly);
+            builder.Autobind(this.GetType().Assembly);
         }
 
         protected override object GetInstance(Type service, string? key)

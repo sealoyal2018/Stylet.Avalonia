@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Reflection.Metadata;
-
 using Avalonia.Controls;
 
 using DryIoc;
@@ -8,8 +6,7 @@ using DryIoc;
 using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Avalonia.DryIoC;
-public class StyletApplication<TRootViewModel> : StyletApplicationBase<TRootViewModel>
- where TRootViewModel : class
+public abstract class StyletApplication : StyletApplicationBase
 {
     /// <summary>
     /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
@@ -25,7 +22,7 @@ public class StyletApplication<TRootViewModel> : StyletApplicationBase<TRootView
     /// <summary>
     /// Overridden from StyletApplicationBase, this sets up the IoC container
     /// </summary>
-    protected override sealed void ConfigureBootstrapper()
+    protected sealed override void Configure()
     {
         var assemblies = this.LoadAssemblies();
         this._assemblies.AddRange(assemblies);
