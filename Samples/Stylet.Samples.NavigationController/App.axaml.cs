@@ -4,10 +4,12 @@ using Avalonia.Markup.Xaml;
 using Stylet.Samples.NavigationController.Pages;
 using StyletIoC;
 using System;
+using Avalonia.Controls;
+using Stylet.Avalonia;
 
 namespace Stylet.Samples.NavigationController
 {
-    public partial class App : StyletApplication<ShellViewModel>
+    public partial class App : StyletApplication
     {
         public override void Initialize()
         {
@@ -23,13 +25,16 @@ namespace Stylet.Samples.NavigationController
             builder.Bind<Func<Page2ViewModel>>().ToFactory<Func<Page2ViewModel>>(c => () => c.Get<Page2ViewModel>());
         }
 
-        // protected override void OnLaunch()
-        // {
-        //     // There's a circular dependency, where ShellViewModel -> HeaderViewModel -> NavigationController -> ShellViewModel
-        //     // We break this by assigning the ShellViewModel to the NavigationController after constructing it
-        //     var navigationController = this.Container.Get<NavigationController>();
-        //     navigationController.Delegate = this.RootViewModel;
-        //     navigationController.NavigateToPage1();
-        // }
+        protected override Control DisplayRootView()
+        {
+            var viewManager = IoC.Get<IViewManager>();
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                var mainViewModel = IoC.Get<ShellViewModel>();
+                return viewManager.CreateAndBindViewForModelIfNecessary(mainViewModel);
+            }
+
+            throw new NotSupportedException();
+        }
     }
 }
