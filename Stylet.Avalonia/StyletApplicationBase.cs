@@ -50,7 +50,8 @@ namespace Stylet
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desk)
             {
-                return desk.Windows.OfType<TopLevel>().FirstOrDefault(x => x.IsFocused) ?? desk.MainWindow;
+                var win = desk.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+                return win ?? desk.MainWindow;
             }
 
             if (ApplicationLifetime is ISingleViewApplicationLifetime single)
@@ -68,7 +69,9 @@ namespace Stylet
                 var win = DisplayRootView() as Window;
                 if (win is null)
                     throw new Exception($"{nameof(IClassicDesktopStyleApplicationLifetime)} 模式下应创建 window 类型作为主视图");
-                desktop.MainWindow = win;
+                //desktop.MainWindow = win;
+                var wmgr = IoC.Get<IWindowManager>();
+                wmgr.ShowWindow(win.DataContext);
             }
 
             if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
@@ -82,7 +85,7 @@ namespace Stylet
         /// <summary>
         /// Launch the root view
         /// </summary>
-        protected abstract Control? DisplayRootView();
+        protected abstract Control DisplayRootView();
 
 
         /// <summary>

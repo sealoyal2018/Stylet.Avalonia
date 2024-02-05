@@ -1,9 +1,10 @@
 using System;
+
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+
 using Stylet.Avalonia;
-using Stylet.Avalonia.DryIoC;
 
 namespace Stylet.Samples.Hello
 {
@@ -20,7 +21,7 @@ namespace Stylet.Samples.Hello
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 var mainViewModel = IoC.Get<MainViewModel>();
-                return viewManager.CreateAndBindViewForModelIfNecessary(mainViewModel);
+                return viewManager.CreateAndBindViewForModelIfNecessary(mainViewModel) as TopLevel;
             }
 
             throw new NotSupportedException();

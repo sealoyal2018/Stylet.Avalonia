@@ -12,4 +12,19 @@ public class Page1ViewModel : Screen
     }
 
     public void NavigateToPage2() => this.navigationController.NavigateToPage2("Page 1");
+
+    protected override void OnActivate()
+    {
+        base.OnActivate();
+    }
+
+    protected override void OnDeactivate()
+    {
+        base.OnDeactivate();
+    }
+
+    protected override void OnViewLoaded()
+    {
+        base.OnViewLoaded();
+    }
 }
