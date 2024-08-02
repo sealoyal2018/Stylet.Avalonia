@@ -5,12 +5,12 @@ using DryIoc;
 using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Avalonia.DryIoC;
-public abstract class StyletApplication : StyletApplicationBase
+public abstract class StyletApplication<T> : StyletApplicationBase<T> where T: class
 {
     /// <summary>
     /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
     /// </summary>
-    protected readonly IContainer _container;
+    private readonly IContainer _container;
     private readonly List<Assembly> _assemblies;
     
     protected StyletApplication()
@@ -27,7 +27,6 @@ public abstract class StyletApplication : StyletApplicationBase
         var assemblies = this.LoadAssemblies();
         this._assemblies.AddRange(assemblies);
         this.ConfigureIoC(_container);
-        this.DefaultConfigureIoC();
         this.AutoRegister();
     }
 
@@ -39,21 +38,9 @@ public abstract class StyletApplication : StyletApplicationBase
         return new List<Assembly> { assembly };
     }
 
-    private void DefaultConfigureIoC()
+    protected override object GetInstance(Type type)
     {
-        // Mark these as weak-bindings, so the user can replace them if they want
-        var viewManagerConfig = new ViewManagerConfig()
-        {
-            ViewFactory = this.GetInstance,
-            ViewAssemblies = new List<Assembly>() { this.GetType().Assembly }
-        };
-        _container.RegisterInstance(viewManagerConfig);
-        _container.Register<IViewManager, ViewManager>();
-        _container.RegisterInstance<IWindowManagerConfig>(this);
-        _container.Register<IWindowManager, WindowManager>();
-        _container.Register<IEventAggregator, EventAggregator>();
-        _container.Register<IMessageBoxViewModel, MessageBoxViewModel>();
-        _container.Register<MessageBoxView>();
+        return this._container.Resolve(type);
     }
 
     protected override object GetInstance(Type service, string? key)
@@ -66,11 +53,21 @@ public abstract class StyletApplication : StyletApplicationBase
         return this._container.ResolveMany(service);
     }
 
-    protected virtual void ConfigureIoC(IContainer builder) { }
-
-    protected override object GetInstance(Type type)
+    protected virtual void ConfigureIoC(IContainer container)
     {
-        return this._container.Resolve(type);
+        // Mark these as weak-bindings, so the user can replace them if they want
+        var viewManagerConfig = new ViewManagerConfig()
+        {
+            ViewFactory = this.GetInstance,
+            ViewAssemblies = new List<Assembly> { this.GetType().Assembly }
+        };
+        container.RegisterInstance(viewManagerConfig);
+        container.Register<IViewManager, ViewManager>();
+        container.RegisterInstance<IWindowManagerConfig>(this);
+        container.Register<IWindowManager, WindowManager>();
+        container.Register<IEventAggregator, EventAggregator>();
+        container.Register<IMessageBoxViewModel, MessageBoxViewModel>();
+        container.Register<MessageBoxView>();
     }
 
     /// <summary>
@@ -95,5 +92,4 @@ public abstract class StyletApplication : StyletApplicationBase
             _container.Register(type, type);
         }
     }
-
 }

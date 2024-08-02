@@ -13,39 +13,39 @@ namespace Stylet.Avalonia.StyletIoC;
 /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase"/>
 /// but don't call <see cref="StyletApplicationBase.DisplayRootView()"/>. 
 /// </remarks>
-public abstract class StyletApplication : StyletApplicationBase
+public abstract class StyletApplication<T> : StyletApplicationBase<T> where T : class
 {
     /// <summary>
     /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
     /// </summary>
-    protected IContainer Container { get; set; }
+    protected IContainer Container { get; private set; }
 
     /// <summary>
     /// Overridden from StyletApplicationBase, this sets up the IoC container
     /// </summary>
     protected sealed override void Configure()
     {
-        var builder = new StyletIoCBuilder();
-        builder.Assemblies = new List<Assembly>(new List<Assembly>() { GetType().Assembly });
+        var builder = new StyletIoCBuilder
+        {
+            Assemblies = new List<Assembly> { GetType().Assembly }
+        };
 
         // Call DefaultConfigureIoC *after* ConfigureIoIC, so that they can customize builder.Assemblies
         ConfigureIoC(builder);
-        DefaultConfigureIoC(builder);
-
         Container = builder.BuildContainer();
     }
 
     /// <summary>
-    /// Carries out default configuration of StyletIoC. Override if you don't want to do this
+    /// Override to add your own types to the IoC container.
     /// </summary>
     /// <param name="builder">StyletIoC builder to use to configure the container</param>
-    protected virtual void DefaultConfigureIoC(StyletIoCBuilder builder)
+    protected virtual void ConfigureIoC(IStyletIoCBuilder builder)
     {
         // Mark these as weak-bindings, so the user can replace them if they want
         var viewManagerConfig = new ViewManagerConfig()
         {
             ViewFactory = GetInstance,
-            ViewAssemblies = new List<Assembly>() { GetType().Assembly }
+            ViewAssemblies = new List<Assembly>{ GetType().Assembly}
         };
         builder.Bind<ViewManagerConfig>().ToInstance(viewManagerConfig).AsWeakBinding();
 
@@ -70,12 +70,6 @@ public abstract class StyletApplication : StyletApplicationBase
     {
         return Container.GetAll(service);
     }
-
-    /// <summary>
-    /// Override to add your own types to the IoC container.
-    /// </summary>
-    /// <param name="builder">StyletIoC builder to use to configure the container</param>
-    protected virtual void ConfigureIoC(IStyletIoCBuilder builder) { }
 
     /// <summary>
     /// Given a type, use the IoC container to fetch an instance of it

@@ -1,17 +1,17 @@
 <Window
+    Height="300"
+    Title="ShellView"
+    Width="300"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
     x:Class="Stylet.Samples.HelloDialog.ShellView"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/sealoyal2018/stylet.avalonia"
-    Title="ShellView"
-    Width="300"
-    Height="300"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
-    <DockPanel Margin="10" LastChildFill="False">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DockPanel LastChildFill="False" Margin="10">
         <DockPanel DockPanel.Dock="Top">
             <Button Command="{s:Action ShowDialog}" DockPanel.Dock="Right">Show Dialog</Button>
             <TextBlock DockPanel.Dock="Left" Text="{Binding NameString}" />

@@ -4,13 +4,15 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
 
 namespace Stylet.Avalonia;
 
 /// <summary>
 /// StyletApplication to be extended by applications which don't want to use StyletIoC as the IoC container.
 /// </summary>
-public abstract class StyletApplicationBase : Application, IWindowManagerConfig, IDisposable
+public abstract class StyletApplicationBase<T> : Application, IWindowManagerConfig, IDisposable
+    where T: class
 {
     public override void Initialize()
     {
@@ -20,15 +22,7 @@ public abstract class StyletApplicationBase : Application, IWindowManagerConfig,
         Execute.Dispatcher = new ApplicationDispatcher();
         Configure();
     }
-
-
-    protected abstract object GetInstance(Type service, string? key);
     protected abstract IEnumerable<object> GetInstances(Type service);
-
-    /// <summary>
-    /// Override to configure your IoC container, and anything else
-    /// </summary>
-    protected virtual void Configure() { }
 
     /// <summary>
     /// Given a type, use the IoC container to fetch an instance of it
@@ -36,11 +30,19 @@ public abstract class StyletApplicationBase : Application, IWindowManagerConfig,
     /// <param name="type">Type of instance to fetch</param>
     /// <returns>Fetched instance</returns>
     protected abstract object GetInstance(Type type);
+    
+    protected abstract object GetInstance(Type service, string? key);
+
+    /// <summary>
+    /// Override to configure your IoC container, and anything else
+    /// </summary>
+    protected virtual void Configure() { }
 
     /// <summary>
     /// Called on application startup. This occur after this.Args has been assigned, but before the IoC container has been configured
     /// </summary>
     protected virtual void OnStart() { }
+    
     /// <summary>
     /// Returns the currently-displayed window, or null if there is none (or it can't be determined)
     /// </summary>
@@ -62,30 +64,16 @@ public abstract class StyletApplicationBase : Application, IWindowManagerConfig,
 
     public sealed override void OnFrameworkInitializationCompleted()
     {
+        if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            throw new NotImplementedException("Mobile terminal adaptation is not implemented"); // 移动端暂未支持
+        }
         OnStart();
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            var win = DisplayRootView() as Window;
-            if (win is null)
-                throw new Exception($"{nameof(IClassicDesktopStyleApplicationLifetime)} 模式下应创建 window 类型作为主视图");
-            //desktop.MainWindow = win;
-            var wmgr = IoC.Get<IWindowManager>();
-            wmgr.ShowWindow(win.DataContext);
-        }
-
-        if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
-        {
-            singleView.MainView = DisplayRootView();
-        }
-
+        var vm = IoC.Get<T>();
+        var winmgr = IoC.Get<IWindowManager>();
+        winmgr.ShowWindow(vm);
         base.OnFrameworkInitializationCompleted();
     }
-
-    /// <summary>
-    /// Launch the root view
-    /// </summary>
-    protected abstract Control DisplayRootView();
-
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
