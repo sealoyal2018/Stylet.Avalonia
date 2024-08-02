@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.TabNavigatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.DryIoC", "Samples\Stylet.Samples.DryIoC\Stylet.Samples.DryIoC.csproj", "{2771A72B-8BDF-40B8-977D-B29CBBF0F853}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.MSIoC", "Samples\Stylet.Samples.MSIoC\Stylet.Samples.MSIoC.csproj", "{8FF14900-703A-4F3A-8880-4FD074E409AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FF14900-703A-4F3A-8880-4FD074E409AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FF14900-703A-4F3A-8880-4FD074E409AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FF14900-703A-4F3A-8880-4FD074E409AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FF14900-703A-4F3A-8880-4FD074E409AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{06B4CA61-8823-42B8-8D47-5FCE3004BB37} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{52CFF303-0FE6-4682-B244-AD3F630D836E} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{2771A72B-8BDF-40B8-977D-B29CBBF0F853} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
+		{8FF14900-703A-4F3A-8880-4FD074E409AD} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5CD8D44-4D13-417F-B87B-58187A3A2897}
