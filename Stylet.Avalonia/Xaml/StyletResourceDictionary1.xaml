@@ -1,29 +1,38 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:s="clr-namespace:Stylet.Xaml"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:s="clr-namespace:Stylet.Avalonia.Xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <Style Selector="TabControl.StyletConductorTabControl">
-        <Setter Property="Items" Value="{Binding Items}"></Setter>
-        <Setter Property="SelectedItem" Value="{Binding ActiveItem}"></Setter>
+        <Setter Property="Items" Value="{Binding Items}" />
+        <Setter Property="SelectedItem" Value="{Binding ActiveItem}" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" />
+                    <ContentControl
+                        HorizontalContentAlignment="Stretch"
+                        IsTabStop="False"
+                        VerticalContentAlignment="Stretch"
+                        s:View.Model="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-   
+
     <Style Selector="ItemsControl.StyletConductorItemsControl">
-        <Setter Property="Items" Value="{Binding Items}"></Setter>
+        <Setter Property="Items" Value="{Binding Items}" />
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <ContentControl s:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" IsTabStop="False" />
+                    <ContentControl
+                        HorizontalContentAlignment="Stretch"
+                        IsTabStop="False"
+                        VerticalContentAlignment="Stretch"
+                        s:View.Model="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+
 </ResourceDictionary>

@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Stylet.Avalonia;
-using StyletIoC;
+using Stylet.Avalonia.StyletIoC;
 
 namespace Stylet.Samples.OverridingViewManager
 {

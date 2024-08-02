@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace Avalonia.Stylet;
+namespace Stylet.Avalonia;
 
 
 /// <summary>
@@ -18,7 +18,8 @@ namespace Avalonia.Stylet;
 /// <typeparam name="TEventHandler">The type of the event handler.</typeparam>
 /// <typeparam name="TEventArgs">The type of the event arguments.</typeparam>
 public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHandler, TEventArgs>
-    where TEventManager : WeakEventManagerBase<TEventManager, TEventSource, TEventHandler, TEventArgs>, new() {
+    where TEventManager : WeakEventManagerBase<TEventManager, TEventSource, TEventHandler, TEventArgs>, new()
+{
     // ReSharper disable once StaticMemberInGenericType
     private static readonly object StaticSource = new object();
 
@@ -84,7 +85,8 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-        if (!typeof(TEventHandler).GetTypeInfo().IsSubclassOf(typeof(Delegate))) {
+        if (!typeof(TEventHandler).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+        {
             throw new ArgumentException("Handler must be Delegate type");
         }
 
@@ -94,16 +96,19 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
 
     private void AddWeakHandler(TEventSource source, TEventHandler handler)
     {
-        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers)) {
+        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers))
+        {
             // clone list if we are currently delivering an event
-            if (weakHandlers.IsDeliverActive) {
+            if (weakHandlers.IsDeliverActive)
+            {
                 weakHandlers = weakHandlers.Clone();
                 _sourceToWeakHandlers.Remove(source);
                 _sourceToWeakHandlers.Add(source, weakHandlers);
             }
             weakHandlers.AddWeakHandler(source, handler);
         }
-        else {
+        else
+        {
             weakHandlers = new WeakHandlerList();
             weakHandlers.AddWeakHandler(source, handler);
 
@@ -119,10 +124,12 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         var @delegate = handler as Delegate;
         var key = @delegate?.Target ?? StaticSource;
 
-        if (_targetToEventHandler.TryGetValue(key, out var delegates)) {
+        if (_targetToEventHandler.TryGetValue(key, out var delegates))
+        {
             delegates.Add(@delegate);
         }
-        else {
+        else
+        {
             delegates = new List<Delegate> { @delegate };
 
             _targetToEventHandler.Add(key, delegates);
@@ -134,7 +141,8 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         if (source == null) throw new ArgumentNullException(nameof(source));
         if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-        if (!typeof(TEventHandler).GetTypeInfo().IsSubclassOf(typeof(Delegate))) {
+        if (!typeof(TEventHandler).GetTypeInfo().IsSubclassOf(typeof(Delegate)))
+        {
             throw new ArgumentException("handler must be Delegate type");
         }
 
@@ -144,15 +152,18 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
 
     private void RemoveWeakHandler(TEventSource source, TEventHandler handler)
     {
-        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers)) {
+        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers))
+        {
             // clone list if we are currently delivering an event
-            if (weakHandlers.IsDeliverActive) {
+            if (weakHandlers.IsDeliverActive)
+            {
                 weakHandlers = weakHandlers.Clone();
                 _sourceToWeakHandlers.Remove(source);
                 _sourceToWeakHandlers.Add(source, weakHandlers);
             }
 
-            if (weakHandlers.RemoveWeakHandler(source, handler) && weakHandlers.Count == 0) {
+            if (weakHandlers.RemoveWeakHandler(source, handler) && weakHandlers.Count == 0)
+            {
                 _sourceToWeakHandlers.Remove(source);
                 StopListening(source);
             }
@@ -164,10 +175,12 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         var @delegate = handler as Delegate;
         var key = @delegate?.Target ?? StaticSource;
 
-        if (_targetToEventHandler.TryGetValue(key, out var delegates)) {
+        if (_targetToEventHandler.TryGetValue(key, out var delegates))
+        {
             delegates.Remove(@delegate);
 
-            if (delegates.Count == 0) {
+            if (delegates.Count == 0)
+            {
                 _targetToEventHandler.Remove(key);
             }
         }
@@ -179,42 +192,51 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
 
         var hasStaleEntries = false;
 
-        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers)) {
-            using (weakHandlers.DeliverActive()) {
+        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers))
+        {
+            using (weakHandlers.DeliverActive())
+            {
                 hasStaleEntries = weakHandlers.DeliverEvent(source, args);
             }
         }
 
-        if (hasStaleEntries) {
+        if (hasStaleEntries)
+        {
             Purge(source);
         }
     }
 
     private void Purge(object source)
     {
-        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers)) {
-            if (weakHandlers.IsDeliverActive) {
+        if (_sourceToWeakHandlers.TryGetValue(source, out var weakHandlers))
+        {
+            if (weakHandlers.IsDeliverActive)
+            {
                 weakHandlers = weakHandlers.Clone();
                 _sourceToWeakHandlers.Remove(source);
                 _sourceToWeakHandlers.Add(source, weakHandlers);
             }
-            else {
+            else
+            {
                 weakHandlers.Purge();
             }
         }
     }
 
-    internal class WeakHandler {
+    internal class WeakHandler
+    {
         private readonly WeakReference _source;
         private readonly WeakReference _originalHandler;
 
         public bool IsActive => _source != null && _source.IsAlive && _originalHandler != null && _originalHandler.IsAlive;
 
-        public TEventHandler Handler {
+        public TEventHandler Handler
+        {
             get
             {
-                if (_originalHandler == null) {
-                    return default(TEventHandler);
+                if (_originalHandler == null)
+                {
+                    return default;
                 }
                 return (TEventHandler)_originalHandler.Target;
             }
@@ -238,7 +260,8 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         }
     }
 
-    internal class WeakHandlerList {
+    internal class WeakHandlerList
+    {
         private int _deliveries;
         private readonly List<WeakHandler> _handlers;
 
@@ -255,8 +278,10 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
 
         public bool RemoveWeakHandler(TEventSource source, TEventHandler handler)
         {
-            foreach (var weakHandler in _handlers) {
-                if (weakHandler.Matches(source, handler)) {
+            foreach (var weakHandler in _handlers)
+            {
+                if (weakHandler.Matches(source, handler))
+                {
                     return _handlers.Remove(weakHandler);
                 }
             }
@@ -289,12 +314,15 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
         {
             var hasStaleEntries = false;
 
-            foreach (var handler in _handlers) {
-                if (handler.IsActive) {
+            foreach (var handler in _handlers)
+            {
+                if (handler.IsActive)
+                {
                     var @delegate = handler.Handler as Delegate;
                     @delegate?.DynamicInvoke(sender, args);
                 }
-                else {
+                else
+                {
                     hasStaleEntries = true;
                 }
             }
@@ -304,8 +332,10 @@ public abstract class WeakEventManagerBase<TEventManager, TEventSource, TEventHa
 
         public void Purge()
         {
-            for (var i = _handlers.Count - 1; i >= 0; i--) {
-                if (!_handlers[i].IsActive) {
+            for (var i = _handlers.Count - 1; i >= 0; i--)
+            {
+                if (!_handlers[i].IsActive)
+                {
                     _handlers.RemoveAt(i);
                 }
             }

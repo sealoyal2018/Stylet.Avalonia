@@ -1,4 +1,6 @@
-﻿namespace Stylet.Samples.TabNavigation;
+﻿using Stylet.Avalonia;
+
+namespace Stylet.Samples.TabNavigation;
 
 public class ShellViewModel : Conductor<IScreen>.Collection.OneActive
 {

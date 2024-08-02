@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
-namespace Avalonia.Stylet;
+namespace Stylet.Avalonia;
 
 public class RoutedCommand : ICommand
 {
@@ -95,7 +96,8 @@ public class RoutedCommand : ICommand
     }
 }
 
-public abstract class RoutedCommandBindableBase: Interactive {
+public abstract class RoutedCommandBindableBase : Interactive
+{
     public abstract IList<RoutedCommandBinding> CommandBindings { get; }
 }
 

@@ -1,7 +1,7 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:s="clr-namespace:Stylet.Xaml">
+    xmlns:s="clr-namespace:Stylet.Avalonia.Xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="TabControl.StyletConductorTabControl">
         <Setter Property="ItemsSource" Value="{Binding Items}" />
         <Setter Property="SelectedItem" Value="{Binding ActiveItem}" />
@@ -15,9 +15,9 @@
                 <DataTemplate>
                     <ContentControl
                         HorizontalAlignment="Stretch"
+                        IsTabStop="False"
                         VerticalAlignment="Stretch"
-                        s:View.Model="{Binding}"
-                        IsTabStop="False" />
+                        s:View.Model="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -30,9 +30,9 @@
                 <DataTemplate>
                     <ContentControl
                         HorizontalAlignment="Stretch"
+                        IsTabStop="False"
                         VerticalAlignment="Stretch"
-                        s:View.Model="{Binding}"
-                        IsTabStop="False" />
+                        s:View.Model="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

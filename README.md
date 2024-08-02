@@ -1,4 +1,4 @@
-![Project Icon](StyletIcon.png) Stylet.Avalonia
+![Project Icon](./StyletIcon.png) Stylet.Avalonia
 ======================================
 
 [英文文档](./README-EN.md)

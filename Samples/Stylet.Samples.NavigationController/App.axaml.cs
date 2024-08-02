@@ -2,10 +2,10 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Stylet.Samples.NavigationController.Pages;
-using StyletIoC;
 using System;
 using Avalonia.Controls;
 using Stylet.Avalonia;
+using Stylet.Avalonia.StyletIoC;
 
 namespace Stylet.Samples.NavigationController
 {

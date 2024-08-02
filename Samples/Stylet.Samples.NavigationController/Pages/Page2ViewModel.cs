@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stylet.Avalonia;
+using System;
 
 namespace Stylet.Samples.NavigationController.Pages;
 

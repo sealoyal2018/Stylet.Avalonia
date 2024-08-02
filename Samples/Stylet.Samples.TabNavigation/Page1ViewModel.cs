@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Stylet.Avalonia;
+using System;
 
 namespace Stylet.Samples.TabNavigation;
 public class Page1ViewModel : Screen, IDisposable

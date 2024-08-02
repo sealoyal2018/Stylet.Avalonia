@@ -1,58 +1,58 @@
 <Window
-    x:Class="Stylet.Avalonia.Primitive.MessageBoxView"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="using:Stylet.Xaml"
-    Title="{Binding DisplayName}"
-    MinWidth="230"
-    MinHeight="150"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     CanResize="False"
+    MinHeight="150"
+    MinWidth="230"
     SizeToContent="WidthAndHeight"
+    Title="{Binding DisplayName}"
     WindowStartupLocation="CenterOwner"
     WindowState="Normal"
-    mc:Ignorable="d">
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Stylet.Avalonia.Primitive.MessageBoxView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="using:Stylet.Avalonia.Xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Border>
         <Grid ColumnDefinitions="auto,*" RowDefinitions="*,auto,50">
             <StackPanel
-                Grid.ColumnSpan="2"
-                VerticalAlignment="Center"
                 FlowDirection="{Binding FlowDirection}"
-                Orientation="Horizontal">
+                Grid.ColumnSpan="2"
+                Orientation="Horizontal"
+                VerticalAlignment="Center">
                 <Image
-                    Width="64"
                     Height="64"
-                    Margin="10"
-                    VerticalAlignment="Center"
                     IsVisible="{Binding ShowIcon}"
-                    Source="{Binding IconUrl}" />
-                <TextBlock
+                    Margin="10"
+                    Source="{Binding IconUrl}"
                     VerticalAlignment="Center"
+                    Width="64" />
+                <TextBlock
                     FlowDirection="{Binding FlowDirection}"
                     Text="{Binding Text}"
                     TextAlignment="{Binding TextAlignment}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Center" />
             </StackPanel>
 
 
             <Border
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Stretch"
                 BorderBrush="LightGray"
-                BorderThickness="1" />
+                BorderThickness="1"
+                Grid.ColumnSpan="2"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch" />
 
             <Border
-                Grid.Row="2"
                 Grid.ColumnSpan="2"
+                Grid.Row="2"
                 Padding="64,12,12,12">
                 <ItemsControl
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    ItemsSource="{Binding ButtonList}">
+                    ItemsSource="{Binding ButtonList}"
+                    VerticalAlignment="Center">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel
@@ -64,13 +64,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button
-                                Width="90"
+                                Command="{s:Action ButtonClicked}"
+                                CommandParameter="{Binding Value}"
+                                Content="{Binding Label}"
                                 Height="30"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Command="{s:Action ButtonClicked}"
-                                CommandParameter="{Binding Value}"
-                                Content="{Binding Label}">
+                                Width="90">
                                 <Button.IsDefault>
                                     <MultiBinding Converter="{x:Static s:EqualityConverter.Instance}">
                                         <Binding />

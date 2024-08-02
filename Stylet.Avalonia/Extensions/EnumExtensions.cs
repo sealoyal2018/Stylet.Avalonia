@@ -15,7 +15,7 @@ internal static class EnumExtensions
         var attribute = self.GetType()
             .GetField(self.ToString())
             .GetCustomAttributes(typeof(DescriptionAttribute), false)
-            .SingleOrDefault() as DescriptionAttribute;
+            .FirstOrDefault() as DescriptionAttribute;
         return attribute == null ? self.ToString() : attribute.Description;
     }
 }

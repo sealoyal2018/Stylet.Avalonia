@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Stylet.Avalonia;
 using System;
 using System.Collections.Generic;
 using System.Linq;

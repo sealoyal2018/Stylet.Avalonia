@@ -1,30 +1,29 @@
 using System;
-
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-
 using Stylet.Avalonia;
+using Stylet.Avalonia.StyletIoC;
 
-namespace Stylet.Samples.Hello
+namespace Stylet.Samples.Hello;
+
+public partial class App : StyletApplication
 {
-    public partial class App : StyletApplication {
-        public override void Initialize()
+    public override void Initialize()
+    {
+        AvaloniaXamlLoader.Load(this);
+        base.Initialize();
+    }
+
+    protected override Control DisplayRootView()
+    {
+        var viewManager = IoC.Get<IViewManager>();
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            AvaloniaXamlLoader.Load(this);
-            base.Initialize();
+            var mainViewModel = IoC.Get<MainViewModel>();
+            return viewManager.CreateAndBindViewForModelIfNecessary(mainViewModel) as TopLevel;
         }
 
-        protected override Control DisplayRootView()
-        {
-            var viewManager = IoC.Get<IViewManager>();
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                var mainViewModel = IoC.Get<MainViewModel>();
-                return viewManager.CreateAndBindViewForModelIfNecessary(mainViewModel) as TopLevel;
-            }
-
-            throw new NotSupportedException();
-        }
+        throw new NotSupportedException();
     }
 }

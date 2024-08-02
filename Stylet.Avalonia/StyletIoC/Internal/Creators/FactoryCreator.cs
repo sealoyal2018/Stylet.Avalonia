@@ -1,33 +1,32 @@
-﻿using StyletIoC.Creation;
+﻿using Stylet.Avalonia.StyletIoC.Creation;
 using System;
 using System.Linq.Expressions;
 
-namespace StyletIoC.Internal.Creators
+namespace Stylet.Avalonia.StyletIoC.Internal.Creators;
+
+/// <summary>
+/// Knows how to create an instance of a type, by using a Func{IRegistration, T} passed by the user during building
+/// </summary>
+/// <typeparam name="T">Type of object created by this factory</typeparam>
+internal class FactoryCreator<T> : CreatorBase
 {
-    /// <summary>
-    /// Knows how to create an instance of a type, by using a Func{IRegistration, T} passed by the user during building
-    /// </summary>
-    /// <typeparam name="T">Type of object created by this factory</typeparam>
-    internal class FactoryCreator<T> : CreatorBase
+    private readonly Func<IRegistrationContext, T> factory;
+
+    public override RuntimeTypeHandle TypeHandle { get { return typeof(T).TypeHandle; } }
+
+    public FactoryCreator(Func<IRegistrationContext, T> factory, IRegistrationContext parentContext)
+        : base(parentContext)
     {
-        private readonly Func<IRegistrationContext, T> factory;
+        this.factory = factory;
+    }
 
-        public override RuntimeTypeHandle TypeHandle { get { return typeof(T).TypeHandle; } }
+    public override Expression GetInstanceExpression(ParameterExpression registrationContext)
+    {
+        // Unfortunately we can't cache the result of this, as it relies on registrationContext
+        var expr = (Expression<Func<IRegistrationContext, T>>)(ctx => factory(ctx));
+        var invoked = Expression.Invoke(expr, registrationContext);
 
-        public FactoryCreator(Func<IRegistrationContext, T> factory, IRegistrationContext parentContext)
-            : base(parentContext)
-        {
-            this.factory = factory;
-        }
-
-        public override Expression GetInstanceExpression(ParameterExpression registrationContext)
-        {
-            // Unfortunately we can't cache the result of this, as it relies on registrationContext
-            var expr = (Expression<Func<IRegistrationContext, T>>)(ctx => this.factory(ctx));
-            var invoked = Expression.Invoke(expr, registrationContext);
-
-            var completeExpression = this.CompleteExpressionFromCreator(invoked, registrationContext);
-            return completeExpression;
-        }
+        var completeExpression = CompleteExpressionFromCreator(invoked, registrationContext);
+        return completeExpression;
     }
 }

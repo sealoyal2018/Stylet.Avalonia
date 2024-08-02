@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 
 using DryIoc;
-
 using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Avalonia.DryIoC;
@@ -13,7 +12,8 @@ public abstract class StyletApplication : StyletApplicationBase
     /// </summary>
     protected readonly IContainer _container;
     private readonly List<Assembly> _assemblies;
-    public StyletApplication()
+    
+    protected StyletApplication()
     {
         _container = new Container();
         _assemblies = new List<Assembly>();
