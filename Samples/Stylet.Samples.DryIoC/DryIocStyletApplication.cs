@@ -1,19 +1,25 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Avalonia.Controls;
-
 using DryIoc;
+using Stylet.Avalonia;
 using Stylet.Avalonia.Primitive;
 
-namespace Stylet.Avalonia.DryIoC;
-public abstract class StyletApplication<T> : StyletApplicationBase<T> where T: class
+namespace Stylet.Samples.DryIoC;
+
+public class DryIocStyletApplication<T> : StyletApplicationBase<T>
+    where T: class
 {
+    
     /// <summary>
     /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
     /// </summary>
     private readonly IContainer _container;
     private readonly List<Assembly> _assemblies;
     
-    protected StyletApplication()
+    protected DryIocStyletApplication()
     {
         _container = new Container();
         _assemblies = new List<Assembly>();

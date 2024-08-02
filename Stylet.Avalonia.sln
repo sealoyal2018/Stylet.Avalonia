@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.OverridingVi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Samples.TabNavigation", "Samples\Stylet.Samples.TabNavigation\Stylet.Samples.TabNavigation.csproj", "{52CFF303-0FE6-4682-B244-AD3F630D836E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylet.Avalonia.DryIoC", "Stylet.Avalonia.DryIoC\Stylet.Avalonia.DryIoC.csproj", "{5531DF41-BEF0-4D74-8BA6-5E246F39F523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylet.Samples.DryIoC", "Samples\Stylet.Samples.DryIoC\Stylet.Samples.DryIoC.csproj", "{2771A72B-8BDF-40B8-977D-B29CBBF0F853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CFF303-0FE6-4682-B244-AD3F630D836E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5531DF41-BEF0-4D74-8BA6-5E246F39F523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5531DF41-BEF0-4D74-8BA6-5E246F39F523}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5531DF41-BEF0-4D74-8BA6-5E246F39F523}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5531DF41-BEF0-4D74-8BA6-5E246F39F523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2771A72B-8BDF-40B8-977D-B29CBBF0F853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +70,7 @@ Global
 		{C1DF59E9-C47F-4801-AF38-D308BDD411E3} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{06B4CA61-8823-42B8-8D47-5FCE3004BB37} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 		{52CFF303-0FE6-4682-B244-AD3F630D836E} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
+		{2771A72B-8BDF-40B8-977D-B29CBBF0F853} = {637794D0-B4D2-4E95-970F-E4887B1FEDA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B5CD8D44-4D13-417F-B87B-58187A3A2897}
