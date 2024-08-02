@@ -3,7 +3,7 @@
 
 [英文文档](./README-EN.md)
 
->  请注意本项目需要 AvaloniaUI 版本 >= 0.11.0-preview
+>  请注意本项目需要 AvaloniaUI 版本 >= 11.x
 
 ## 项目介绍
 
@@ -11,11 +11,11 @@
 
 ## 快速开始
 
-第一步：创建一个AvaloniaUI框架
+第一步：创建一个Avalonia框架类型的项目
 
 第二步：nuget 管理器安装 `Stylet.Avalonia`包
 
-第三步：创建`ShellViewModel`类，以及`Avalonia Window`类型名为`ShellView`的窗口组件，其内容如下【其实啥也没动】
+第三步：创建`ShellViewModel`类，以及名为`ShellView`的窗口组件（`Avalonia Window`类型），其内容如下【其实啥也没动】
 
 - ShellViewModel.cs
 
@@ -53,23 +53,7 @@ public partial class ShellView : Window
 ```
 
 
-
-第四步：修改`App.axaml`文件，其内容如下：
-
-```xaml
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    		 xmlns:s="https://github.com/sealoyal2018/stylet.avalonia"
-             xmlns:local="using:Avalonia.NETCoreApp1"
-             x:Class="Avalonia.NETCoreApp1.App"
-    RequestedThemeVariant="Light">
-    <Application.Styles>
-        <FluentTheme/>
-    </Application.Styles>
-</Application>
-```
-
-第五步：找到并打开`App.axaml.cs`文件，使其继承于`StyletApplication<T>`其中`T`为任一`ViewModel`，当前内容如下
+第四步：找到并打开`App.axaml.cs`文件，使其继承于`StyletApplication<T>`其中`T`为任一`ViewModel`，当前设置为第三步创建的`ShellViewModel`，修改后内容如下
 
 ```c#
 public partial class App : StyletApplication<ShellViewModel>
@@ -82,7 +66,7 @@ public partial class App : StyletApplication<ShellViewModel>
 }
 ```
 
-第七步：运行。快乐的写代码吧！
+第五步：运行。快乐的写代码吧！
 
 ## 其他
 
