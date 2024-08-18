@@ -47,19 +47,16 @@ public abstract class StyletApplicationBase<T> : Application, IWindowManagerConf
     /// Returns the currently-displayed window, or null if there is none (or it can't be determined)
     /// </summary>
     /// <returns>The currently-displayed window, or null</returns>
-    public virtual AvaloniaObject? GetActiveWindow()
+    public virtual TopLevel? GetActiveWindow()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desk)
+        if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desk)
         {
-            var win = desk.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-            return win ?? desk.MainWindow;
+            // return win ?? desk.MainWindow;
+            throw new NotImplementedException("Mobile terminal adaptation is not implemented"); // 移动端暂未支持
         }
-
-        if (ApplicationLifetime is ISingleViewApplicationLifetime single)
-        {
-            return single.MainView;
-        }
-        return null;
+        
+        var win = desk.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
+        return TopLevel.GetTopLevel(win);
     }
 
     public sealed override void OnFrameworkInitializationCompleted()

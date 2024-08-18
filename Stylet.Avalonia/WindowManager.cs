@@ -77,7 +77,7 @@ public interface IWindowManagerConfig
     /// Returns the currently-displayed window, or null if there is none (or it can't be determined)
     /// </summary>
     /// <returns>The currently-displayed window, or null</returns>
-    AvaloniaObject? GetActiveWindow();
+    TopLevel? GetActiveWindow();
 }
 
 /// <summary>
@@ -87,7 +87,7 @@ public class WindowManager : IWindowManager
 {
     private static readonly ILogger logger = LogManager.GetLogger(typeof(WindowManager));
     private readonly IViewManager viewManager;
-    private readonly Func<AvaloniaObject?> getActiveWindow;
+    private readonly Func<TopLevel?> getActiveWindow;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="WindowManager"/> class, using the given <see cref="IViewManager"/>
