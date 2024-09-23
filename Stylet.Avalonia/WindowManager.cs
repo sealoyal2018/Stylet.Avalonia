@@ -203,7 +203,21 @@ public class WindowManager : IWindowManager
 
         if (ownerViewModel?.View is Window explicitOwner)
         {
-            window.SetValue(WindowBase.OwnerProperty, explicitOwner);
+            //window.SetValue(WindowBase.OwnerProperty, explicitOwner);
+            try
+            {
+                // window.Owner = owner;
+                // window.SetValue(Window.OwnerProperty, owner);
+                var propertyInfo = typeof(WindowBase).GetProperty(nameof(Window.Owner), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (propertyInfo is not null && propertyInfo.CanWrite)
+                {
+                    propertyInfo.SetValue(window, explicitOwner); // 设置新值
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                logger.Error(e, "This can occur when the application is closing down");
+            }
         }
         else if (isDialog)
         {
