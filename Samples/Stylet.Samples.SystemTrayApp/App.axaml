@@ -1,0 +1,26 @@
+<Application
+    x:Class="Stylet.Samples.SystemTrayApp.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="https://github.com/sealoyal2018/stylet.avalonia"
+    RequestedThemeVariant="Light">
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Command="{s:Action ShowMainWindow}" 
+                      Icon="/Assets/avalonia-logo.ico" MacOSProperties.IsTemplateIcon="true" 
+                      ToolTipText="Avalonia Tray Icon ToolTip">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="{Binding InstanceId}" />
+                        <NativeMenuItem Header="Show Main Window" Command="{s:Action ShowMainWindow}" />
+                        <NativeMenuItemSeparator />
+                        <NativeMenuItem Header="Exit" Command="{s:Action ExitApplication}" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+</Application>

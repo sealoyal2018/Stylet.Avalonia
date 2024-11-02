@@ -3,7 +3,7 @@ using Stylet.Avalonia.StyletIoC;
 
 namespace Stylet.Samples.TabNavigation;
 
-public partial class App : StyletApplication<ShellViewModel>
+public partial class App : StyletIoCApplication<ShellViewModel>
 {
     public override void Initialize()
     {

@@ -13,8 +13,7 @@ public static class ScreenExtensions
     /// <param name="screen">Screen to activate</param>
     public static void TryActivate(object screen)
     {
-        var screenAsScreenState = screen as IScreenState;
-        if (screenAsScreenState != null)
+        if (screen is IScreenState screenAsScreenState)
             screenAsScreenState.Activate();
     }
 
@@ -24,8 +23,7 @@ public static class ScreenExtensions
     /// <param name="screen">Screen to deactivate</param>
     public static void TryDeactivate(object screen)
     {
-        var screenAsScreenState = screen as IScreenState;
-        if (screenAsScreenState != null)
+        if (screen is IScreenState screenAsScreenState)
             screenAsScreenState.Deactivate();
     }
 
@@ -35,8 +33,7 @@ public static class ScreenExtensions
     /// <param name="screen">Screen to close</param>
     public static void TryClose(object screen)
     {
-        var screenAsScreenState = screen as IScreenState;
-        if (screenAsScreenState != null)
+        if (screen is IScreenState screenAsScreenState)
             screenAsScreenState.Close();
     }
 
@@ -46,8 +43,7 @@ public static class ScreenExtensions
     /// <param name="screen">Screen to dispose</param>
     public static void TryDispose(object screen)
     {
-        var screenAsDispose = screen as IDisposable;
-        if (screenAsDispose != null)
+        if (screen is IDisposable screenAsDispose)
             screenAsDispose.Dispose();
     }
 

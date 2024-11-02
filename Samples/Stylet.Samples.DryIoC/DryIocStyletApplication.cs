@@ -9,7 +9,7 @@ using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Samples.DryIoC;
 
-public class DryIocStyletApplication<T> : StyletApplicationBase<T>
+public class DryIocStyletApplication<T> : StyletApplication<T>
     where T: class
 {
     
