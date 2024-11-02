@@ -10,7 +10,7 @@ using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Samples.MSIoC;
 
-public class MsStyletApplication<T> : StyletApplicationBase<T>
+public class MsStyletApplication<T> : StyletApplication<T>
 where T: class
 {
     private readonly IServiceCollection _serviceCollection;

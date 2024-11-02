@@ -9,7 +9,7 @@ using Stylet.Avalonia.StyletIoC;
 
 namespace Stylet.Samples.NavigationController
 {
-    public partial class App : StyletApplication<ShellViewModel>
+    public partial class App : StyletIoCApplication<ShellViewModel>
     {
         public override void Initialize()
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Stylet.Avalonia.Logging;
 using Stylet.Avalonia.Primitive;
 
 namespace Stylet.Avalonia.StyletIoC;
@@ -9,11 +10,11 @@ namespace Stylet.Avalonia.StyletIoC;
 /// StyletApplication to be extended by any application which wants to use StyletIoC, but doesn't have a root ViewModel
 /// </summary>
 /// <remarks>
-/// You would normally use <see cref="StyletApplication"/>, which lets you specify the root ViewModel
+/// You would normally use <see cref="StyletIoCApplication{T}"/>, which lets you specify the root ViewModel
 /// to display. If you don't want to show a window on startup, override <see cref="StyletApplicationBase"/>
 /// but don't call <see cref="StyletApplicationBase.DisplayRootView()"/>. 
 /// </remarks>
-public abstract class StyletApplication<T> : StyletApplicationBase<T> where T : class
+public abstract class StyletIoCApplication<T> : StyletApplication<T> where T : class
 {
     /// <summary>
     /// Gets or sets the StyletApplication's IoC container. This is created after ConfigureIoC has been run.
