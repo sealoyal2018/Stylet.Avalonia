@@ -53,6 +53,9 @@ public abstract class StyletApplicationBase : Application, IWindowManagerConfig,
     /// <returns>The currently-displayed window, or null</returns>
     public virtual TopLevel? GetActiveWindow()
     {
+        if (Design.IsDesignMode)
+            return null;
+        
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desk)
         {
             // return win ?? desk.MainWindow;
@@ -74,6 +77,9 @@ public abstract class StyletApplicationBase : Application, IWindowManagerConfig,
 
     public sealed override void OnFrameworkInitializationCompleted()
     {
+        if (Design.IsDesignMode)
+            return;
+        
         if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
         {
             throw new NotImplementedException("Mobile terminal adaptation is not implemented"); // 移动端暂未支持
