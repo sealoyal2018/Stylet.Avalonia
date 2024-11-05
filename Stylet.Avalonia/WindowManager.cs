@@ -117,7 +117,10 @@ public class WindowManager : IWindowManager
     /// <param name="ownerViewModel">The ViewModel for the View which should own this window</param>
     public void ShowWindow(object viewModel, IViewAware ownerViewModel)
     {
-        CreateWindow(viewModel, false, ownerViewModel).Show();
+        var window = CreateWindow(viewModel, false, ownerViewModel);
+        window.Show();
+        // Make sure the window is activated, in case it's not the topmost window
+        window.Activate();
     }
 
     /// <summary>

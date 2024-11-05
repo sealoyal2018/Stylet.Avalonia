@@ -7,7 +7,7 @@ using Stylet.Avalonia.StyletIoC;
 
 namespace Stylet.Samples.Hello;
 
-public partial class App : StyletApplication<MainViewModel>
+public partial class App : StyletIoCApplication<MainViewModel>
 {
     public override void Initialize()
     {
