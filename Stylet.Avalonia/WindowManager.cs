@@ -195,7 +195,7 @@ public class WindowManager : IWindowManager
         {
             var binding = new Binding(nameof(IHaveDisplayName.DisplayName))
             {
-                Source = haveDisplayName.DisplayName,
+                Source = haveDisplayName,
                 Mode = BindingMode.TwoWay
             };
             window.Bind(Window.TitleProperty, binding);
