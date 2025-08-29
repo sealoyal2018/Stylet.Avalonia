@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 public partial class Conductor<T>
 {
@@ -12,7 +8,7 @@ public partial class Conductor<T>
     public class StackNavigation : ConductorBaseWithActiveItem<T>
     {
         // We need to remove arbitrary items, so no Stack<T> here!
-        private readonly List<T> history = new List<T>();
+        private readonly List<T> _history = new();
 
         /// <summary>
         /// Activate the given item. This deactivates the previous item, and pushes it onto the history stack
@@ -28,7 +24,7 @@ public partial class Conductor<T>
             else
             {
                 if (this.ActiveItem != null)
-                    this.history.Add(this.ActiveItem);
+                    this._history.Add(this.ActiveItem);
                 this.ChangeActiveItem(item, false);
             }
         }
@@ -55,11 +51,11 @@ public partial class Conductor<T>
         /// </summary>
         public void Clear()
         {
-            foreach (var item in this.history)
+            foreach (var item in this._history)
             {
                 this.CloseAndCleanUp(item, this.DisposeChildren);
             }
-            this.history.Clear();
+            this._history.Clear();
         }
 
         /// <summary>
@@ -74,17 +70,17 @@ public partial class Conductor<T>
             if (item.Equals(this.ActiveItem))
             {
                 var newItem = default(T);
-                if (this.history.Count > 0)
+                if (this._history.Count > 0)
                 {
-                    newItem = this.history.Last();
-                    this.history.RemoveAt(this.history.Count - 1);
+                    newItem = this._history.Last();
+                    this._history.RemoveAt(this._history.Count - 1);
                 }
                 this.ChangeActiveItem(newItem, true);
             }
-            else if (this.history.Contains(item))
+            else if (this._history.Contains(item))
             {
                 this.CloseAndCleanUp(item, this.DisposeChildren);
-                this.history.Remove(item);
+                this._history.Remove(item);
             }
         }
 
@@ -99,7 +95,7 @@ public partial class Conductor<T>
             if (!this.CanClose())
 #pragma warning restore CS0618 // Type or member is obsolete
                 return Task.FromResult(false);
-            return this.CanAllItemsCloseAsync(this.history.Concat(new[] { this.ActiveItem }));
+            return this.CanAllItemsCloseAsync(this._history.Concat(new[] { this.ActiveItem }));
         }
 
         /// <summary>
@@ -108,9 +104,9 @@ public partial class Conductor<T>
         protected override void OnClose()
         {
             // We've already been deactivated by this point
-            foreach (var item in this.history)
+            foreach (var item in this._history)
                 this.CloseAndCleanUp(item, this.DisposeChildren);
-            this.history.Clear();
+            this._history.Clear();
 
             this.CloseAndCleanUp(this.ActiveItem, this.DisposeChildren);
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Base class for things which can raise PropertyChanged events
@@ -19,14 +13,14 @@ public abstract class PropertyChangedBase : INotifyPropertyChanged, INotifyPrope
     [System.Xml.Serialization.XmlIgnore]
     public virtual Action<Action> PropertyChangedDispatcher
     {
-        get { return _propertyChangedDispatcher; }
-        set { _propertyChangedDispatcher = value; }
+        get => _propertyChangedDispatcher;
+        set => _propertyChangedDispatcher = value;
     }
 
     /// <summary>
     /// Occurs when a property value changes
     /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Refresh all properties
@@ -65,11 +59,10 @@ public abstract class PropertyChangedBase : INotifyPropertyChanged, INotifyPrope
     {
         if (PropertyChanged != null)
         {
-            Execute.OnUIThread(() => PropertyChangedDispatcher(() =>
+            Dispatcher.UIThread.Invoke(() => PropertyChangedDispatcher(() =>
             {
                 var handler = PropertyChanged;
-                if (handler != null)
-                    handler(this, new PropertyChangedEventArgs(propertyName));
+                handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }));
         }
     }
@@ -90,9 +83,7 @@ public abstract class PropertyChangedBase : INotifyPropertyChanged, INotifyPrope
             NotifyOfPropertyChange(propertyName: propertyName);
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }

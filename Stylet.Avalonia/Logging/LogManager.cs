@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Stylet.Avalonia.Logging;
+﻿namespace Stylet.Avalonia.Logging;
 
 /// <summary>
 /// Manager for ILoggers. Used to create new ILoggers, and set up how ILoggers are created
 /// </summary>
 public static class LogManager
 {
-    private static readonly ILogger nullLogger = new NullLogger();
+    private static readonly ILogger NullLogger = new NullLogger();
 
     /// <summary>
     /// Gets or sets a value indicating whether logging is enabled
@@ -48,6 +46,6 @@ public static class LogManager
     /// <returns>ILogger with the given name</returns>
     public static ILogger GetLogger(string name)
     {
-        return Enabled ? LoggerFactory(name) : nullLogger;
+        return Enabled ? LoggerFactory(name) : NullLogger;
     }
 }

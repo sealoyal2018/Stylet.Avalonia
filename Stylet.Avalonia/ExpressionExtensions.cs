@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Useful extension methods on Expressions
@@ -18,10 +15,7 @@ public static class ExpressionExtensions
     {
         Expression body;
         var expression = propertyExpression.Body as UnaryExpression;
-        if (expression != null)
-            body = expression.Operand;
-        else
-            body = propertyExpression.Body;
+        body = expression != null ? expression.Operand : propertyExpression.Body;
 
         var member = body as MemberExpression;
         if (member == null)

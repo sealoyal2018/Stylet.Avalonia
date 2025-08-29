@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Stylet.Avalonia.StyletIoC.Creation;
+﻿namespace Stylet.Avalonia.StyletIoC.Creation;
 
 /// <summary>
 /// Context used by IRegistration and ICreator to get things needed to create instances, etc

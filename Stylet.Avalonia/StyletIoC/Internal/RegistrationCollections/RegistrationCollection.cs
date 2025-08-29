@@ -1,10 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using StyletIoC;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.RegistrationCollections;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.RegistrationCollections;
 
 internal class RegistrationCollection : IRegistrationCollection
 {

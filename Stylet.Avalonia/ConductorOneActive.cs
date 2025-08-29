@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 public partial class Conductor<T>
 {
@@ -14,17 +9,14 @@ public partial class Conductor<T>
         /// </summary>
         public class OneActive : ConductorBaseWithActiveItem<T>
         {
-            private readonly BindableCollection<T> items = new BindableCollection<T>();
+            private readonly BindableCollection<T> items = new();
 
             private List<T> itemsBeforeReset;
 
             /// <summary>
             /// Gets the tems owned by this Conductor, one of which is active
             /// </summary>
-            public IObservableCollection<T> Items
-            {
-                get { return items; }
-            }
+            public IObservableCollection<T> Items => items;
 
             /// <summary>
             /// Initialises a new instance of the <see cref="Conductor{T}.Collection.OneActive"/> class
@@ -167,22 +159,20 @@ public partial class Conductor<T>
                 {
                     return items.FirstOrDefault();
                 }
-                else if (items.Count > 1)
+
+                if (items.Count > 1)
                 {
                     // indexOfItemBeingRemoved *can* be -1 - if the item being removed doesn't exist in the list
                     var indexOfItemBeingRemoved = items.IndexOf(itemToRemove);
 
                     if (indexOfItemBeingRemoved < 0)
                         return items[0];
-                    else if (indexOfItemBeingRemoved == 0)
+                    if (indexOfItemBeingRemoved == 0)
                         return items[1];
-                    else
-                        return items[indexOfItemBeingRemoved - 1];
+                    return items[indexOfItemBeingRemoved - 1];
                 }
-                else
-                {
-                    return default;
-                }
+
+                return default;
             }
 
             /// <summary>

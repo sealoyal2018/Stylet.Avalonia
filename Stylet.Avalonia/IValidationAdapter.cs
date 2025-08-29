@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Generic version of IValidationArapter. Provided for use with StyletIoC

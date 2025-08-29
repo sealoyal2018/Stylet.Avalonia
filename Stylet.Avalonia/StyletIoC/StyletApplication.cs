@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Stylet.Avalonia.Primitive;
-
-namespace Stylet.Avalonia.StyletIoC;
+﻿namespace Stylet.Avalonia.StyletIoC;
 
 /// <summary>
 /// StyletApplication to be extended by any application which wants to use StyletIoC, but doesn't have a root ViewModel

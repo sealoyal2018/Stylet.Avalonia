@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace Stylet.Avalonia;
 
 public partial class Conductor<T>
@@ -18,34 +13,33 @@ public partial class Conductor<T>
         /// </summary>
         public class AllActive : ConductorBase<T>
         {
-            private readonly BindableCollection<T> items = new BindableCollection<T>();
+            private readonly BindableCollection<T> _items = new();
 
             private List<T> itemsBeforeReset;
 
             /// <summary>
             /// Gets all items associated with this conductor
             /// </summary>
-            public IObservableCollection<T> Items
-            {
-                get { return this.items; }
-            }
+            public IObservableCollection<T> Items => _items;
 
             /// <summary>
             /// Initialises a new instance of the <see cref="Conductor{T}.Collection.AllActive"/> class
             /// </summary>
             public AllActive()
             {
-                this.items.CollectionChanging += (o, e) =>
+                _items.CollectionChanging += (o, e) =>
                 {
                     switch (e.Action)
                     {
                         case NotifyCollectionChangedAction.Reset:
-                            this.itemsBeforeReset = this.items.ToList();
+                            this.itemsBeforeReset = this._items.ToList();
+                            break;
+                        default:
                             break;
                     }
                 };
 
-                this.items.CollectionChanged += (o, e) =>
+                _items.CollectionChanged += (o, e) =>
                 {
                     switch (e.Action)
                     {
@@ -63,9 +57,11 @@ public partial class Conductor<T>
                             break;
 
                         case NotifyCollectionChangedAction.Reset:
-                            this.ActivateAndSetParent(this.items.Except(this.itemsBeforeReset));
-                            this.CloseAndCleanUp(this.itemsBeforeReset.Except(this.items), this.DisposeChildren);
+                            this.ActivateAndSetParent(this._items.Except(this.itemsBeforeReset));
+                            this.CloseAndCleanUp(this.itemsBeforeReset.Except(this._items), this.DisposeChildren);
                             this.itemsBeforeReset = null;
+                            break;
+                        default:
                             break;
                     }
                 };
@@ -86,7 +82,7 @@ public partial class Conductor<T>
             protected override void OnActivate()
             {
                 // Copy the list, in case someone tries to modify it as a result of being activated
-                var itemsToActivate = this.items.OfType<IScreenState>().ToList();
+                var itemsToActivate = this._items.OfType<IScreenState>().ToList();
                 foreach (var item in itemsToActivate)
                 {
                     item.Activate();
@@ -99,7 +95,7 @@ public partial class Conductor<T>
             protected override void OnDeactivate()
             {
                 // Copy the list, in case someone tries to modify it as a result of being activated
-                var itemsToDeactivate = this.items.OfType<IScreenState>().ToList();
+                var itemsToDeactivate = this._items.OfType<IScreenState>().ToList();
                 foreach (var item in itemsToDeactivate)
                 {
                     item.Deactivate();
@@ -113,13 +109,13 @@ public partial class Conductor<T>
             {
                 // Copy the list, in case someone tries to modify it as a result of being closed
                 // We've already been deactivated by this point    
-                var itemsToClose = this.items.ToList();
+                var itemsToClose = this._items.ToList();
                 foreach (var item in itemsToClose)
                 {
                     this.CloseAndCleanUp(item, this.DisposeChildren);
                 }
                 
-                this.items.Clear();
+                this._items.Clear();
             }
 
             /// <summary>
@@ -133,7 +129,7 @@ public partial class Conductor<T>
                 if (!this.CanClose())
 #pragma warning restore CS0618 // Type or member is obsolete
                     return Task.FromResult(false);
-                return this.CanAllItemsCloseAsync(this.items);
+                return this.CanAllItemsCloseAsync(this._items);
             }
 
             /// <summary>
@@ -174,7 +170,7 @@ public partial class Conductor<T>
                 if (await this.CanCloseItem(item))
                 {
                     this.CloseAndCleanUp(item, this.DisposeChildren);
-                    this.items.Remove(item);
+                    this._items.Remove(item);
                 }
             }
 
@@ -184,7 +180,7 @@ public partial class Conductor<T>
             /// <returns>All children associated with this conductor</returns>
             public override IEnumerable<T> GetChildren()
             {
-                return this.items;
+                return this._items;
             }
 
             /// <summary>
@@ -193,8 +189,8 @@ public partial class Conductor<T>
             /// <param name="newItem">Item to ensure</param>
             protected override void EnsureItem(T newItem)
             {
-                if (!this.items.Contains(newItem))
-                    this.items.Add(newItem);
+                if (!this._items.Contains(newItem))
+                    this._items.Add(newItem);
 
                 base.EnsureItem(newItem);
             }

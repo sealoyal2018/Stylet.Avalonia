@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using Stylet.Avalonia.StyletIoC.Creation;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
 
 internal class BuilderToAllImplementationsBinding : BuilderBindingBase
 {

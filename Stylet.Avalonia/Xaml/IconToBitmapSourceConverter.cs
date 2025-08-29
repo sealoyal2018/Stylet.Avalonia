@@ -1,15 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Reflection;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Stylet.Avalonia.Logging;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Converter to take an Icon, and convert it to a BitmapSource
@@ -18,12 +7,12 @@ namespace Stylet.Avalonia.Xaml;
     Justification = "Don't agree with prefixing static method calls with the class name")]
 public class IconToBitmapSourceConverter : IValueConverter
 {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(IconToBitmapSourceConverter));
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(IconToBitmapSourceConverter));
 
     /// <summary>
     /// Singleton instance of this converter. Usage e.g. Converter="{x:Static s:IconToBitmapSourceConverter.Instance}"
     /// </summary>
-    public static readonly IconToBitmapSourceConverter Instance = new IconToBitmapSourceConverter();
+    public static readonly IconToBitmapSourceConverter Instance = new ();
 
     /// <summary>
     /// Converts a value

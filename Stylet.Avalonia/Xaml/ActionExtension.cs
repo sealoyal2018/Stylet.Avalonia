@@ -1,9 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Input;
-using Avalonia;
-using Avalonia.Markup.Xaml;
-
+﻿
 namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
@@ -74,25 +69,13 @@ public class ActionExtension : MarkupExtension
         Method = method;
     }
 
-    private ActionUnavailableBehaviour CommandNullTargetBehaviour
-    {
-        get { return NullTarget == ActionUnavailableBehaviour.Default ? Execute.InDesignMode ? ActionUnavailableBehaviour.Enable : ActionUnavailableBehaviour.Disable : NullTarget; }
-    }
+    private ActionUnavailableBehaviour CommandNullTargetBehaviour => NullTarget == ActionUnavailableBehaviour.Default ? Execute.InDesignMode ? ActionUnavailableBehaviour.Enable : ActionUnavailableBehaviour.Disable : NullTarget;
 
-    private ActionUnavailableBehaviour CommandActionNotFoundBehaviour
-    {
-        get { return ActionNotFound == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Throw : ActionNotFound; }
-    }
+    private ActionUnavailableBehaviour CommandActionNotFoundBehaviour => ActionNotFound == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Throw : ActionNotFound;
 
-    private ActionUnavailableBehaviour EventNullTargetBehaviour
-    {
-        get { return NullTarget == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Enable : NullTarget; }
-    }
+    private ActionUnavailableBehaviour EventNullTargetBehaviour => NullTarget == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Enable : NullTarget;
 
-    private ActionUnavailableBehaviour EventActionNotFoundBehaviour
-    {
-        get { return ActionNotFound == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Throw : ActionNotFound; }
-    }
+    private ActionUnavailableBehaviour EventActionNotFoundBehaviour => ActionNotFound == ActionUnavailableBehaviour.Default ? ActionUnavailableBehaviour.Throw : ActionNotFound;
 
     /// <summary>
     /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
@@ -106,7 +89,7 @@ public class ActionExtension : MarkupExtension
 
         var valueService = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
 
-        switch (valueService.TargetObject)
+        switch (valueService?.TargetObject)
         {
             case AvaloniaObject targetObject:
                 return HandleDependencyObject(serviceProvider, valueService, targetObject);
@@ -128,7 +111,6 @@ public class ActionExtension : MarkupExtension
             var eventInfo = type.GetEvent(str);
             return CreateEventAction(serviceProvider, targetObject, eventInfo.EventHandlerType);
         }
-
 
         switch (valueService.TargetProperty)
         {
@@ -195,7 +177,7 @@ public class ActionExtension : MarkupExtension
 /// <summary>
 /// The View.ActionTarget was not set. This probably means the item is in a ContextMenu/Popup
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public class ActionNotSetException : Exception
 {
     internal ActionNotSetException(string message) : base(message) { }
@@ -204,7 +186,7 @@ public class ActionNotSetException : Exception
 /// <summary>
 /// The Action Target was null, and shouldn't have been (NullTarget = Throw)
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public class ActionTargetNullException : Exception
 {
     internal ActionTargetNullException(string message) : base(message) { }
@@ -213,7 +195,7 @@ public class ActionTargetNullException : Exception
 /// <summary>
 /// The method specified could not be found on the Action Target
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public class ActionNotFoundException : Exception
 {
     internal ActionNotFoundException(string message) : base(message) { }
@@ -222,7 +204,7 @@ public class ActionNotFoundException : Exception
 /// <summary>
 /// The method specified does not have the correct signature
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public class ActionSignatureInvalidException : Exception
 {
     internal ActionSignatureInvalidException(string message) : base(message) { }

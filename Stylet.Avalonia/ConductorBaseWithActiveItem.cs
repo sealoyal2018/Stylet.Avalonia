@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Base class for all conductors which had a single active item
@@ -15,8 +13,8 @@ public abstract class ConductorBaseWithActiveItem<T> : ConductorBase<T>, IHaveAc
     /// </summary>
     public T ActiveItem
     {
-        get { return _activeItem; }
-        set { ActivateItem(value); }
+        get => _activeItem;
+        set => ActivateItem(value);
     }
 
     /// <summary>
@@ -41,7 +39,7 @@ public abstract class ConductorBaseWithActiveItem<T> : ConductorBase<T>, IHaveAc
 
         _activeItem = newItem;
 
-        if (newItem != null)
+        if (newItem is not null)
         {
             EnsureItem(newItem);
 

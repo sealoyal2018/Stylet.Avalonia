@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using Avalonia.Controls;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Is aware of the fact that it has a view

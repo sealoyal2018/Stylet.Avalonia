@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// StyletApplication to be extended by applications which don't want to use StyletIoC as the IoC container.
 /// </summary>
 public abstract class StyletApplicationBase<T> : Application, IWindowManagerConfig, IDisposable
-    where T: class
+    where T : class
 {
     public override void Initialize()
     {
@@ -30,7 +22,7 @@ public abstract class StyletApplicationBase<T> : Application, IWindowManagerConf
     /// <param name="type">Type of instance to fetch</param>
     /// <returns>Fetched instance</returns>
     protected abstract object GetInstance(Type type);
-    
+
     protected abstract object GetInstance(Type service, string? key);
 
     /// <summary>
@@ -42,7 +34,7 @@ public abstract class StyletApplicationBase<T> : Application, IWindowManagerConf
     /// Called on application startup. This occur after this.Args has been assigned, but before the IoC container has been configured
     /// </summary>
     protected virtual void OnStart() { }
-    
+
     /// <summary>
     /// Returns the currently-displayed window, or null if there is none (or it can't be determined)
     /// </summary>
@@ -54,21 +46,25 @@ public abstract class StyletApplicationBase<T> : Application, IWindowManagerConf
             // return win ?? desk.MainWindow;
             throw new NotImplementedException("Mobile terminal adaptation is not implemented"); // 移动端暂未支持
         }
-        
+
         var win = desk.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
         return TopLevel.GetTopLevel(win);
     }
 
     public sealed override void OnFrameworkInitializationCompleted()
     {
-        if (ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            throw new NotImplementedException("Mobile terminal adaptation is not implemented"); // 移动端暂未支持
-        }
-        OnStart();
         var vm = IoC.Get<T>();
-        var winmgr = IoC.Get<IWindowManager>();
-        winmgr.ShowWindow(vm);
+        OnStart();
+        var viewManager = IoC.Get<IViewManager>();
+        var view = viewManager.CreateAndBindViewForModelIfNecessary(vm);
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.MainWindow = view as Window;
+        }
+        if(ApplicationLifetime is ISingleViewApplicationLifetime single)
+        {
+            single.MainView = vm as Control;
+        }
         base.OnFrameworkInitializationCompleted();
     }
 

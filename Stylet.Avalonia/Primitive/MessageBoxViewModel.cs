@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using Stylet.Avalonia.Extensions;
-
-namespace Stylet.Avalonia.Primitive;
+﻿namespace Stylet.Avalonia.Primitive;
 
 /// <summary>
 /// Default implementation of IMessageBoxViewModel, and is therefore the ViewModel shown by default by ShowMessageBox

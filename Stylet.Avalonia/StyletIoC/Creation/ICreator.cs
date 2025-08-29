@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia.StyletIoC.Creation;
+﻿namespace Stylet.Avalonia.StyletIoC.Creation;
 
 /// <summary>
 /// An ICreator is responsible for creating an instance of an object on demand

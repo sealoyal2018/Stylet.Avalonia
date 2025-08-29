@@ -1,9 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using System;
-using System.Linq.Expressions;
-using System.Threading;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Registrations;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Registrations;
 
 /// <summary>
 /// Registration which generates a single instance, and returns that instance thereafter

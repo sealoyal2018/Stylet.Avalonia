@@ -1,13 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-
 namespace Stylet.Avalonia;
 
 public class RoutedCommand : ICommand
@@ -23,7 +13,6 @@ public class RoutedCommand : ICommand
 
     static RoutedCommand()
     {
-
         CanExecuteEvent.AddClassHandler<RoutedCommandBindableBase>(CanExecuteEventHandler);
         ExecutedEvent.AddClassHandler<RoutedCommandBindableBase>(ExecutedEventHandler);
     }

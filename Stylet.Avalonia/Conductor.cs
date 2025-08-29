@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Conductor with a single active item, and no other items

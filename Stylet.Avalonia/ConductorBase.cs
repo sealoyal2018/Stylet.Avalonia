@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Base class for all conductors
@@ -15,12 +10,12 @@ public abstract class ConductorBase<T> : Screen, IConductor<T>, IParent<T>, IChi
 
     /// <summary>
     /// Gets or sets a value indicating whether to dispose a child when it's closed. True by default
+    /// Can't be an auto-property, since it's virtual so we can't set it in the ctor 
     /// </summary>
-    // Can't be an auto-property, since it's virtual so we can't set it in the ctor 
     public virtual bool DisposeChildren
     {
-        get { return _disposeChildren; }
-        set { _disposeChildren = value; }
+        get => _disposeChildren;
+        set => _disposeChildren = value;
     }
 
     /// <summary>
@@ -72,7 +67,9 @@ public abstract class ConductorBase<T> : Screen, IConductor<T>, IParent<T>, IChi
         foreach (var itemToClose in itemsToClose)
         {
             if (!await CanCloseItem(itemToClose))
+            {
                 return false;
+            }
         }
 
         return true;
@@ -99,8 +96,9 @@ public abstract class ConductorBase<T> : Screen, IConductor<T>, IParent<T>, IChi
     /// <param name="dialogResult">Unused in this scenario</param>
     void IChildDelegate.CloseItem(object item, bool? dialogResult)
     {
-        T typedItem = item as T;
-        if (typedItem != null)
-            CloseItem(typedItem);
+        if (item is T t)
+        {
+            CloseItem(t);
+        }
     }
 }

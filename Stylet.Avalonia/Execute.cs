@@ -1,9 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Static class providing methods to easily run an action on the UI thread in various ways, and some other things
@@ -22,17 +17,12 @@ public static class Execute
     /// </remarks>
     public static IDispatcher Dispatcher
     {
-        get { return _dispatcher ?? SynchronousDispatcher.Instance; }
+        get => _dispatcher ?? SynchronousDispatcher.Instance;
 
-        set
-        {
-            if (value == null)
-                throw new ArgumentNullException();
-            _dispatcher = value;
-        }
+        set => _dispatcher = value ?? throw new ArgumentNullException();
     }
 
-    private static bool? inDesignMode;
+    private static bool? _inDesignMode;
 
     /// <summary>
     /// Gets or sets the default dispatcher used by PropertyChanged events.
@@ -103,7 +93,7 @@ public static class Execute
             });
 
             if (exception != null)
-                throw new System.Reflection.TargetInvocationException("An error occurred while dispatching a call to the UI Thread", exception);
+                throw new TargetInvocationException("An error occurred while dispatching a call to the UI Thread", exception);
         }
     }
 
@@ -119,10 +109,8 @@ public static class Execute
             action();
             return Task.FromResult(false);
         }
-        else
-        {
-            return PostOnUIThreadInternalAsync(action);
-        }
+
+        return PostOnUIThreadInternalAsync(action);
     }
 
     private static Task PostOnUIThreadInternalAsync(Action action)
@@ -151,14 +139,11 @@ public static class Execute
     {
         get
         {
-            if (inDesignMode == null)
-            {
-                inDesignMode = Design.IsDesignMode;
-            }
+            _inDesignMode ??= Design.IsDesignMode;
 
-            return inDesignMode.Value;
+            return _inDesignMode.Value;
         }
 
-        set { inDesignMode = value; }
+        set => _inDesignMode = value;
     }
 }

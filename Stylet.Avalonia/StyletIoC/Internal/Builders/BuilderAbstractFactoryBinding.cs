@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Stylet.Avalonia.StyletIoC.Creation;
-using Stylet.Avalonia.StyletIoC.Internal.Creators;
+﻿using Stylet.Avalonia.StyletIoC.Internal.Creators;
 using Stylet.Avalonia.StyletIoC.Internal.Registrations;
 
 namespace Stylet.Avalonia.StyletIoC.Internal.Builders;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia.StyletIoC.Creation;
+﻿namespace Stylet.Avalonia.StyletIoC.Creation;
 
 /// <summary>
 /// Delegate used to create an IRegistration

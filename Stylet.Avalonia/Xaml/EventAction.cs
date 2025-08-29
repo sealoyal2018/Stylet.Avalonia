@@ -1,26 +1,21 @@
-﻿using System;
-using System.Reflection;
-using Avalonia;
-using Stylet.Avalonia.Logging;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Created by ActionExtension, this can return a delegate suitable adding binding to an event, and can call a method on the View.ActionTarget
 /// </summary>
 public class EventAction : ActionBase
 {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(EventAction));
-    private static readonly MethodInfo[] invokeCommandMethodInfos = new[]
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(EventAction));
+    private static readonly MethodInfo[] InvokeCommandMethodInfos = new[]
     {
-        typeof(EventAction).GetMethod("InvokeEventArgsCommand", BindingFlags.NonPublic | BindingFlags.Instance),
-        typeof(EventAction).GetMethod("InvokeDependencyCommand", BindingFlags.NonPublic | BindingFlags.Instance),
+        typeof(EventAction).GetMethod("InvokeEventArgsCommand", BindingFlags.NonPublic | BindingFlags.Instance)!,
+        typeof(EventAction).GetMethod("InvokeDependencyCommand", BindingFlags.NonPublic | BindingFlags.Instance)!,
     };
 
     /// <summary>
     /// Type of event handler
     /// </summary>
-    private readonly Type eventHandlerType;
+    private readonly Type _eventHandlerType;
 
     /// <summary>
     /// Initialises a new instance of the <see cref="EventAction"/> classto use <see cref="View.ActionTargetProperty"/> to get the target
@@ -32,10 +27,10 @@ public class EventAction : ActionBase
     /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
     /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
     public EventAction(AvaloniaObject subject, AvaloniaObject backupSubject, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
-        : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
+        : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, Logger)
     {
         AssertBehaviours(targetNullBehaviour, actionNonExistentBehaviour);
-        this.eventHandlerType = eventHandlerType;
+        this._eventHandlerType = eventHandlerType;
     }
 
     /// <summary>
@@ -47,10 +42,10 @@ public class EventAction : ActionBase
     /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
     /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
     public EventAction(object target, Type eventHandlerType, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
-        : base(target, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
+        : base(target, methodName, targetNullBehaviour, actionNonExistentBehaviour, Logger)
     {
         AssertBehaviours(targetNullBehaviour, actionNonExistentBehaviour);
-        this.eventHandlerType = eventHandlerType;
+        _eventHandlerType = eventHandlerType;
     }
 
     private static void AssertBehaviours(ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
@@ -74,7 +69,7 @@ public class EventAction : ActionBase
             methodParameters.Length == 2 && (typeof(EventArgs).IsAssignableFrom(methodParameters[1].ParameterType) || methodParameters[1].ParameterType == typeof(AvaloniaPropertyChangedEventArgs))))
         {
             var e = new ActionSignatureInvalidException(string.Format("Method {0} on {1} must have the signatures Method(), Method(EventArgsOrSubClass e), or Method(object sender, EventArgsOrSubClass e)", MethodName, newTargetType.Name));
-            logger.Error(e);
+            Logger.Error(e);
             throw e;
         }
     }
@@ -86,9 +81,9 @@ public class EventAction : ActionBase
     public Delegate GetDelegate()
     {
         Delegate del = null;
-        foreach (var invokeCommandMethodInfo in invokeCommandMethodInfos)
+        foreach (var invokeCommandMethodInfo in InvokeCommandMethodInfos)
         {
-            del = Delegate.CreateDelegate(eventHandlerType, this, invokeCommandMethodInfo, false);
+            del = Delegate.CreateDelegate(_eventHandlerType, this, invokeCommandMethodInfo, false);
             if (del != null)
                 break;
         }
@@ -100,7 +95,7 @@ public class EventAction : ActionBase
                 " - '(object sender, EventArgsOrSubclass e)'\n" +
                 " - '(object sender, DependencyPropertyChangedEventArgs e)'", MethodName, Target);
             var e = new ActionEventSignatureInvalidException(msg);
-            logger.Error(e);
+            Logger.Error(e);
             throw e;
         }
 
@@ -148,7 +143,7 @@ public class EventAction : ActionBase
 /// <summary>
 /// You tried to use an EventAction with an event that doesn't follow the EventHandler signature
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public class ActionEventSignatureInvalidException : Exception
 {
     internal ActionEventSignatureInvalidException(string message) : base(message) { }

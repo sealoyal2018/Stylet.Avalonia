@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Generalised parent, with many children

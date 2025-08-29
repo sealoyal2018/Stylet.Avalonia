@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Stylet.Avalonia.StyletIoC.Creation;
+﻿namespace Stylet.Avalonia.StyletIoC.Creation;
 
 /// <summary>
 /// A BuilderUpper knows how to build up an object - that is, populate all parameters decorated with [Inject]

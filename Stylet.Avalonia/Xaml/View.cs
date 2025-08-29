@@ -1,8 +1,4 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Holds attached properties relating to various bits of the View which are used by Stylet
@@ -43,7 +39,7 @@ public static class View
     /// <summary>
     /// The object's ActionTarget. This is used to determine what object to call Actions on by the ActionExtension markup extension.
     /// </summary>
-    public static readonly AvaloniaProperty ActionTargetProperty =
+    public static readonly AttachedProperty<object> ActionTargetProperty =
         AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("ActionTarget", typeof(View), InitialActionTarget, inherits: true);
 
     /// <summary>
@@ -71,7 +67,7 @@ public static class View
     /// <summary>
     /// Property specifying the ViewModel currently associated with a given object
     /// </summary>
-    public static readonly AvaloniaProperty ModelProperty =
+    public static readonly AttachedProperty<object> ModelProperty =
         AvaloniaProperty.RegisterAttached<AvaloniaObject, object>("Model", typeof(View), defaultModelValue);
 
     /// <summary>
@@ -85,9 +81,11 @@ public static class View
         string propertyName = "Content";
         var property = type.GetProperty(propertyName);
         if (property == null)
+        {
             throw new InvalidOperationException(string.Format(
                 "Unable to find a Content property on type {0}. Make sure you're using 's:View.Model' on a suitable container, e.g. a ContentControl",
                 type.Name));
+        }
         property.SetValue(targetLocation, view);
     }
 
@@ -100,7 +98,7 @@ public static class View
             {
                 var viewManager = IoC.Get<IViewManager>();
                 var newValue = e.NewValue == defaultModelValue ? null : e.NewValue;
-                if (newValue is null)
+                if (!newValue.HasValue)
                     return;
                 viewManager.OnModelChanged(e.Sender, e.OldValue, newValue);
                 return;

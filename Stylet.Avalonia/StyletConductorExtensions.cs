@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 // Don't name ConductorExtensions, otherwise it's too obvious when someone types 'Conductor'
 

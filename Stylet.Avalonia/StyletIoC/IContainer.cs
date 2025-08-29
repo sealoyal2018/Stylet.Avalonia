@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Stylet.Avalonia.StyletIoC;
+﻿namespace Stylet.Avalonia.StyletIoC;
 
 /// <summary>
 /// Describes an IoC container, specifically StyletIoC

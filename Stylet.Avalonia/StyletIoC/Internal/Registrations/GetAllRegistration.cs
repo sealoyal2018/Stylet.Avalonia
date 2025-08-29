@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using Stylet.Avalonia.StyletIoC.Creation;
-using System.Diagnostics;
+﻿using System.Threading;
 
 namespace Stylet.Avalonia.StyletIoC.Internal.Registrations;
 

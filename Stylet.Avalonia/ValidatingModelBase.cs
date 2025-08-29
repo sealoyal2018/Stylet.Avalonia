@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Base for ViewModels which require property validation
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "According to Albahari and Albahari, relying on the GC to tidy up WaitHandles is arguably acceptable, since they're so small.")]
+[SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable", Justification = "According to Albahari and Albahari, relying on the GC to tidy up WaitHandles is arguably acceptable, since they're so small.")]
 public class ValidatingModelBase : PropertyChangedBase, INotifyDataErrorInfo
 {
     /// <summary>

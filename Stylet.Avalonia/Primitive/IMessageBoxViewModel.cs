@@ -1,6 +1,4 @@
-﻿using Avalonia.Media;
-
-namespace Stylet.Avalonia.Primitive;
+﻿namespace Stylet.Avalonia.Primitive;
 
 /// <summary>
 /// Interface for a MessageBoxViewModel. MessageBoxWindowManagerExtensions.ShowMessageBox will use the configured implementation of this
@@ -20,14 +18,14 @@ public interface IMessageBoxViewModel
     /// <param name="textAlignment">The <see cref="TextAlignment"/> to use, overrides the <see cref="DefaultTextAlignment"/></param>
     void Setup(
         string text,
-        string? caption ,
+        string? caption,
         MessageBoxButton buttons = MessageBoxButton.OK,
         MessageBoxImage icon = MessageBoxImage.None,
         MessageBoxResult defaultResult = MessageBoxResult.OK,
         MessageBoxResult cancelResult = MessageBoxResult.None,
         FlowDirection flowDirection = FlowDirection.LeftToRight,
         TextAlignment textAlignment = TextAlignment.Left);
-    
+
     /// <summary>
     /// Gets the button clicked by the user, after they've clicked it
     /// </summary>

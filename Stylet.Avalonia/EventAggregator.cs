@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Marker for types which we might be interested in
@@ -128,26 +122,23 @@ public class EventAggregator : IEventAggregator
 
     private class Handler
     {
-        private static readonly string[] DefaultChannelArray = new[] { DefaultChannel };
+        private static readonly string[] DefaultChannelArray = { DefaultChannel };
 
-        private readonly WeakReference target;
-        private readonly List<HandlerInvoker> invokers = new List<HandlerInvoker>();
-        private readonly HashSet<string> channels = new HashSet<string>();
+        private readonly WeakReference _target;
+        private readonly List<HandlerInvoker> _invokers = new List<HandlerInvoker>();
+        private readonly HashSet<string> _channels = new HashSet<string>();
 
-        public bool IsAlive
-        {
-            get { return target.IsAlive; }
-        }
+        public bool IsAlive => _target.IsAlive;
 
         public Handler(object handler, string[] channels)
         {
             var handlerType = handler.GetType();
-            target = new WeakReference(handler);
+            _target = new WeakReference(handler);
 
             foreach (var implementation in handler.GetType().GetInterfaces().Where(x => x.IsGenericType && typeof(IHandle).IsAssignableFrom(x)))
             {
                 var messageType = implementation.GetGenericArguments()[0];
-                invokers.Add(new HandlerInvoker(target, handlerType, messageType, implementation.GetMethod("Handle")));
+                _invokers.Add(new HandlerInvoker(_target, handlerType, messageType, implementation.GetMethod("Handle")));
             }
 
             if (channels.Length == 0)
@@ -157,12 +148,12 @@ public class EventAggregator : IEventAggregator
 
         public bool IsHandlerForInstance(object subscriber)
         {
-            return target.Target == subscriber;
+            return _target.Target == subscriber;
         }
 
         public void SubscribeToChannels(string[] channels)
         {
-            this.channels.UnionWith(channels);
+            this._channels.UnionWith(channels);
         }
 
         public bool UnsubscribeFromChannels(string[] channels)
@@ -170,8 +161,8 @@ public class EventAggregator : IEventAggregator
             // If channels is empty, unsubscribe from everything
             if (channels.Length == 0)
                 return true;
-            this.channels.ExceptWith(channels);
-            return this.channels.Count == 0;
+            this._channels.ExceptWith(channels);
+            return this._channels.Count == 0;
         }
 
         public IEnumerable<HandlerInvoker> GetInvokers(Type messageType, string[] channels)
@@ -183,10 +174,10 @@ public class EventAggregator : IEventAggregator
                 channels = DefaultChannelArray;
 
             // We're not subscribed to any of the channels
-            if (!channels.Any(x => this.channels.Contains(x)))
+            if (!channels.Any(x => this._channels.Contains(x)))
                 return Enumerable.Empty<HandlerInvoker>();
 
-            return invokers.Where(x => x.CanInvoke(messageType));
+            return _invokers.Where(x => x.CanInvoke(messageType));
         }
     }
 
@@ -236,7 +227,7 @@ public static class EventAggregatorExtensions
     /// <param name="channels">Channel(s) to publish the message to. Defaults to EventAggregator.DefaultChannel none given</param>
     public static void PublishOnUIThread(this IEventAggregator eventAggregator, object message, params string[] channels)
     {
-        eventAggregator.PublishWithDispatcher(message, Execute.OnUIThread, channels);
+        eventAggregator.PublishWithDispatcher(message, Dispatcher.UIThread.Invoke, channels);
     }
 
     /// <summary>

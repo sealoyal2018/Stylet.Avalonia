@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Stylet.Avalonia.StyletIoC.Creation;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
 
 internal class BuilderTypeBinding : BuilderBindingBase
 {

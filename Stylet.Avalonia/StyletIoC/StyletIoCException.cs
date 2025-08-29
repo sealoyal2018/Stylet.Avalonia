@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Stylet.Avalonia.StyletIoC;
+﻿namespace Stylet.Avalonia.StyletIoC;
 
 /// <summary>
 /// Base class for all exceptions describing StyletIoC-specific problems?
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
+[SuppressMessage("Microsoft.Usage", "CA2237:MarkISerializableTypesWithSerializable")]
 public abstract class StyletIoCException : Exception
 {
     internal StyletIoCException(string message) : base(message) { }

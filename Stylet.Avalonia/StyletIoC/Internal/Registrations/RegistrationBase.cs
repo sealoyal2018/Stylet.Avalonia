@@ -1,8 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using System;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Registrations;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Registrations;
 
 /// <summary>
 /// Convenience base class for all IRegistrations which want it

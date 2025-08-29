@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Linq;
-using Avalonia;
-using Avalonia.Data.Converters;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Converter to compare a number of values, and return true (or false if Invert is true) if they are all equal
@@ -24,14 +16,14 @@ public class EqualityConverter : AvaloniaObject, IMultiValueConverter
     /// </summary>
     public bool Invert
     {
-        get { return (bool)GetValue(InvertProperty); }
-        set { SetValue(InvertProperty, value); }
+        get => GetValue(InvertProperty);
+        set => SetValue(InvertProperty, value);
     }
 
     /// <summary>
     /// Property specifying whether the output should be inverted
     /// </summary>
-    public static readonly AvaloniaProperty InvertProperty =
+    public static readonly StyledProperty<bool> InvertProperty =
         AvaloniaProperty.Register<EqualityConverter, bool>("Invert", false);
 
     /// <summary>

@@ -1,10 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using StyletIoC;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
+﻿using System.Reflection.Emit;
 
 namespace Stylet.Avalonia.StyletIoC.Internal;
 

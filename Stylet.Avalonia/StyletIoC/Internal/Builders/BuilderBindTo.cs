@@ -1,11 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Builders;
 
 internal class BuilderBindTo : IBindTo, IAndOrToMultipleServices
 {

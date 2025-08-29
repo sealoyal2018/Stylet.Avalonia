@@ -1,14 +1,6 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using Stylet.Avalonia.StyletIoC.Internal.Creators;
+﻿using Stylet.Avalonia.StyletIoC.Internal.Creators;
 using Stylet.Avalonia.StyletIoC.Internal.RegistrationCollections;
 using Stylet.Avalonia.StyletIoC.Internal.Registrations;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
 
 
 namespace Stylet.Avalonia.StyletIoC.Internal;

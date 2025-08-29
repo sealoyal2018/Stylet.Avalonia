@@ -1,9 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using StyletIoC;
-using System;
-using System.Collections.Generic;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.RegistrationCollections;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.RegistrationCollections;
 
 internal class EmptyRegistrationCollection : IReadOnlyRegistrationCollection
 {

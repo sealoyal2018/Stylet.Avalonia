@@ -1,10 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using StyletIoC;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Creators;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Creators;
 
 /// <summary>
 /// Base class for all ICreators (which want to use it). Provides convenience

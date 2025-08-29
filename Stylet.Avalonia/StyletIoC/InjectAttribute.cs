@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia.StyletIoC;
+﻿namespace Stylet.Avalonia.StyletIoC;
 
 /// <summary>
 /// Attribute which can be used to mark the constructor to use, properties to inject, which key to use to resolve an injected property, and others. See the docs

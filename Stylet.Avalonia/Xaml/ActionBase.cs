@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Data;
-using Avalonia.Data.Converters;
-using Stylet;
-using Stylet.Avalonia.Logging;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Common base class for CommandAction and EventAction
 /// </summary>
 public abstract class ActionBase : AvaloniaObject
 {
-    private readonly ILogger logger;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Gets the View to grab the View.ActionTarget from
@@ -50,8 +37,8 @@ public abstract class ActionBase : AvaloniaObject
     /// </summary>
     public object Target
     {
-        get { return GetValue(targetProperty); }
-        private set { SetValue(targetProperty, value); }
+        get => GetValue(targetProperty);
+        private set => SetValue(targetProperty, value);
     }
 
     // private static readonly DependencyProperty targetProperty =
@@ -60,17 +47,15 @@ public abstract class ActionBase : AvaloniaObject
     //         ((ActionBase)d).UpdateActionTarget(e.OldValue, e.NewValue);
     //     }));
 
-    private static readonly AvaloniaProperty<object> targetProperty;
+    private static readonly StyledProperty<object> targetProperty;
 
 
     static ActionBase()
     {
-
-        targetProperty = AvaloniaProperty.Register<ActionBase, object>("target");
+        targetProperty = AvaloniaProperty.Register<ActionBase, object>(nameof(Target));
         targetProperty.Changed.Subscribe(e =>
         {
-            var type = e.NewValue.GetType();
-
+            // var type = e.NewValue.GetType();
             ((ActionBase)e.Sender).UpdateActionTarget(e.OldValue, e.NewValue);
         });
     }
@@ -142,10 +127,7 @@ public abstract class ActionBase : AvaloniaObject
     public ActionBase(object target, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
         : this(methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
-
-        Target = target;
+        Target = target ?? throw new ArgumentNullException(nameof(target));
     }
 
     private ActionBase(string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour, ILogger logger)
@@ -153,7 +135,7 @@ public abstract class ActionBase : AvaloniaObject
         MethodName = methodName ?? throw new ArgumentNullException(nameof(methodName));
         TargetNullBehaviour = targetNullBehaviour;
         ActionNonExistentBehaviour = actionNonExistentBehaviour;
-        this.logger = logger;
+        _logger = logger;
     }
 
     private void UpdateActionTarget(object oldTarget, object newTarget)
@@ -173,12 +155,12 @@ public abstract class ActionBase : AvaloniaObject
             if (TargetNullBehaviour == ActionUnavailableBehaviour.Throw)
             {
                 var e = new ActionTargetNullException(string.Format("ActionTarget on element {0} is null (method name is {1})", Subject, MethodName));
-                logger.Error(e);
+                _logger.Error(e);
                 throw e;
             }
             else
             {
-                logger.Info("ActionTarget on element {0} is null (method name is {1}), but NullTarget is not Throw, so carrying on", Subject, MethodName);
+                _logger.Info("ActionTarget on element {0} is null (method name is {1}), but NullTarget is not Throw, so carrying on", Subject, MethodName);
             }
         }
         else
@@ -206,7 +188,7 @@ public abstract class ActionBase : AvaloniaObject
                     var t = Target.GetType();
                     targetMethodInfo = t.GetMethod(MethodName, bindingFlags);
                     if (targetMethodInfo == null)
-                        logger.Warn("Unable to find{0} method {1} on {2}", newTarget is Type ? " static" : "", MethodName, newTargetType.Name);
+                        _logger.Warn("Unable to find{0} method {1} on {2}", newTarget is Type ? " static" : "", MethodName, newTargetType.Name);
                 }
                 else
                     AssertTargetMethodInfo(targetMethodInfo, newTargetType);
@@ -214,7 +196,7 @@ public abstract class ActionBase : AvaloniaObject
             catch (AmbiguousMatchException e)
             {
                 var ex = new AmbiguousMatchException(string.Format("Ambiguous match for {0} method on {1}", MethodName, newTargetType.Name), e);
-                logger.Error(ex);
+                _logger.Error(ex);
                 throw ex;
             }
         }
@@ -250,14 +232,14 @@ public abstract class ActionBase : AvaloniaObject
             var ex = new ActionNotSetException(string.Format("View.ActionTarget not set on control {0} (method {1}). " +
                                                              "This probably means the control hasn't inherited it from a parent, e.g. because a ContextMenu or Popup sits in the visual tree. " +
                                                              "You will need so set 's:View.ActionTarget' explicitly. See the wiki section \"Actions\" for more details.", Subject, MethodName));
-            logger.Error(ex);
+            _logger.Error(ex);
             throw ex;
         }
 
         if (TargetMethodInfo == null && ActionNonExistentBehaviour == ActionUnavailableBehaviour.Throw)
         {
             var ex = new ActionNotFoundException(string.Format("Unable to find method {0} on {1}", MethodName, TargetName()));
-            logger.Error(ex);
+            _logger.Error(ex);
             throw ex;
         }
     }
@@ -268,7 +250,7 @@ public abstract class ActionBase : AvaloniaObject
     /// <param name="parameters">Parameters to pass to the target method</param>
     private protected void InvokeTargetMethod(object?[]? parameters)
     {
-        logger.Info("Invoking method {0} on {1} with parameters ({2})", MethodName, TargetName(), parameters == null ? "none" : string.Join(", ", parameters));
+        _logger.Info("Invoking method {0} on {1} with parameters ({2})", MethodName, TargetName(), parameters == null ? "none" : string.Join(", ", parameters));
 
         try
         {
@@ -284,7 +266,7 @@ public abstract class ActionBase : AvaloniaObject
         {
             // Be nice and unwrap this for them
             // They want a stack track for their VM method, not us
-            logger.Error(e.InnerException, string.Format("Failed to invoke method {0} on {1} with parameters ({2})", MethodName, TargetName(), parameters == null ? "none" : string.Join(", ", parameters)));
+            _logger.Error(e.InnerException, string.Format("Failed to invoke method {0} on {1} with parameters ({2})", MethodName, TargetName(), parameters == null ? "none" : string.Join(", ", parameters)));
             // http://stackoverflow.com/a/17091351/1086121
             ExceptionDispatchInfo.Capture(e.InnerException).Throw();
         }

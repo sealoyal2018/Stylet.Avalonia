@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-
-namespace Stylet.Avalonia.Extensions;
+﻿namespace Stylet.Avalonia.Extensions;
 
 internal static class EnumExtensions
 {

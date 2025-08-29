@@ -1,9 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Internal;
-using Stylet.Avalonia.StyletIoC.Internal.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using Stylet.Avalonia.StyletIoC.Internal.Builders;
 
 namespace Stylet.Avalonia.StyletIoC;
 
@@ -161,7 +156,7 @@ public class StyletIoCBuilder : IStyletIoCBuilder
     /// <returns>An IContainer, which should be used from now on</returns>
     public IContainer BuildContainer()
     {
-        var container = new Container(autobindAssemblies);
+        var container = new Internal.Container(autobindAssemblies);
 
         // Just in case they want it
         var bindings = this.bindings.ToList();

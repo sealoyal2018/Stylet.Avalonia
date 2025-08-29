@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia.Logging;
+﻿namespace Stylet.Avalonia.Logging;
 
 /// <summary>
 /// ILogger implementation which does nothing - used by default

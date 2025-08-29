@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Avalonia;
-using Avalonia.Data.Converters;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// Converter which passes through values, but uses Debug.WriteLine to log them. Useful for debugging
@@ -22,29 +16,29 @@ public class DebugConverter : AvaloniaObject, IValueConverter
     /// </summary>
     public string Name
     {
-        get { return (string)GetValue(NameProperty); }
-        set { SetValue(NameProperty, value); }
+        get => GetValue(NameProperty);
+        set => SetValue(NameProperty, value);
     }
 
     /// <summary>
     /// Property specifying the category to use with Debug.WriteLine
     /// </summary>
-    public static readonly AvaloniaProperty NameProperty =
-        AvaloniaProperty.Register<DebugConverter, string>("Name", "DebugConverter");
+    public static readonly StyledProperty<string> NameProperty =
+        AvaloniaProperty.Register<DebugConverter, string>(nameof(Name), "DebugConverter");
 
     /// <summary>
     /// Gets or sets the Logger to use. Defaults to Debug.WriteLine. Arguments are: Message, Name
     /// </summary>
     public Action<string, string> Logger
     {
-        get { return (Action<string, string>)GetValue(LoggerProperty); }
-        set { SetValue(LoggerProperty, value); }
+        get => GetValue(LoggerProperty);
+        set => SetValue(LoggerProperty, value);
     }
 
     /// <summary>
     /// Property specifying an action, which when called will log an entry.
     /// </summary>
-    public static readonly AvaloniaProperty LoggerProperty =
+    public static readonly StyledProperty<Action<string,string>> LoggerProperty =
         AvaloniaProperty.Register<DebugConverter, Action<string, string>>("Logger", null);
 
     static DebugConverter()
@@ -59,8 +53,7 @@ public class DebugConverter : AvaloniaObject, IValueConverter
     /// </summary>
     public DebugConverter()
     {
-        if (Logger == null)
-            Logger = (msg, name) => Debug.WriteLine(msg, name);
+        Logger ??= (msg, name) => Debug.WriteLine(msg, name);
     }
 
     /// <summary>

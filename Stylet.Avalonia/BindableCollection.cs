@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
-/// Represents a collection which is observasble
+/// Represents a collection which is observable
 /// </summary>
 /// <typeparam name="T">The type of elements in the collections</typeparam>
 public interface IObservableCollection<T> : IList<T>, INotifyPropertyChanged, INotifyCollectionChanged
@@ -67,7 +62,9 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     {
         // Avoid doing a dispatch if nothing's subscribed....
         if (isNotifying)
+        {
             base.OnPropertyChanged(e);
+        }
     }
 
     /// <summary>
@@ -79,12 +76,9 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
         if (isNotifying)
         {
             var handler = CollectionChanging;
-            if (handler != null)
+            using (BlockReentrancy())
             {
-                using (BlockReentrancy())
-                {
-                    handler(this, e);
-                }
+                handler(this, e);
             }
         }
     }
@@ -105,10 +99,9 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// <param name="items">Items to add</param>
     public virtual void AddRange(IEnumerable<T> items)
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-
             var previousNotificationSetting = isNotifying;
             isNotifying = false;
             var index = Count;
@@ -117,6 +110,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
                 base.InsertItem(index, item);
                 index++;
             }
+
             isNotifying = previousNotificationSetting;
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -131,7 +125,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// <param name="items">Items to remove</param>
     public virtual void RemoveRange(IEnumerable<T> items)
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
@@ -143,6 +137,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
                 if (index >= 0)
                     base.RemoveItem(index);
             }
+
             isNotifying = previousNotificationSetting;
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -156,7 +151,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// </summary>
     public void Refresh()
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -173,7 +168,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// <param name="item">Item to insert</param>
     protected override void InsertItem(int index, T item)
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
             base.InsertItem(index, item);
@@ -188,7 +183,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// <param name="item">Item to set</param>
     protected override void SetItem(int index, T item)
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, this[index], index));
             base.SetItem(index, item);
@@ -202,7 +197,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// <param name="index">Index of the item to remove</param>
     protected override void RemoveItem(int index)
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, this[index], index));
             base.RemoveItem(index);
@@ -215,7 +210,7 @@ public class BindableCollection<T> : ObservableCollection<T>, IObservableCollect
     /// </summary>
     protected override void ClearItems()
     {
-        Execute.OnUIThreadSync(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             OnCollectionChanging(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             base.ClearItems();

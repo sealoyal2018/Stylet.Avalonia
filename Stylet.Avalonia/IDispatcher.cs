@@ -1,8 +1,4 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Threading;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Generalised dispatcher, which can post and send.

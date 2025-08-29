@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia.StyletIoC.Creation;
+﻿namespace Stylet.Avalonia.StyletIoC.Creation;
 
 /// <summary>
 /// Defines and type + key for a service, used in setting up bindings

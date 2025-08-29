@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia.Logging;
+﻿namespace Stylet.Avalonia.Logging;
 
 /// <summary>
 /// Logger used by Stylet for internal logging
@@ -26,5 +24,5 @@ public interface ILogger
     /// </summary>
     /// <param name="exception">Exception to log</param>
     /// <param name="message">Additional message to add to the exception</param>
-    void Error(Exception exception, string message = null);
+    void Error(Exception exception, string? message = null);
 }

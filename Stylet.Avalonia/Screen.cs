@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Stylet.Avalonia.Logging;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Implementation of IScreen. Useful as a base class for your ViewModels
@@ -156,7 +150,8 @@ public class Screen : ValidatingModelBase, IScreen
 
         var handler = StateChanged;
         if (handler != null)
-            Execute.OnUIThread(() => handler(this, new ScreenStateChangedEventArgs(newState, previousState)));
+            Dispatcher.UIThread.Invoke(
+                () => handler.Invoke(this, new ScreenStateChangedEventArgs(newState, previousState)));
     }
 
     [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "As this is a framework type, don't want to make it too easy for users to call this method")]
@@ -175,7 +170,7 @@ public class Screen : ValidatingModelBase, IScreen
 
             var handler = Activated;
             if (handler != null)
-                Execute.OnUIThread(() => handler(this, new ActivationEventArgs(oldState, isInitialActivate)));
+                Dispatcher.UIThread.Invoke(() => handler(this, new ActivationEventArgs(oldState, isInitialActivate)));
         });
     }
 
@@ -192,7 +187,7 @@ public class Screen : ValidatingModelBase, IScreen
 
             var handler = Deactivated;
             if (handler != null)
-                Execute.OnUIThread(() => handler(this, new DeactivationEventArgs(oldState)));
+                Dispatcher.UIThread.Invoke(() => handler(this, new DeactivationEventArgs(oldState)));
         });
     }
 
@@ -213,7 +208,7 @@ public class Screen : ValidatingModelBase, IScreen
 
             var handler = Closed;
             if (handler != null)
-                Execute.OnUIThread(() => handler(this, new CloseEventArgs(oldState)));
+                Dispatcher.UIThread.Invoke(() => handler(this, new CloseEventArgs(oldState)));
         });
     }
 
@@ -262,8 +257,8 @@ public class Screen : ValidatingModelBase, IScreen
     /// </summary>
     public object Parent
     {
-        get { return _parent; }
-        set { SetAndNotify(ref _parent, value); }
+        get => _parent;
+        set => SetAndNotify(ref _parent, value);
     }
 
     #endregion

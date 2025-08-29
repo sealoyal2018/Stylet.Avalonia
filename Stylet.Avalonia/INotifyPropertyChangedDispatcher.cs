@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Knows how to dispatch its PropertyChanged events using a given dispatcher

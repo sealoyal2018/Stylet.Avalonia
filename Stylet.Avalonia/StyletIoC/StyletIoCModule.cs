@@ -1,7 +1,4 @@
 ﻿using Stylet.Avalonia.StyletIoC.Internal.Builders;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Stylet.Avalonia.StyletIoC;
 

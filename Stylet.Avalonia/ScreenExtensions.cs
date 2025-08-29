@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Handy extensions for working with screens

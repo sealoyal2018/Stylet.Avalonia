@@ -1,8 +1,4 @@
-﻿using Stylet.Avalonia.StyletIoC.Creation;
-using System;
-using System.Linq.Expressions;
-
-namespace Stylet.Avalonia.StyletIoC.Internal.Creators;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal.Creators;
 
 /// <summary>
 /// Knows how to create an instance of a type, by using a Func{IRegistration, T} passed by the user during building

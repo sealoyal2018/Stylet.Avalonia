@@ -1,8 +1,4 @@
-﻿using System;
-using System.Runtime.ExceptionServices;
-using Avalonia.Data;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// <see cref="Binding"/> subclass which rethrows exceptions encountered on setting the source
@@ -25,7 +21,7 @@ public class RethrowingBinding : Binding
     private object ExceptionFilter(object bindExpression, Exception exception)
     {
         var edi = ExceptionDispatchInfo.Capture(exception);
-        Execute.OnUIThread(() => edi.Throw());
+        Dispatcher.UIThread.Invoke(() => edi.Throw());
         return exception;
     }
 }

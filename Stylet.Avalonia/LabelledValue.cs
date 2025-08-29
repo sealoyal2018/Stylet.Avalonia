@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 /// <summary>
 /// Key-value pair useful for attaching labels to objects and displaying them in the view
@@ -16,8 +13,8 @@ public class LabelledValue<T> : PropertyChangedBase, IEquatable<LabelledValue<T>
     /// </summary>
     public string Label
     {
-        get { return _label; }
-        set { SetAndNotify(ref _label, value); }
+        get => _label;
+        set => SetAndNotify(ref _label, value);
     }
 
     private T _value;
@@ -27,8 +24,8 @@ public class LabelledValue<T> : PropertyChangedBase, IEquatable<LabelledValue<T>
     /// </summary>
     public T Value
     {
-        get { return _value; }
-        set { SetAndNotify(ref _value, value); }
+        get => _value;
+        set => SetAndNotify(ref _value, value);
     }
 
     /// <summary>
@@ -54,12 +51,13 @@ public class LabelledValue<T> : PropertyChangedBase, IEquatable<LabelledValue<T>
     /// </summary>
     /// <param name="other">An object to compare with this object</param>
     /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
-    public bool Equals(LabelledValue<T> other)
+    public bool Equals(LabelledValue<T>? other)
     {
-        if (ReferenceEquals(this, other))
-            return true;
         if (ReferenceEquals(other, null))
             return false;
+        
+        if (ReferenceEquals(this, other))
+            return true;
 
         return Label == other.Label && EqualityComparer<T>.Default.Equals(Value, other.Value);
     }

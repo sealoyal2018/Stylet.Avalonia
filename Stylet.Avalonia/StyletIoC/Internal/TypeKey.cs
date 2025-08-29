@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stylet.Avalonia.StyletIoC.Internal;
+﻿namespace Stylet.Avalonia.StyletIoC.Internal;
 
 /// <summary>
 /// Type + key tuple, used as a dictionary key

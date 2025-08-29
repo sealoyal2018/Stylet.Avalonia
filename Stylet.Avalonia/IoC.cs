@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Stylet.Avalonia;
+﻿namespace Stylet.Avalonia;
 
 public static class IoC
 {

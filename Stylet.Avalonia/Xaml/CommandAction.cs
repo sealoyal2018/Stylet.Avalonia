@@ -1,12 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Input;
-using Avalonia;
-using System.Linq.Expressions;
-using Stylet.Avalonia.Logging;
-
-namespace Stylet.Avalonia.Xaml;
+﻿namespace Stylet.Avalonia.Xaml;
 
 /// <summary>
 /// ICommand returned by ActionExtension for binding buttons, etc, to methods on a ViewModel.
@@ -18,7 +10,7 @@ namespace Stylet.Avalonia.Xaml;
 /// </remarks>
 public class CommandAction : ActionBase, ICommand
 {
-    private static readonly ILogger logger = LogManager.GetLogger(typeof(CommandAction));
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(CommandAction));
 
     /// <summary>
     /// Generated accessor to grab the value of the guard property, or null if there is none
@@ -34,7 +26,7 @@ public class CommandAction : ActionBase, ICommand
     /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
     /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
     public CommandAction(AvaloniaObject subject, AvaloniaObject backupSubject, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
-        : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
+        : base(subject, backupSubject, methodName, targetNullBehaviour, actionNonExistentBehaviour, Logger)
     { }
 
     /// <summary>
@@ -45,13 +37,10 @@ public class CommandAction : ActionBase, ICommand
     /// <param name="targetNullBehaviour">Behaviour for it the relevant View.ActionTarget is null</param>
     /// <param name="actionNonExistentBehaviour">Behaviour for if the action doesn't exist on the View.ActionTarget</param>
     public CommandAction(object target, string methodName, ActionUnavailableBehaviour targetNullBehaviour, ActionUnavailableBehaviour actionNonExistentBehaviour)
-        : base(target, methodName, targetNullBehaviour, actionNonExistentBehaviour, logger)
+        : base(target, methodName, targetNullBehaviour, actionNonExistentBehaviour, Logger)
     { }
 
-    private string GuardName
-    {
-        get { return "Can" + MethodName; }
-    }
+    private string GuardName => "Can" + MethodName;
 
     /// <summary>
     /// Invoked when a new non-null target is set, which has non-null MethodInfo. Used to assert that the method signature is correct
@@ -64,7 +53,7 @@ public class CommandAction : ActionBase, ICommand
         if (methodParameters.Length > 1)
         {
             var e = new ActionSignatureInvalidException(string.Format("Method {0} on {1} must have zero or one parameters", MethodName, newTargetType.Name));
-            logger.Error(e);
+            Logger.Error(e);
             throw e;
         }
     }
@@ -95,7 +84,7 @@ public class CommandAction : ActionBase, ICommand
             }
             else
             {
-                logger.Warn("Found guard property {0} for action {1} on target {2}, but its return type wasn't bool. Therefore, ignoring", GuardName, MethodName, newTarget);
+                Logger.Warn("Found guard property {0} for action {1} on target {2}, but its return type wasn't bool. Therefore, ignoring", GuardName, MethodName, newTarget);
             }
         }
 
@@ -107,7 +96,7 @@ public class CommandAction : ActionBase, ICommand
                 PropertyChangedWeakEventManager.AddHandler(inpc, PropertyChangedHandler);
             }
             else
-                logger.Warn("Found guard property {0} for action {1} on target {2}, but the target doesn't implement INotifyPropertyChanged, so changes won't be observed", GuardName, MethodName, newTarget);
+                Logger.Warn("Found guard property {0} for action {1} on target {2}, but the target doesn't implement INotifyPropertyChanged, so changes won't be observed", GuardName, MethodName, newTarget);
         }
 
         UpdateCanExecute();
@@ -125,7 +114,7 @@ public class CommandAction : ActionBase, ICommand
         // are not safe firing CanExecuteChanged events on other threads...
         // Therefore make sure we're on the UI thread
         if (handler != null)
-            Avalonia.Execute.OnUIThread(() => handler(this, EventArgs.Empty));
+            Dispatcher.UIThread.Invoke(() => handler(this, EventArgs.Empty));
     }
 
     /// <summary>
